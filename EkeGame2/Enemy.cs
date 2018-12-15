@@ -13,10 +13,9 @@ namespace EkeGame2
 {
     public class Enemy : GameObject
     {
-        int counterEnemyCycle, EnemyCycleTimer;
-        public Enemy()
-        { }
-        public Enemy(ContentManager c, string objektName, int updateDelay, Vector2 spawnPosition, int timerOffset=0)
+        EnemyType Type;
+        int counterEnemyCycle, EnemyCycleTimer;  
+        public Enemy(ContentManager c, EnemyType et, string objektName, int updateDelay, Vector2 spawnPosition, int timerOffset=0)
         {
             ActiveAnimation = Animation_State.idle;
             GameObjectState = GameObject_State.Air;
@@ -30,7 +29,6 @@ namespace EkeGame2
 
             PositionRectangle = new Rectangle((int)Position.X, (int)Position.Y, Hitbox.Width, Hitbox.Height);
 
-
             LoadHitboxData();
             LoadAnimation(objektName);
             
@@ -39,6 +37,7 @@ namespace EkeGame2
             active = true;
             counterEnemyCycle=0+timerOffset;
             EnemyCycleTimer = 2000;
+            Type = et;
         }
         public void Behaviour(GameTime gt)
         {
@@ -46,13 +45,18 @@ namespace EkeGame2
                 counterEnemyCycle += (int)gt.ElapsedGameTime.Milliseconds;
             if (counterEnemyCycle >= EnemyCycleTimer)
             {
-                counterEnemyCycle = 0;
-                Jump();
-                if (!goingRight)
-                    Velocity.X += 5;
-                else if (goingRight)
-                    Velocity.X -= 5;
-                goingRight = !goingRight;
+                switch (Type)
+                { 
+                    case EnemyType.Purple:
+                        counterEnemyCycle = 0;
+                        Jump();
+                        if (!goingRight)
+                            Velocity.X += 5;
+                        else if (goingRight)
+                            Velocity.X -= 5;
+                        goingRight = !goingRight;
+                        break;
+                }
             }
         }
         public void EnemyUpdate(Level lvl, GameTime gt)

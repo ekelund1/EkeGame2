@@ -201,7 +201,7 @@ namespace EkeGame2
                     }
                 }
                 Velocity.Y = 0;
-                ChangeAnimationState( Animation_State.falldamage);
+                ChangeAnimationState(Animation_State.falldamage);
                 WaitForAnimation(Animations[(int)ActiveAnimation]);
                 GameObjectState = GameObject_State.onGround;
             }
@@ -282,7 +282,7 @@ namespace EkeGame2
         ///
         public void LoadAnimation(string name)
         {
-            Animations = new Animation[10];
+            Animations = new Animation[11];
 
             //Tim tipsar!
             //var _animations = new Dictionary<string, Animation>();
@@ -316,6 +316,9 @@ namespace EkeGame2
 
             Animations[9] = new Animation(Position, new Vector2(7, 2), 400);
             Animations[9].AnimationImage = Content.Load<Texture2D>(name + "/death");
+
+            Animations[10] = new Animation(Position, new Vector2(2, 2), 400);
+            Animations[10].AnimationImage = Content.Load<Texture2D>(name + "/wallcling");
         }
         private void WaitForAnimation(Animation a)
         {

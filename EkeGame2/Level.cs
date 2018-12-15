@@ -45,7 +45,7 @@ namespace EkeGame2
                     {
                         //foreach purple pixel in hitbox image. 
                         //spawn new enemy at purple pixel position
-                        EnemyStack.Push(new Enemy(Content, "Enemy", 15, new Vector2(x, y), y * 5));
+                        EnemyStack.Push(new Enemy(Content, EnemyType.Purple, "Enemy", 15, new Vector2(x, y), y * 5));
                     }
                 }
             }
@@ -98,47 +98,6 @@ namespace EkeGame2
                     return true;
             }
             return false;
-        }
-        public int WallSnapping(Vector2 pos, Vector2 vel)
-        {
-            if (vel.X > 0)
-            {
-                for (int i = (int)vel.X; i > 0 ; i--)
-                {                    
-                    if (Hitbox_Colors[(int)pos.X+i, (int)pos.Y] != Color.Black)
-                        return i;
-                }
-            }
-            else
-            {
-                for (int i = (int)vel.X; i < 0; i++)
-                {
-                    if (Hitbox_Colors[(int)pos.X+i, (int)pos.Y] != Color.Black)
-                        return i;
-                }
-            }
-            return 0;
-        }
-        public int FloorSnapping(Vector2 pos, Vector2 vel)
-        {
-            if (vel.Y > 0)
-            {
-                for (int i = (int)vel.Y; i > 0 ; i--)
-                {
-                    if (Hitbox_Colors[(int)pos.X, (int)pos.Y+i] != Color.Black)
-                        return i;
-                }
-            }
-            else
-            {
-                for (int i = (int)vel.Y; i < 0; i++)
-                {
-                    if (Hitbox_Colors[(int)pos.X, (int)pos.Y+i] != Color.Black)
-                        return i;
-                }
-            }
-            
-            return 0;
         }
     }
 }

@@ -93,6 +93,7 @@ namespace EkeGame2
                 Keyboard.GetState().IsKeyDown(Keys.D),
                 Keyboard.GetState().IsKeyDown(Keys.W),
                 Keyboard.GetState().IsKeyDown(Keys.R));
+            
 
             if(Keyboard.GetState().CapsLock && !graphics.IsFullScreen)
                 graphics.ToggleFullScreen();
@@ -125,8 +126,7 @@ namespace EkeGame2
             }
             else
             {
-                //spriteBatch.Begin(SpriteSortMode.Texture,null,null,null,null,null,cam.Transform);
-                
+                spriteBatch.Begin(SpriteSortMode.Texture,null,null,null,null,null,cam.Transform);
                 lvl.DrawBackground(spriteBatch);                
                 lvl.DrawPlayArea(spriteBatch);
                 player.DrawGameObject(spriteBatch);

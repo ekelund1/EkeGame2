@@ -42,3 +42,6 @@ C:\Users\resjoneke\source\repos\EkeGame2\EkeGame2\bin\Windows\x86\Debug\Content\
 C:\Users\resjoneke\source\repos\EkeGame2\EkeGame2\bin\Windows\x86\Debug\Content\Enemy\test_hitbox.xnb
 C:\Users\resjoneke\source\repos\EkeGame2\EkeGame2\bin\Windows\x86\Debug\Content\Player\death.xnb
 C:\Users\resjoneke\source\repos\EkeGame2\EkeGame2\bin\Windows\x86\Debug\Content\Enemy\death.xnb
+C:\Users\resjoneke\source\repos\EkeGame2\EkeGame2\obj\x86\Debug\EkeGame2.csprojAssemblyReference.cache
+C:\Users\resjoneke\source\repos\EkeGame2\EkeGame2\bin\Windows\x86\Debug\Content\Player\wallcling.xnb
+C:\Users\resjoneke\source\repos\EkeGame2\EkeGame2\bin\Windows\x86\Debug\Content\Enemy\wallcling.xnb
