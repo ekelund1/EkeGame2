@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.136
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EkeGame2", "EkeGame2\EkeGame2.csproj", "{6C25FC15-BE94-4F13-B6A9-A0EF6EA9056C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6C25FC15-BE94-4F13-B6A9-A0EF6EA9056C}.Debug|x86.ActiveCfg = Debug|x86
+		{6C25FC15-BE94-4F13-B6A9-A0EF6EA9056C}.Debug|x86.Build.0 = Debug|x86
+		{6C25FC15-BE94-4F13-B6A9-A0EF6EA9056C}.Release|x86.ActiveCfg = Release|x86
+		{6C25FC15-BE94-4F13-B6A9-A0EF6EA9056C}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {354CA001-B352-4E7B-9843-A7F53CE22C42}
+	EndGlobalSection
+EndGlobal
