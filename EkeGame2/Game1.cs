@@ -92,7 +92,8 @@ namespace EkeGame2
                 Keyboard.GetState().IsKeyDown(Keys.A),
                 Keyboard.GetState().IsKeyDown(Keys.D),
                 Keyboard.GetState().IsKeyDown(Keys.W),
-                Keyboard.GetState().IsKeyDown(Keys.R));
+                Keyboard.GetState().IsKeyDown(Keys.R),
+                Keyboard.GetState().IsKeyDown(Keys.H));
             
 
             if(Keyboard.GetState().CapsLock && !graphics.IsFullScreen)

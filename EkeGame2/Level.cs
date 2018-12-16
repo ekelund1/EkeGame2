@@ -28,7 +28,7 @@ namespace EkeGame2
             Content = g;
             Background = Content.Load<Texture2D>("Level"+id.ToString()+"/"+id.ToString() + "background");
             Foreground = Content.Load<Texture2D>("Level" + id.ToString() + "/" + id.ToString() + "foreground");
-            Hitbox = Content.Load<Texture2D>("Level" + id.ToString() + "/" + id.ToString() + "hitbox");
+            Hitbox = Content.Load<Texture2D>("Level" + id.ToString() + "/" + id.ToString() + "hitbox_fucked");
             PlayArea = Content.Load<Texture2D>("Level" + id.ToString() + "/" + id.ToString() + "playarea");
 
             Color[] colors1D = new Color[Hitbox.Width * Hitbox.Height];

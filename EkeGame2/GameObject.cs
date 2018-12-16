@@ -61,7 +61,7 @@ namespace EkeGame2
         {
             Animations[(int)ActiveAnimation].Draw(s, Position,new Vector2(2,2));
         }
-        public void Movement(bool a, bool d, bool w,bool r)
+        public void Movement(bool a, bool d, bool w,bool r, bool h)
         {
             if (w && GameObjectState == GameObject_State.onGround)            
                 Jump();
@@ -282,7 +282,7 @@ namespace EkeGame2
         ///
         public void LoadAnimation(string name)
         {
-            Animations = new Animation[11];
+            Animations = new Animation[12];
 
             //Tim tipsar!
             //var _animations = new Dictionary<string, Animation>();
@@ -319,6 +319,9 @@ namespace EkeGame2
 
             Animations[10] = new Animation(Position, new Vector2(2, 2), 400);
             Animations[10].AnimationImage = Content.Load<Texture2D>(name + "/wallcling");
+
+            Animations[11] = new Animation(Position, new Vector2(4, 2), 200);
+            Animations[11].AnimationImage = Content.Load<Texture2D>(name + "/throwing");
         }
         private void WaitForAnimation(Animation a)
         {
