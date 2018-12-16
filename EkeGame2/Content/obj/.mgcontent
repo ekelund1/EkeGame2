@@ -15,10 +15,11 @@
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/test_hitbox.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/throwing.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/wallcling.png</File>
+    <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Hammer/idle.png</File>
+    <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Hammer/test_hitbox.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Level0/0background.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Level0/0foreground.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Level0/0hitbox.png</File>
-    <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Level0/0hitbox_fucked.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Level0/0playarea.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Player/bywall.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Player/death.png</File>
@@ -34,6 +35,7 @@
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Player/wallcling.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

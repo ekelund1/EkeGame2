@@ -20,11 +20,11 @@ namespace EkeGame2
         public Rectangle VisibleArea { get; protected set; }
         public Matrix Transform { get; protected set; }
 
-        private GameObject PlayerObject;
-        //private Level Lvl;
+        private Player PlayerObject;
+
         private float currentMouseWheelValue, previousMouseWheelValue, zoom, previousZoom, maxX,minX,maxY,minY;
 
-        public Camera(Viewport viewport, Level lvl, ref GameObject player)
+        public Camera(Viewport viewport, Level lvl, ref Player player)
         {
             Bounds = viewport.Bounds;
             Zoom = 1f;

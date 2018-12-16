@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Content;
 
 namespace EkeGame2
 {
-    class Animation
+    public class Animation
     {
         int frameCounter;
         float switchFrame;

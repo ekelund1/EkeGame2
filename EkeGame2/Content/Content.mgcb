@@ -145,6 +145,30 @@
 /processorParam:TextureFormat=Color
 /build:Enemy/wallcling.png
 
+#begin Hammer/idle.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Hammer/idle.png
+
+#begin Hammer/test_hitbox.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Hammer/test_hitbox.png
+
 #begin Level0/0background.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -181,7 +205,7 @@
 /processorParam:TextureFormat=Color
 /build:Level0/0hitbox.png
 
-#begin Level0/0hitbox_fucked.png
+#begin Level0/0hitbox.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -191,7 +215,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Level0/0hitbox_fucked.png
+/build:Level0/0hitbox.png
 
 #begin Level0/0playarea.png
 /importer:TextureImporter

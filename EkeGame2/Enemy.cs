@@ -11,30 +11,13 @@ using Microsoft.Xna.Framework.Content;
 
 namespace EkeGame2
 {
-    public class Enemy : GameObject
+    class Enemy : AbstractGameObject
     {
         EnemyType Type;
-        int counterEnemyCycle, EnemyCycleTimer;  
-        public Enemy(ContentManager c, EnemyType et, string objektName, int updateDelay, Vector2 spawnPosition, int timerOffset=0)
+        int counterEnemyCycle, EnemyCycleTimer;
+        
+        public Enemy(EnemyType et, ContentManager c, string objectName, int updateDelay, Vector2 spawnPosition, int timerOffset=0) : base(c, objectName, updateDelay, spawnPosition)
         {
-            ActiveAnimation = Animation_State.idle;
-            GameObjectState = GameObject_State.Air;
-            Position = spawnPosition;
-            Velocity = Vector2.Zero;
-            Content = c;
-            Hitbox = Content.Load<Texture2D>(objektName+"/test_hitbox");
-            UpdateDelay = updateDelay;
-            UpdateCounter = 0;
-            AnimationChanged = false;
-
-            PositionRectangle = new Rectangle((int)Position.X, (int)Position.Y, Hitbox.Width, Hitbox.Height);
-
-            LoadHitboxData();
-            LoadAnimation(objektName);
-            
-            goingRight = false;
-
-            active = true;
             counterEnemyCycle=0+timerOffset;
             EnemyCycleTimer = 2000;
             Type = et;
@@ -55,8 +38,7 @@ namespace EkeGame2
                         else if (goingRight)
                             Velocity.X -= 5;
                         goingRight = !goingRight;
-                        break;               
-
+                        break;    
                 }
             }
         }

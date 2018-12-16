@@ -20,6 +20,7 @@ namespace EkeGame2
         public Color[,] Hitbox_Colors;
         Texture2D PlayArea;
         private Stack<Enemy> EnemyStack;
+        public Vector2 PlayerSpawnPosition;
         
 
         //Constructor
@@ -28,7 +29,7 @@ namespace EkeGame2
             Content = g;
             Background = Content.Load<Texture2D>("Level"+id.ToString()+"/"+id.ToString() + "background");
             Foreground = Content.Load<Texture2D>("Level" + id.ToString() + "/" + id.ToString() + "foreground");
-            Hitbox = Content.Load<Texture2D>("Level" + id.ToString() + "/" + id.ToString() + "hitbox_fucked");
+            Hitbox = Content.Load<Texture2D>("Level" + id.ToString() + "/" + id.ToString() + "hitbox");
             PlayArea = Content.Load<Texture2D>("Level" + id.ToString() + "/" + id.ToString() + "playarea");
 
             Color[] colors1D = new Color[Hitbox.Width * Hitbox.Height];
@@ -45,8 +46,13 @@ namespace EkeGame2
                     {
                         //foreach purple pixel in hitbox image. 
                         //spawn new enemy at purple pixel position
-                        EnemyStack.Push(new Enemy(Content, EnemyType.Purple, "Enemy", 15, new Vector2(x, y), y * 5));
+                        EnemyStack.Push(new Enemy(EnemyType.Purple, Content, "Enemy", 15, new Vector2(x, y), y * 5));
                     }
+                    if (colors2D[x, y] == Color.Brown)
+                    {
+                         PlayerSpawnPosition = new Vector2(x, y);
+                    }
+
                 }
             }
             Hitbox_Colors = colors2D;
@@ -83,14 +89,9 @@ namespace EkeGame2
             foreach (Enemy e in EnemyStack)
                 e.DrawGameObject(s);
         }
-        public bool CheckCollsion(GameObject go)
-        {
-            if (Hitbox_Colors[(int)go.GetX, (int)go.getY] == Color.Black)
-                return true;
-            return false;
-        }
+        
 
-        public bool EnemyCollision(GameObject player)
+        public bool EnemyCollision(Player player)
         {
             foreach (Enemy e in EnemyStack)
             {

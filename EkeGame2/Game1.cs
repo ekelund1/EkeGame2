@@ -16,7 +16,7 @@ namespace EkeGame2
         SpriteBatch spriteBatch;
         SpriteBatch SpriteBatch_FG;
         Level lvl;
-        GameObject player;
+        Player player;
         bool drawHitboxes = false;
         Camera cam;
         
@@ -56,7 +56,7 @@ namespace EkeGame2
             spriteBatch = new SpriteBatch(GraphicsDevice);
             SpriteBatch_FG = new SpriteBatch(GraphicsDevice);
             lvl = new Level(Content, 0);
-            player = new GameObject(Content,"Player", 15);
+            player = new Player(Content,"Player", 15, lvl.PlayerSpawnPosition);
             cam = new Camera(GraphicsDevice.Viewport, lvl, ref player);
 
 
@@ -130,7 +130,7 @@ namespace EkeGame2
                 spriteBatch.Begin(SpriteSortMode.Texture,null,null,null,null,null,cam.Transform);
                 lvl.DrawBackground(spriteBatch);                
                 lvl.DrawPlayArea(spriteBatch);
-                player.DrawGameObject(spriteBatch);
+                player.DrawPlayer(spriteBatch, gameTime);
                 lvl.DrawEnemies(spriteBatch);
                 spriteBatch.End();
 
