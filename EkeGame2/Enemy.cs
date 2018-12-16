@@ -55,7 +55,8 @@ namespace EkeGame2
                         else if (goingRight)
                             Velocity.X -= 5;
                         goingRight = !goingRight;
-                        break;
+                        break;               
+
                 }
             }
         }

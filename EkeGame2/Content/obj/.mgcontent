@@ -26,6 +26,7 @@
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Player/falling.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Player/idle.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Player/jumping.png</File>
+    <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Player/jumpsquat.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Player/landing.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Player/running.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Player/test_hitbox.png</File>
@@ -33,6 +34,7 @@
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Player/wallcling.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

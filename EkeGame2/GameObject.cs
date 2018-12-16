@@ -22,7 +22,7 @@ namespace EkeGame2
         protected Animation_State ActiveAnimation;
         protected Animation_State PreviousAnimation;
         protected GameObject_State GameObjectState;
-        Animation[] Animations;
+        private Dictionary<Animation_State, Animation> Animations;
         protected bool goingRight;
         protected float Wait;
         protected bool active { get; set; }
@@ -59,7 +59,7 @@ namespace EkeGame2
         }
         public void DrawGameObject(SpriteBatch s)
         {
-            Animations[(int)ActiveAnimation].Draw(s, Position,new Vector2(2,2));
+            Animations[ActiveAnimation].Draw(s, Position,new Vector2(2,2));
         }
         public void Movement(bool a, bool d, bool w,bool r, bool h)
         {
@@ -92,7 +92,7 @@ namespace EkeGame2
         {
             GameObjectState = GameObject_State.Death;
             ChangeAnimationState(Animation_State.death);
-            WaitForAnimation(Animations[(int)Animation_State.death]);            
+            WaitForAnimation(Animations[Animation_State.death]);            
         }
         public void Update(Level lvl, GameTime gt)
         {
@@ -151,11 +151,11 @@ namespace EkeGame2
         {
             if (PreviousAnimation != ActiveAnimation)
             {
-                Animations[(int)PreviousAnimation].Deactivate();
+                Animations[PreviousAnimation].Deactivate();
                 PreviousAnimation = ActiveAnimation;
             }
             AnimationChanged = false;
-            Animations[(int)ActiveAnimation].Update(gt, ActiveAnimation, goingRight);
+            Animations[ActiveAnimation].Update(gt, ActiveAnimation, goingRight);
         }
         private void ChangeAnimationState(Animation_State a)
         {
@@ -202,7 +202,7 @@ namespace EkeGame2
                 }
                 Velocity.Y = 0;
                 ChangeAnimationState(Animation_State.falldamage);
-                WaitForAnimation(Animations[(int)ActiveAnimation]);
+                WaitForAnimation(Animations[ActiveAnimation]);
                 GameObjectState = GameObject_State.onGround;
             }
             else if ( GameObjectState == GameObject_State.onGround && lvl.Hitbox_Colors[(int)Position.X, (int)Position.Y + 1] != Color.Black)
@@ -274,7 +274,7 @@ namespace EkeGame2
             Velocity.Y = -20;
             GameObjectState = GameObject_State.Air;
             ActiveAnimation = Animation_State.jumpSquat;
-            WaitForAnimation(Animations[(int)ActiveAnimation]);
+            WaitForAnimation(Animations[ActiveAnimation]);
         }
 
         ///Loads the animations.
@@ -282,46 +282,87 @@ namespace EkeGame2
         ///
         public void LoadAnimation(string name)
         {
-            Animations = new Animation[12];
+            Animations = new Dictionary<Animation_State, Animation>();
 
-            //Tim tipsar!
-            //var _animations = new Dictionary<string, Animation>();
-            //_animations.Add("idle", new Animation(Position, new Vector2(6, 2), 150));
-            //_animations["idle"].AnimationImage = Content.Load<Texture2D>(name + "/idle");
+            var animations = (Animation_State[])Enum.GetValues(typeof(Animation_State));
 
-            //idle=0, running=1, jumping=2, falling=3, landing=4, hurt=5, jumpSquat=6;
-            Animations[0] = new Animation(Position, new Vector2(6, 2), 150);
-            Animations[0].AnimationImage = Content.Load<Texture2D>(name+"/idle");
+            foreach (var animation in animations)
+            {
+                var animationCount = 6;
+                var animationDirections = 2;
+                var frameUpdateDelay = 150;
+                var imagePath = name + "/idle";
+                switch (animation)
+                {
+                    case Animation_State.idle:
+                        animationCount = 6;
+                        frameUpdateDelay = 150;
+                        imagePath = name + "/idle";
+                        break;
+                    case Animation_State.running:
+                        animationCount = 8;
+                        frameUpdateDelay = 150;
+                        imagePath = name + "/running";
+                        break;
+                    case Animation_State.jumping:
+                        animationCount = 3;
+                        frameUpdateDelay = 150;
+                        imagePath = name + "/jumping";
+                        break;
+                    case Animation_State.falling:
+                        animationCount = 2;
+                        frameUpdateDelay = 50;
+                        imagePath = name + "/falling";
+                        break;
+                    case Animation_State.landing:
+                        animationCount = 3;
+                        frameUpdateDelay = 300;
+                        imagePath = name + "/landing";
+                        break;
+                    case Animation_State.falldamage:
+                        animationCount = 2;
+                        frameUpdateDelay = 250;
+                        imagePath = name + "/falldamage";
+                        break;
+                    case Animation_State.jumpSquat:
+                        animationCount = 3;
+                        frameUpdateDelay = 150;
+                        imagePath = name + "/jumpsquat";
+                        break;
+                    case Animation_State.byWall:
+                        animationCount = 6;
+                        frameUpdateDelay = 150;
+                        imagePath = name + "/bywall";
+                        break;
+                    case Animation_State.death:
+                        animationCount = 7;
+                        frameUpdateDelay = 400;
+                        imagePath = name + "/death";
+                        break;
+                    case Animation_State.wallcling:
+                        animationCount = 2;
+                        frameUpdateDelay = 400;
+                        imagePath = name + "/wallcling";
+                        break;
+                    case Animation_State.throwing:
+                        animationCount = 4;
+                        frameUpdateDelay = 200;
+                        imagePath = name + "/throwing";
+                        break;
+                }
+                try
+                {
+                    var animationImage = Content.Load<Texture2D>(imagePath);
+                    Animations[animation] = new Animation(Position, new Vector2(animationCount, animationDirections), frameUpdateDelay);
 
-            Animations[1] = new Animation(Position, new Vector2(8, 2), 150);
-            Animations[1].AnimationImage = Content.Load<Texture2D>(name +"/running");
-
-            Animations[2] = new Animation(Position, new Vector2(3, 2), 150);
-            Animations[2].AnimationImage = Content.Load<Texture2D>(name + "/jumping");
-
-            Animations[3] = new Animation(Position, new Vector2(2, 2), 50);
-            Animations[3].AnimationImage = Content.Load<Texture2D>(name + "/falling");
-
-            Animations[4] = new Animation(Position, new Vector2(3, 2), 300);
-            Animations[4].AnimationImage = Content.Load<Texture2D>(name + "/landing");
-
-            Animations[6] = new Animation(Position, new Vector2(3, 2), 125);
-            Animations[6].AnimationImage = Content.Load<Texture2D>(name + "/landing");
-
-            Animations[7] = new Animation(Position, new Vector2(2, 2), 250);
-            Animations[7].AnimationImage = Content.Load<Texture2D>(name + "/falldamage");
-
-            Animations[8] = new Animation(Position, new Vector2(6, 2), 100);
-            Animations[8].AnimationImage = Content.Load<Texture2D>(name + "/bywall");
-
-            Animations[9] = new Animation(Position, new Vector2(7, 2), 400);
-            Animations[9].AnimationImage = Content.Load<Texture2D>(name + "/death");
-
-            Animations[10] = new Animation(Position, new Vector2(2, 2), 400);
-            Animations[10].AnimationImage = Content.Load<Texture2D>(name + "/wallcling");
-
-            Animations[11] = new Animation(Position, new Vector2(4, 2), 200);
-            Animations[11].AnimationImage = Content.Load<Texture2D>(name + "/throwing");
+                    Animations[animation].AnimationImage = animationImage;
+                }
+                catch(Exception ex)
+                {
+                    Animations[animation] = new Animation(Position, new Vector2(6, 2), 150);
+                    Animations[animation].AnimationImage = Content.Load<Texture2D>(name + "/idle");
+                }
+            }
         }
         private void WaitForAnimation(Animation a)
         {
