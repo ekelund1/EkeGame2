@@ -18,4 +18,8 @@ namespace EkeGame2
     {
         Purple,Red,Green,Blue,Orange
     }
+    public enum ProjectileOwner
+    {
+        PLAYER, ENEMY
+    }
 }

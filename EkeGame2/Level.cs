@@ -72,7 +72,10 @@ namespace EkeGame2
         public void DrawHitbox(SpriteBatch s)
         {
             foreach (Enemy e in EnemyStack)
-                e.DrawHitbox(s);
+            { 
+                if(e.Active)
+                    e.DrawHitbox(s);
+            }
             s.Draw(Hitbox, Vector2.Zero);
         }
         public void DrawForeground(SpriteBatch s)
@@ -87,18 +90,45 @@ namespace EkeGame2
         public void DrawEnemies(SpriteBatch s)
         {
             foreach (Enemy e in EnemyStack)
-                e.DrawGameObject(s);
+                if(e.Active)
+                    e.DrawGameObject(s);
         }
         
 
-        public bool EnemyCollision(Player player)
+        public bool LevelGameObjectCollision(AbstractGameObject player)
         {
             foreach (Enemy e in EnemyStack)
             {
-                if (player.SpriteCollision(e))
+                if (e.Active && player.SpriteCollision(e))
                     return true;
             }
             return false;
         }
+        public bool LevelGameObjectCollision(Projectile proj)
+        {
+            if (proj.Owner == ProjectileOwner.PLAYER)
+            {
+                foreach (Enemy e in EnemyStack)
+                {
+                    if (e.Active && proj.SpriteCollision(e))
+                    {
+                        e.Kill();
+                        return true;
+                    }
+                }
+            }
+            else if (proj.Owner == ProjectileOwner.ENEMY)
+            {
+                foreach (Enemy e in EnemyStack)
+                {
+                    if (e.Active && proj.SpriteCollision(e))
+                    {                        
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        
     }
 }

@@ -16,15 +16,18 @@ namespace EkeGame2
         EnemyType Type;
         int counterEnemyCycle, EnemyCycleTimer;
         
-        public Enemy(EnemyType et, ContentManager c, string objectName, int updateDelay, Vector2 spawnPosition, int timerOffset=0) : base(c, objectName, updateDelay, spawnPosition)
+        public Enemy(EnemyType et, ContentManager c, string objectName, int updateDelay, Vector2 spawnPosition, int timerOffset=0) : base(c, objectName ,updateDelay, spawnPosition)
         {
             counterEnemyCycle=0+timerOffset;
             EnemyCycleTimer = 2000;
             Type = et;
+            LoadAnimation(objectName);
         }
         public void Behaviour(GameTime gt)
         {
-            if (active)
+            if (PreviousAnimation == Animation_State.death)
+                Active = false;
+            if (Active)
                 counterEnemyCycle += (int)gt.ElapsedGameTime.Milliseconds;
             if (counterEnemyCycle >= EnemyCycleTimer)
             {
@@ -33,19 +36,23 @@ namespace EkeGame2
                     case EnemyType.Purple:
                         counterEnemyCycle = 0;
                         Jump();
-                        if (!goingRight)
+                        if (!GoingRight)
                             Velocity.X += 5;
-                        else if (goingRight)
+                        else if (GoingRight)
                             Velocity.X -= 5;
-                        goingRight = !goingRight;
+                        GoingRight = !GoingRight;
                         break;    
                 }
             }
         }
         public void EnemyUpdate(Level lvl, GameTime gt)
         {
-            Behaviour(gt);
-            Update(lvl, gt);
+            if (Active)
+            {
+                Behaviour(gt);
+                Update(lvl, gt);
+            }
+            
         }
     }
 }

@@ -12,6 +12,7 @@ namespace EkeGame2
 {
     public class Animation
     {
+        private float RotationLoop;
         int frameCounter;
         float switchFrame;
         bool active;
@@ -61,16 +62,19 @@ namespace EkeGame2
         public void Draw(SpriteBatch s, Vector2 pos)
         {
             Position = pos;
-            s.Draw(image, allignAnimation(pos), sourceRect, Color.White);
+            s.Draw(image, pos, sourceRect, Color.Transparent);
         }
         public void Draw(SpriteBatch s, Vector2 pos, Vector2 scale, float rotation = 0)
         {
             Position = pos;
-            s.Draw(image, allignAnimation(pos), sourceRect, Color.White, rotation, Vector2.Zero, scale, 0, 0);
+            RotationLoop =(RotationLoop+rotation)%1000;
+            s.Draw(image, pos, sourceRect, Color.White, rotation, allignAnimation(), scale, 0, 0);
+            
+
         }
-        private Vector2 allignAnimation(Vector2 pos)
+        private Vector2 allignAnimation()
         {
-            return new Vector2(pos.X - FrameWidth/2, pos.Y - FrameHeight/2);
+            return new Vector2(FrameWidth/2, FrameHeight/2);
         }
         public Vector2 CurrentFrame
         {

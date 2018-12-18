@@ -12,29 +12,27 @@ namespace EkeGame2
 {
     public sealed class Player : AbstractGameObject
     {
-        Projectile playerProjectile;
-        bool projectileActive;
+        Projectile PlayerProjectile;
 
-        public Player(ContentManager c, string objektName, int updateDelay, Vector2 spawnPosition) : base(c,objektName,updateDelay,spawnPosition)
+        public Player(ContentManager c, string objektName, int updateDelay, Vector2 spawnPosition, ref Projectile playerProjectile) : base(c,objektName,updateDelay,spawnPosition)
         {
-            playerProjectile = new Projectile(c, "Hammer", 15, Position);
-            
-            
+            LoadAnimation(objektName);
+            PlayerProjectile = playerProjectile;
         }
         public override void Update(Level lvl, GameTime gt)
         {
+            PlayerProjectile.Update(lvl,gt);
             base.Update(lvl, gt);
-            playerProjectile.Update(lvl, gt);
         }
         public void Movement(bool a, bool d, bool w, bool r, bool h)
         {
             if (w && GameObjectState == GameObject_State.onGround)
                 Jump();
             if (r)
-                this.Respawn();
+                Kill();
 
             if (h)
-                this.Shoot();
+                Shoot();
 
             if (a && Velocity.X > -10)
             {
@@ -57,9 +55,8 @@ namespace EkeGame2
             }
         }
         public void DrawPlayer(SpriteBatch s, GameTime gt)
-        {
-            playerProjectile.DrawProjectile(s,gt);
-            this.DrawGameObject(s);
+        {            
+            DrawGameObject(s);
         }
         protected override void Gravity()
         {
@@ -68,16 +65,13 @@ namespace EkeGame2
         }
         private void Shoot()
         {
-            if (!playerProjectile.active)
+            if (!PlayerProjectile.Active)
             {
-                playerProjectile.Shoot(Position, Velocity,goingRight);
-                projectileActive=true;
+                PlayerProjectile.Shoot(Position, Velocity, GoingRight);
+                ChangeAnimationState(Animation_State.throwing);
+                WaitForAnimation(Animations[ActiveAnimation]);
             }
         }
-        public override void DrawHitbox(SpriteBatch s)
-        {
-            playerProjectile.DrawHitbox(s);
-            base.DrawHitbox(s);
-        }
+        
     }
 }

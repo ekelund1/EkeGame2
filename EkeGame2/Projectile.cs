@@ -10,15 +10,16 @@ using Microsoft.Xna.Framework.Content;
 
 namespace EkeGame2
 {
-    class Projectile : AbstractGameObject
+    public sealed class Projectile : AbstractGameObject
     {
-
-        public Projectile(ContentManager c, string objektName, int updateDelay, Vector2 spawnPosition) : base(c, objektName, updateDelay, spawnPosition)
+        public ProjectileOwner Owner { get;set; }
+        public Projectile(ContentManager c, string objektName, int updateDelay, Vector2 spawnPosition, ProjectileOwner owner) : base(c, objektName, updateDelay, spawnPosition)
         {
+            Owner = owner;
             LoadAnimation(objektName);
-            active = false;
+            Active = false;
         }
-        protected void Movement()
+        void Movement()
         {
             if (Velocity.X < 0)
             {
@@ -32,35 +33,66 @@ namespace EkeGame2
         public void Shoot(Vector2 spawnPosition, Vector2 bonus_vel, bool direction)
         {
             GameObjectState = GameObject_State.Air;
-            active = true;
-            Position = spawnPosition;
-            goingRight = direction;
-            if (goingRight)
+            ActiveAnimation = Animation_State.jumping;
+            Active = true;
+            Position = spawnPosition+new Vector2(50,15);
+            GoingRight = direction;
+            if (GoingRight)
                 Velocity = new Vector2(20, -15)+bonus_vel;
-            else if (!goingRight)
+            else if (!GoingRight)
                 Velocity = new Vector2(-20, -15) + bonus_vel;
+            Wait = 600;
         }
-        public override void Update(Level lvl, GameTime gt)
+        public void Update(Level lvl, GameTime gt)
         {
-            if (active)
+            if (Active)
+                UpdateCounter += gt.ElapsedGameTime.Milliseconds;
+
+            if (Active && UpdateCounter >= UpdateDelay && UpdateCounter >= Wait )
             {
+                UpdateCounter = 0;
+                Wait = 0;
                 Movement();
-                Gravity();                
+                Gravity();
                 LevelCollsion(lvl);
+                if (lvl.LevelGameObjectCollision(this))
+                    Active = false;
                 Position += Velocity;
                 if (Velocity == Vector2.Zero)
-                    active = false;
-            }            
+                    Active = false;
+                PositionRectangle.Location = Position.ToPoint();
+            }
+            UpdateAnimations(gt);
+
         }
-        public void DrawProjectile(SpriteBatch s,GameTime gt)
+
+        public override void LoadAnimation(string name)
         {
-            if (active)
-                Animations[Animation_State.idle].Draw(s, Position, new Vector2(2, 2));
+            var animations = (Animation_State[])Enum.GetValues(typeof(Animation_State));
+            foreach (var animation in animations)
+            {
+                var animationCount = 8;
+                var animationDirections = 2;
+                var frameUpdateDelay = 50;
+                var imagePath = name + "/fireball";
+                
+                try
+                {
+                    var animationImage = Content.Load<Texture2D>(imagePath);
+                    Animations[animation] = new Animation(Position, new Vector2(animationCount, animationDirections), frameUpdateDelay);
+
+                    Animations[animation].AnimationImage = animationImage;
+                }
+                catch (Exception ex)
+                {
+                    Animations[animation] = new Animation(Position, new Vector2(8, 2), 10);
+                    Animations[animation].AnimationImage = Content.Load<Texture2D>(name + "/fireball");
+                }
+            }
         }
-        protected override void LoadAnimation(string name)
-        {
-            Animations[Animation_State.idle] = new Animation(Position, new Vector2(1, 1), 1000);
-        }
+    
+        
+        
 
     }
 }

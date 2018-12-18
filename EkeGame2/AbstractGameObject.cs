@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Content;
 
 namespace EkeGame2
 {
+
     public abstract class AbstractGameObject
     {
         protected ContentManager Content;
@@ -25,15 +26,19 @@ namespace EkeGame2
         protected GameObject_State GameObjectState;
         protected Dictionary<Animation_State, Animation> Animations;
 
-        protected bool goingRight;
+        protected bool GoingRight;
         protected float Wait;
-        public bool active { get; set; }
+        public bool Active { get; set; }
         protected int UpdateDelay, UpdateCounter;
         protected bool AnimationChanged;
 
+        private string ObjectName { get; }
         
         protected AbstractGameObject(ContentManager c, string objektName, int updateDelay, Vector2 spawnPosition)
         {
+            ObjectName = objektName;
+            Animations = new Dictionary<Animation_State, Animation>();
+
             ActiveAnimation = Animation_State.idle;
             GameObjectState = GameObject_State.Air;
             Position = spawnPosition;
@@ -46,43 +51,49 @@ namespace EkeGame2
 
             PositionRectangle = new Rectangle((int)Position.X, (int)Position.Y, Hitbox.Width, Hitbox.Height);
 
-            LoadAnimation(objektName);
+            GoingRight = false;
 
-            goingRight = false;
-
-            active = true;
+            Active = true;
         }
         
         public virtual void DrawHitbox(SpriteBatch s)
         {
-            s.Draw(Hitbox, Position);             
+            if(Active)
+                s.Draw(Hitbox, Position);             
         }
         public virtual void DrawGameObject(SpriteBatch s)
         {
-            Animations[ActiveAnimation].Draw(s, Position, new Vector2(2, 2));
+            if (Active)
+                Animations[ActiveAnimation].Draw(s, Position, new Vector2(2, 2));
         }
-        public void Respawn()
+        public virtual void DrawGameObject(SpriteBatch s, GameTime gt)
+        {
+            if(Active)
+                Animations[ActiveAnimation].Draw(s, Position, new Vector2(4, 4),gt.ElapsedGameTime.Milliseconds);
+        }
+        public void Kill()
         {
             GameObjectState = GameObject_State.Death;
-            ChangeAnimationState(Animation_State.death);
+            ActiveAnimation=Animation_State.death;
             WaitForAnimation(Animations[Animation_State.death]);
+            this.Active = false;
+            Velocity = Vector2.Zero;
         }
+        
         public virtual void Update(Level lvl, GameTime gt)
         {
-            if (active)
+            if (Active)
             {
                 UpdateCounter += (int)gt.ElapsedGameTime.Milliseconds;
             }
             if (GameObjectState == GameObject_State.Death && UpdateCounter >= Wait)
             {
-
-                Position = SpawnPoint;
-                Velocity = new Vector2(0, 0);
+                Active = false;
+                /*Velocity = new Vector2(0, 0);
                 GameObjectState = GameObject_State.Air;
-                Wait = 0;
+                Wait = 0;*/
             }
-
-            if (UpdateCounter >= UpdateDelay && UpdateCounter >= Wait)
+            else if (UpdateCounter >= UpdateDelay && UpdateCounter >= Wait)
             {
                 UpdateCounter = 0;
                 Wait = 0;
@@ -107,9 +118,9 @@ namespace EkeGame2
                             ChangeAnimationState(Animation_State.idle);
 
                         if (Velocity.X > 0)
-                            goingRight = true;
+                            GoingRight = true;
                         else if (Velocity.X < 0)
-                            goingRight = false;
+                            GoingRight = false;
 
                         break;
                     case GameObject_State.Flying:
@@ -128,7 +139,7 @@ namespace EkeGame2
                 PreviousAnimation = ActiveAnimation;
             }
             AnimationChanged = false;
-            Animations[ActiveAnimation].Update(gt, ActiveAnimation, goingRight);
+            Animations[ActiveAnimation].Update(gt, ActiveAnimation, GoingRight);
         }
         protected void ChangeAnimationState(Animation_State a)
         {
@@ -181,7 +192,7 @@ namespace EkeGame2
                 ChangeAnimationState(Animation_State.falling);
             }
             //Checks X
-            if (goingRight && lvl.Hitbox_Colors[newX, newY] == Color.Black)
+            if (GoingRight && lvl.Hitbox_Colors[newX, newY] == Color.Black)
             {
                 for (int i = (int)Velocity.X; i > 0; i--)
                 {
@@ -195,7 +206,7 @@ namespace EkeGame2
                 ChangeAnimationState(Animation_State.byWall);
 
             }
-            else if (!goingRight && lvl.Hitbox_Colors[newX, newY] == Color.Black)
+            else if (!GoingRight && lvl.Hitbox_Colors[newX, newY] == Color.Black)
             {
                 for (int i = (int)Velocity.X; i < 0; i++)
                 {
@@ -230,9 +241,8 @@ namespace EkeGame2
             ActiveAnimation = Animation_State.jumpSquat;
             WaitForAnimation(Animations[ActiveAnimation]);
         }
-        protected virtual void LoadAnimation(string name)
+        public virtual void LoadAnimation(string name)
         {
-            Animations = new Dictionary<Animation_State, Animation>();
 
             var animations = (Animation_State[])Enum.GetValues(typeof(Animation_State));
 
@@ -286,7 +296,7 @@ namespace EkeGame2
                         break;
                     case Animation_State.death:
                         animationCount = 7;
-                        frameUpdateDelay = 400;
+                        frameUpdateDelay = 200;
                         imagePath = name + "/death";
                         break;
                     case Animation_State.wallcling:
@@ -296,12 +306,13 @@ namespace EkeGame2
                         break;
                     case Animation_State.throwing:
                         animationCount = 4;
-                        frameUpdateDelay = 200;
+                        frameUpdateDelay = 120;
                         imagePath = name + "/throwing";
                         break;
                 }
                 try
                 {
+                    
                     var animationImage = Content.Load<Texture2D>(imagePath);
                     Animations[animation] = new Animation(Position, new Vector2(animationCount, animationDirections), frameUpdateDelay);
 
@@ -315,7 +326,7 @@ namespace EkeGame2
             }
         }
 
-        private void WaitForAnimation(Animation a)
+        protected void WaitForAnimation(Animation a)
         {
             Wait = a.AnimationLenght * a.AmountOfFrames;
         }

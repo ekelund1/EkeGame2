@@ -16,8 +16,9 @@ namespace EkeGame2
         SpriteBatch spriteBatch;
         SpriteBatch SpriteBatch_FG;
         Level lvl;
+        Projectile PlayerProjectile;
         Player player;
-        bool drawHitboxes = false;
+        bool drawHitboxes = false, slowMo = false;
         Camera cam;
         
 
@@ -56,12 +57,14 @@ namespace EkeGame2
             spriteBatch = new SpriteBatch(GraphicsDevice);
             SpriteBatch_FG = new SpriteBatch(GraphicsDevice);
             lvl = new Level(Content, 0);
-            player = new Player(Content,"Player", 15, lvl.PlayerSpawnPosition);
-            cam = new Camera(GraphicsDevice.Viewport, lvl, ref player);
+            PlayerProjectile = new Projectile(Content, "Fireball", 30, Vector2.Zero, ProjectileOwner.PLAYER);
+
+            player = new Player(Content,"Player", 15, lvl.PlayerSpawnPosition, ref PlayerProjectile);
+            cam = new Camera(GraphicsDevice.Viewport, lvl, player);
 
 
 
-            
+
 
             // TODO: use this.Content to load your game content here
         }
@@ -101,13 +104,18 @@ namespace EkeGame2
             player.Update(lvl, gameTime);
             lvl.Update(gameTime);
 
-            if (lvl.EnemyCollision(player))
-                player.Respawn();
+            if (lvl.LevelGameObjectCollision(player))
+                player.Kill();
+
+            PlayerProjectile.Update(lvl,gameTime);
 
             /*if (player.SpriteCollision(lvl.))
                 drawHitboxes = !drawHitboxes;*/
-
+            
+            
             base.Update(gameTime);
+            
+
         }
 
         /// <summary>
@@ -121,8 +129,8 @@ namespace EkeGame2
                 spriteBatch.Begin(SpriteSortMode.Texture, null, null, null, null, null, cam.Transform);
 
                 lvl.DrawHitbox(spriteBatch);
+                PlayerProjectile.DrawHitbox(spriteBatch);
                 player.DrawHitbox(spriteBatch);
-                //enemy.DrawHitbox(spriteBatch);                
                 spriteBatch.End();
             }
             else
@@ -131,6 +139,7 @@ namespace EkeGame2
                 lvl.DrawBackground(spriteBatch);                
                 lvl.DrawPlayArea(spriteBatch);
                 player.DrawPlayer(spriteBatch, gameTime);
+                PlayerProjectile.DrawGameObject(spriteBatch, gameTime);
                 lvl.DrawEnemies(spriteBatch);
                 spriteBatch.End();
 
