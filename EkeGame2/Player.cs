@@ -16,6 +16,7 @@ namespace EkeGame2
 
         public Player(ContentManager c, string objektName, int updateDelay, Vector2 spawnPosition, ref Projectile playerProjectile) : base(c,objektName,updateDelay,spawnPosition)
         {
+            Health = 1;
             LoadAnimation(objektName);
             PlayerProjectile = playerProjectile;
         }
@@ -29,7 +30,7 @@ namespace EkeGame2
             if (w && GameObjectState == GameObject_State.onGround)
                 Jump();
             if (r)
-                Kill();
+                this.Respawn();
 
             if (h)
                 Shoot();
@@ -72,6 +73,7 @@ namespace EkeGame2
                 WaitForAnimation(Animations[ActiveAnimation]);
             }
         }
+        
         
     }
 }

@@ -48,7 +48,7 @@ namespace EkeGame2
             if (Active)
                 UpdateCounter += gt.ElapsedGameTime.Milliseconds;
 
-            if (Active && UpdateCounter >= UpdateDelay && UpdateCounter >= Wait )
+            if (Active && UpdateCounter >= UpdateDelay && UpdateCounter >= Wait)
             {
                 UpdateCounter = 0;
                 Wait = 0;
@@ -56,7 +56,10 @@ namespace EkeGame2
                 Gravity();
                 LevelCollsion(lvl);
                 if (lvl.LevelGameObjectCollision(this))
+                { 
                     Active = false;
+                    Position = Vector2.Zero;
+                }
                 Position += Velocity;
                 if (Velocity == Vector2.Zero)
                     Active = false;

@@ -60,7 +60,7 @@ namespace EkeGame2
             PlayerProjectile = new Projectile(Content, "Fireball", 30, Vector2.Zero, ProjectileOwner.PLAYER);
 
             player = new Player(Content,"Player", 15, lvl.PlayerSpawnPosition, ref PlayerProjectile);
-            cam = new Camera(GraphicsDevice.Viewport, lvl, player);
+            cam = new Camera(GraphicsDevice.Viewport, lvl, ref player);
 
 
 
@@ -105,7 +105,7 @@ namespace EkeGame2
             lvl.Update(gameTime);
 
             if (lvl.LevelGameObjectCollision(player))
-                player.Kill();
+                player.ChangeHealth(-1);
 
             PlayerProjectile.Update(lvl,gameTime);
 

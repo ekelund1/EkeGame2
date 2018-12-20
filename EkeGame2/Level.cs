@@ -110,9 +110,10 @@ namespace EkeGame2
             {
                 foreach (Enemy e in EnemyStack)
                 {
-                    if (e.Active && proj.SpriteCollision(e))
+                    if (e.Active && e.Health>0 && proj.SpriteCollision(e))
                     {
-                        e.Kill();
+                        e.SetVelocity(proj.GetVelocity());
+                        e.ChangeHealth(-1);
                         return true;
                     }
                 }

@@ -22,6 +22,7 @@ namespace EkeGame2
             EnemyCycleTimer = 2000;
             Type = et;
             LoadAnimation(objectName);
+            Health = 1;
         }
         public void Behaviour(GameTime gt)
         {

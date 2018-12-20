@@ -31,6 +31,7 @@ namespace EkeGame2
         public bool Active { get; set; }
         protected int UpdateDelay, UpdateCounter;
         protected bool AnimationChanged;
+        public int Health { get; set; }
 
         private string ObjectName { get; }
         
@@ -55,7 +56,10 @@ namespace EkeGame2
 
             Active = true;
         }
-        
+        public void SetVelocity(Vector2 velolicy)
+        {
+            Velocity = velolicy;
+        }
         public virtual void DrawHitbox(SpriteBatch s)
         {
             if(Active)
@@ -71,33 +75,31 @@ namespace EkeGame2
             if(Active)
                 Animations[ActiveAnimation].Draw(s, Position, new Vector2(4, 4),gt.ElapsedGameTime.Milliseconds);
         }
-        public void Kill()
+        protected void Kill()
         {
-            GameObjectState = GameObject_State.Death;
-            ActiveAnimation=Animation_State.death;
-            WaitForAnimation(Animations[Animation_State.death]);
-            this.Active = false;
-            Velocity = Vector2.Zero;
+            if (GameObjectState != GameObject_State.Death)
+            {
+                GameObjectState = GameObject_State.Death;
+                AnimationChanged = false;
+                ChangeAnimationState(Animation_State.death);
+                WaitForAnimation(Animations[Animation_State.death]);
+                UpdateCounter = 0;
+            }
         }
-        
+
         public virtual void Update(Level lvl, GameTime gt)
         {
             if (Active)
             {
                 UpdateCounter += (int)gt.ElapsedGameTime.Milliseconds;
             }
-            if (GameObjectState == GameObject_State.Death && UpdateCounter >= Wait)
+            if (Health <= 0)
             {
-                Active = false;
-                /*Velocity = new Vector2(0, 0);
-                GameObjectState = GameObject_State.Air;
-                Wait = 0;*/
+                this.Kill();
             }
-            else if (UpdateCounter >= UpdateDelay && UpdateCounter >= Wait)
-            {
-                UpdateCounter = 0;
-                Wait = 0;
 
+            if (UpdateCounter >= UpdateDelay && UpdateCounter >= Wait && Active)
+            {
                 LevelCollsion(lvl);
                 Position += Velocity;
 
@@ -116,24 +118,27 @@ namespace EkeGame2
                             ChangeAnimationState(Animation_State.running);
                         else
                             ChangeAnimationState(Animation_State.idle);
-
                         if (Velocity.X > 0)
                             GoingRight = true;
                         else if (Velocity.X < 0)
                             GoingRight = false;
-
                         break;
                     case GameObject_State.Flying:
                         break;
+                    case GameObject_State.Death:
+                        if (PreviousAnimation == Animation_State.death)
+                            Active = false;
+                        break;
                 }
+                Wait = 0;
+                UpdateCounter = 0;
                 PositionRectangle.Location = Position.ToPoint();
             }
-
             UpdateAnimations(gt);
         }
         protected void UpdateAnimations(GameTime gt)
         {
-            if (PreviousAnimation != ActiveAnimation)
+            if (PreviousAnimation != ActiveAnimation && UpdateCounter >= Wait)
             {
                 Animations[PreviousAnimation].Deactivate();
                 PreviousAnimation = ActiveAnimation;
@@ -181,10 +186,14 @@ namespace EkeGame2
                         i = 0;
                     }
                 }
+                
                 Velocity.Y = 0;
-                ChangeAnimationState(Animation_State.falldamage);
-                WaitForAnimation(Animations[ActiveAnimation]);
-                GameObjectState = GameObject_State.onGround;
+                if (GameObjectState != GameObject_State.Death)
+                {
+                    ChangeAnimationState(Animation_State.falldamage);
+                    WaitForAnimation(Animations[ActiveAnimation]);
+                    GameObjectState = GameObject_State.onGround;
+                }
             }
             else if (GameObjectState == GameObject_State.onGround && lvl.Hitbox_Colors[(int)Position.X, (int)Position.Y + 1] != Color.Black)
             {
@@ -203,7 +212,10 @@ namespace EkeGame2
                     }
                 }
                 Velocity.X = 0;
-                ChangeAnimationState(Animation_State.byWall);
+                if (GameObjectState != GameObject_State.Death)
+                {
+                    ChangeAnimationState(Animation_State.byWall);
+                }
 
             }
             else if (!GoingRight && lvl.Hitbox_Colors[newX, newY] == Color.Black)
@@ -217,12 +229,24 @@ namespace EkeGame2
                     }
                 }
                 Velocity.X = 0;
-                ChangeAnimationState(Animation_State.byWall);
+                if (GameObjectState != GameObject_State.Death)
+                {
+                    ChangeAnimationState(Animation_State.byWall);
+                }
             }
             Position += new_pos;
 
         }
-
+        protected void Respawn()
+        {
+            if (GameObjectState == GameObject_State.Death)
+            {
+                GameObjectState = GameObject_State.Air;
+                Position = SpawnPoint;
+                Active = true;
+                Health = 1;
+            }
+        }
         public bool SpriteCollision(AbstractGameObject go)
         {
             if (PositionRectangle.Intersects(go.PositionRectangle))
@@ -344,6 +368,10 @@ namespace EkeGame2
         public Vector2 GetVelocity()
         {
             return Velocity;
+        }
+        public void ChangeHealth(int value)
+        {
+            Health += value;
         }
 
     }
