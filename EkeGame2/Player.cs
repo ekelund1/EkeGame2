@@ -59,11 +59,7 @@ namespace EkeGame2
         {            
             DrawGameObject(s);
         }
-        protected override void Gravity()
-        {
-            if (Velocity.Y < 20 && (GameObjectState == GameObject_State.Air))
-                Velocity.Y = (Velocity.Y + 1);
-        }
+        
         private void Shoot()
         {
             if (!PlayerProjectile.Active)

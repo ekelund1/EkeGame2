@@ -61,6 +61,24 @@ namespace EkeGame2
         {
             return Hitbox;
         }
+        public Color HitboxColor(int x, int y)
+        {
+            if (x >= 0 && x < Hitbox.Width && y >= 0 && y < Hitbox.Height)
+                return Hitbox_Colors[x, y];
+            return Color.Black;
+        }
+        public Color HitboxColor(Point objectPoint)
+        {
+            if(objectPoint.X>=0 && objectPoint.X<Hitbox.Width && objectPoint.Y>=0 && objectPoint.Y<Hitbox.Height)
+                return Hitbox_Colors[objectPoint.X, objectPoint.Y];
+            return Color.Black;
+        }
+        public Color HitboxColor(Vector2 objectPoint)
+        {
+            if (objectPoint.X >= 0 && objectPoint.X < Hitbox.Width && objectPoint.Y >= 0 && objectPoint.Y < Hitbox.Height)
+                return Hitbox_Colors[(int)objectPoint.X, (int)objectPoint.Y];
+            return Color.Black;
+        }
         public void DrawBackground(SpriteBatch s)
         {
             s.Draw(Background, Vector2.Zero);

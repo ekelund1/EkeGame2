@@ -171,7 +171,7 @@ namespace EkeGame2
                 Console.WriteLine(zoom);
             }
 
-            CameraLogic();
+            
 
             ///////////////////
             ///Follow player///
@@ -185,6 +185,7 @@ namespace EkeGame2
                 cameraMovement.Y = -moveSpeed;
             else if (PlayerPos.Y > 500)
                 cameraMovement.Y = moveSpeed;
+            CameraLogic();
 
             MoveCamera(cameraMovement);
         }

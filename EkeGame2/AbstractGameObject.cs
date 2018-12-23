@@ -62,8 +62,8 @@ namespace EkeGame2
         }
         public virtual void DrawHitbox(SpriteBatch s)
         {
-            if(Active)
-                s.Draw(Hitbox, Position);             
+            if (Active)
+                s.Draw(Hitbox, PositionRectangle, Color.Red);             
         }
         public virtual void DrawGameObject(SpriteBatch s)
         {
@@ -89,19 +89,21 @@ namespace EkeGame2
 
         public virtual void Update(Level lvl, GameTime gt)
         {
-            if (Active)
-            {
+            if (Active)            
                 UpdateCounter += (int)gt.ElapsedGameTime.Milliseconds;
-            }
-            if (Health <= 0)
-            {
-                this.Kill();
-            }
+            
+            if (Health <= 0)            
+                this.Kill();            
 
             if (UpdateCounter >= UpdateDelay && UpdateCounter >= Wait && Active)
             {
-                LevelCollsion(lvl);
+                Gravity();
+                LevelCollision(lvl);
+                //LevelCollsion(lvl);
                 Position += Velocity;
+                PositionRectangle.Location = Position.ToPoint();
+                
+
 
                 //Update states
                 switch (GameObjectState)
@@ -111,7 +113,6 @@ namespace EkeGame2
                             ChangeAnimationState(Animation_State.jumping);
                         else if (Velocity.Y > 0)
                             ChangeAnimationState(Animation_State.falling);
-                        Gravity();
                         break;
                     case GameObject_State.onGround:
                         if (Velocity.X != 0)
@@ -132,7 +133,6 @@ namespace EkeGame2
                 }
                 Wait = 0;
                 UpdateCounter = 0;
-                PositionRectangle.Location = Position.ToPoint();
             }
             UpdateAnimations(gt);
         }
@@ -154,29 +154,88 @@ namespace EkeGame2
                 AnimationChanged = true;
             }
         }
+        
+        private void LevelCollision(Level lvl)
+        {
+            Rectangle newPositionRectangle = PositionRectangle;
+            newPositionRectangle.Offset(Velocity.X, Velocity.Y);
+
+            //Check top
+            if (Velocity.Y < 0)
+            {
+                for (int i = 0; i < Hitbox.Width; i++)
+                {
+                    if (lvl.HitboxColor(newPositionRectangle.Left + i, newPositionRectangle.Top) == Color.Black)
+                    {
+                        Velocity.Y = 0;
+                    }
+                }
+            }
+            else if (Velocity.Y > 0)
+            {
+                //Check bottom
+                for (int i = 0; i < Hitbox.Width; i++)
+                {
+                    //If collision with ground. Snap to ground.
+                    if (lvl.HitboxColor(newPositionRectangle.Left + i, newPositionRectangle.Bottom) == Color.Black)
+                    {
+                        Velocity.Y = 0;
+                        GameObjectState = GameObject_State.onGround;
+                        i = Hitbox.Width + 1;
+                    }
+                }
+            }
+
+
+            //Check left
+            if (!GoingRight)
+            {
+                for (int i = 0; i < Hitbox.Width; i++)
+                {
+                    
+                    if (i <= 1 && Velocity.X < 0 && lvl.HitboxColor(PositionRectangle.Left, newPositionRectangle.Bottom-i) == Color.Black
+                        && lvl.HitboxColor(newPositionRectangle.Left, newPositionRectangle.Bottom + (int)Velocity.X) != Color.Black)
+                        Velocity.Y = -1;
+                    else if (i > 1 && lvl.HitboxColor(newPositionRectangle.Left, newPositionRectangle.Bottom - i) == Color.Black)
+                        Velocity.X = 0;
+                }
+            }
+            else
+            {
+                //Check right
+                for (int i = 0; i < Hitbox.Width; i++)
+                {
+                    
+                    if (i <= 1 &&  Velocity.X > 0 && lvl.HitboxColor(newPositionRectangle.Right, newPositionRectangle.Bottom-i) == Color.Black
+                        && lvl.HitboxColor(newPositionRectangle.Right, newPositionRectangle.Bottom-(int)Velocity.X) != Color.Black )
+                        Velocity.Y = -1;
+                    else if (i > 1 && lvl.HitboxColor(newPositionRectangle.Right, newPositionRectangle.Bottom - i) == Color.Black)
+                        Velocity.X = 0;
+                }
+            }
+            
+        }
         protected void LevelCollsion(Level lvl)
         {
+            if (Position.X + Velocity.X >= lvl.Hitbox.Width || Position.X + Velocity.X <= 0)
+                Velocity.X = 0;
+            if (Position.Y + Velocity.Y >= lvl.Hitbox.Height-1 || Position.Y + Velocity.Y <= 0)
+                Velocity.Y = 0;
+
+            //Check top
+
             int newX = (int)Math.Floor((Position.X + Velocity.X));
             int newY = (int)Math.Floor((Position.Y + Velocity.Y));
             Vector2 new_pos = Vector2.Zero;
 
-            if (new_pos.X < 0 || new_pos.X > Hitbox.Width || new_pos.Y < 0 || new_pos.Y > Hitbox.Height)
-                Velocity = Vector2.Zero;
+            
 
-            //Checks y
+            //Checks top of rectangle
             if (Velocity.Y < 0 && lvl.Hitbox_Colors[newX, newY] == Color.Black)
             {
-                for (int i = (int)Velocity.Y; i < 0; i++)
-                {
-                    if (lvl.Hitbox_Colors[newX, (int)Position.Y + i] != Color.Black)
-                    {
-                        new_pos.Y = i;
-                        i = 0;
-                    }
-                }
-                Velocity.Y = 0;
+                
             }
-            else if (Velocity.Y > 0 && lvl.Hitbox_Colors[newX, newY] == Color.Black && GameObjectState == GameObject_State.Air)
+            else if (Velocity.Y > 0 && lvl.Hitbox_Colors[newX, newY] == Color.Black)
             {
                 for (int i = (int)Velocity.Y; i > 0; i--)
                 {
@@ -195,12 +254,13 @@ namespace EkeGame2
                     GameObjectState = GameObject_State.onGround;
                 }
             }
-            else if (GameObjectState == GameObject_State.onGround && lvl.Hitbox_Colors[(int)Position.X, (int)Position.Y + 1] != Color.Black)
+            else if (GameObjectState == GameObject_State.onGround && lvl.Hitbox_Colors[(int)Position.X, (int)Position.Y+1] != Color.Black)
             {
                 GameObjectState = GameObject_State.Air;
                 ChangeAnimationState(Animation_State.falling);
             }
             //Checks X
+            
             if (GoingRight && lvl.Hitbox_Colors[newX, newY] == Color.Black)
             {
                 for (int i = (int)Velocity.X; i > 0; i--)
@@ -222,7 +282,7 @@ namespace EkeGame2
             {
                 for (int i = (int)Velocity.X; i < 0; i++)
                 {
-                    if (lvl.Hitbox_Colors[(int)Position.X + i, newY] != Color.Black)
+                    if (lvl.Hitbox_Colors[(int)newX + i, newY] != Color.Black)
                     {
                         new_pos.X = i;
                         i = 0;
@@ -245,6 +305,7 @@ namespace EkeGame2
                 Position = SpawnPoint;
                 Active = true;
                 Health = 1;
+                Velocity=Vector2.Zero;
             }
         }
         public bool SpriteCollision(AbstractGameObject go)
@@ -255,8 +316,8 @@ namespace EkeGame2
         }
         protected virtual void Gravity()
         {
-            if (Velocity.Y < 20 && (GameObjectState == GameObject_State.Air))
-                Velocity.Y = (Velocity.Y + 1);
+            if (Velocity.Y < 20)
+                Velocity.Y++;
         }
         protected void Jump()
         {

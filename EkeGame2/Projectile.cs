@@ -38,9 +38,15 @@ namespace EkeGame2
             Position = spawnPosition+new Vector2(50,15);
             GoingRight = direction;
             if (GoingRight)
-                Velocity = new Vector2(20, -15)+bonus_vel;
+            {
+                Position = spawnPosition + new Vector2(50, 15);
+                Velocity = new Vector2(20, -15) + bonus_vel;
+            }
             else if (!GoingRight)
+            {
+                Position = spawnPosition + new Vector2(-50, 15);
                 Velocity = new Vector2(-20, -15) + bonus_vel;
+            }
             Wait = 600;
         }
         public void Update(Level lvl, GameTime gt)
