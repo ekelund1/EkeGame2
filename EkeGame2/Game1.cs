@@ -18,8 +18,8 @@ namespace EkeGame2
         Level lvl;
         Projectile PlayerProjectile;
         Player player;
-        bool drawHitboxes = false, slowMo = false;
-        Camera cam;
+        bool drawHitboxes = false;
+        Camera MyCamera;
         
 
         public Game1()
@@ -60,7 +60,7 @@ namespace EkeGame2
             PlayerProjectile = new Projectile(Content, "Fireball", 30, Vector2.Zero, ProjectileOwner.PLAYER);
 
             player = new Player(Content,"Player", 15, lvl.PlayerSpawnPosition, ref PlayerProjectile);
-            cam = new Camera(GraphicsDevice.Viewport, lvl, ref player);
+            MyCamera = new Camera(GraphicsDevice.Viewport, lvl, ref player);
 
 
 
@@ -85,7 +85,7 @@ namespace EkeGame2
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            cam.UpdateCamera(GraphicsDevice.Viewport);
+            MyCamera.UpdateCamera(GraphicsDevice.Viewport);
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.T))
@@ -104,14 +104,16 @@ namespace EkeGame2
             player.Update(lvl, gameTime);
             lvl.Update(gameTime);
 
-            if (lvl.LevelGameObjectCollision(player))
+            if (lvl.LevelEnemyObjectCollision(player))
                 player.ChangeHealth(-1);
 
             PlayerProjectile.Update(lvl,gameTime);
 
             /*if (player.SpriteCollision(lvl.))
                 drawHitboxes = !drawHitboxes;*/
-            
+
+            if (lvl.LevelGoalObjectCollision(player))
+                drawHitboxes = !drawHitboxes;
             
             base.Update(gameTime);
             
@@ -126,7 +128,7 @@ namespace EkeGame2
         {
             if (drawHitboxes)
             {
-                spriteBatch.Begin(SpriteSortMode.Texture, null, null, null, null, null, cam.Transform);
+                spriteBatch.Begin(SpriteSortMode.Texture, null, null, null, null, null, MyCamera.Transform);
 
                 lvl.DrawHitbox(spriteBatch);
                 PlayerProjectile.DrawHitbox(spriteBatch);
@@ -135,7 +137,7 @@ namespace EkeGame2
             }
             else
             {
-                spriteBatch.Begin(SpriteSortMode.Texture,null,null,null,null,null,cam.Transform);
+                spriteBatch.Begin(SpriteSortMode.Texture,null,null,null,null,null,MyCamera.Transform);
                 lvl.DrawBackground(spriteBatch);                
                 lvl.DrawPlayArea(spriteBatch);
                 player.DrawPlayer(spriteBatch, gameTime);

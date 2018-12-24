@@ -47,9 +47,11 @@ namespace EkeGame2
                 Position = spawnPosition + new Vector2(-50, 15);
                 Velocity = new Vector2(-20, -15) + bonus_vel;
             }
+            PositionRectangle.Location = Position.ToPoint();
+
             Wait = 600;
         }
-        public void Update(Level lvl, GameTime gt)
+        public override void Update(Level lvl, GameTime gt)
         {
             if (Active)
                 UpdateCounter += gt.ElapsedGameTime.Milliseconds;
@@ -61,7 +63,7 @@ namespace EkeGame2
                 Movement();
                 Gravity();
                 LevelCollsion(lvl);
-                if (lvl.LevelGameObjectCollision(this))
+                if (lvl.LevelProjectileObjectCollision(this))
                 { 
                     Active = false;
                     Position = Vector2.Zero;

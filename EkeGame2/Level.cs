@@ -21,6 +21,7 @@ namespace EkeGame2
         Texture2D PlayArea;
         private Stack<Enemy> EnemyStack;
         public Vector2 PlayerSpawnPosition;
+        private Goal TheGoal;
         
 
         //Constructor
@@ -35,6 +36,7 @@ namespace EkeGame2
             Color[] colors1D = new Color[Hitbox.Width * Hitbox.Height];
             Hitbox.GetData(colors1D);
 
+
             Color[,] colors2D = new Color[Hitbox.Width, Hitbox.Height];
             EnemyStack = new Stack<Enemy>();
             for (int x = 0; x < Hitbox.Width; x++)
@@ -48,10 +50,13 @@ namespace EkeGame2
                         //spawn new enemy at purple pixel position
                         EnemyStack.Push(new Enemy(EnemyType.Purple, Content, "Enemy", 15, new Vector2(x, y), y * 5));
                     }
-                    if (colors2D[x, y] == Color.Brown)
+                    else if (colors2D[x, y] == Color.Brown)
                     {
-                         PlayerSpawnPosition = new Vector2(x, y);
+                        PlayerSpawnPosition = new Vector2(x, y);
                     }
+                    else if (colors2D[x, y] == Color.Yellow)
+                        TheGoal = new Goal(Content, "Goal", 15, new Vector2(x, y));
+
 
                 }
             }
@@ -94,6 +99,7 @@ namespace EkeGame2
                 if(e.Active)
                     e.DrawHitbox(s);
             }
+            TheGoal.DrawHitbox(s);
             s.Draw(Hitbox, Vector2.Zero);
         }
         public void DrawForeground(SpriteBatch s)
@@ -103,17 +109,24 @@ namespace EkeGame2
         public void Update(GameTime gt)
         {
             foreach (Enemy e in EnemyStack)
-                e.EnemyUpdate(this, gt);            
+                e.EnemyUpdate(this, gt);
+            TheGoal.Update(this, gt);
         }
         public void DrawEnemies(SpriteBatch s)
         {
             foreach (Enemy e in EnemyStack)
                 if(e.Active)
                     e.DrawGameObject(s);
+            TheGoal.DrawGameObject(s);
         }
-        
 
-        public bool LevelGameObjectCollision(AbstractGameObject player)
+        public bool LevelGoalObjectCollision(AbstractGameObject player)
+        {
+            if (TheGoal.SpriteCollision(player))
+                return true;
+            return false;
+        }
+        public bool LevelEnemyObjectCollision(AbstractGameObject player)
         {
             foreach (Enemy e in EnemyStack)
             {
@@ -122,7 +135,7 @@ namespace EkeGame2
             }
             return false;
         }
-        public bool LevelGameObjectCollision(Projectile proj)
+        public bool LevelProjectileObjectCollision(Projectile proj)
         {
             if (proj.Owner == ProjectileOwner.PLAYER)
             {

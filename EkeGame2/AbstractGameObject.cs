@@ -49,7 +49,6 @@ namespace EkeGame2
             UpdateDelay = updateDelay;
             UpdateCounter = 0;
             AnimationChanged = false;
-
             PositionRectangle = new Rectangle((int)Position.X, (int)Position.Y, Hitbox.Width, Hitbox.Height);
 
             GoingRight = false;
@@ -316,7 +315,7 @@ namespace EkeGame2
         }
         protected virtual void Gravity()
         {
-            if (Velocity.Y < 20)
+            if (Velocity.Y < 20 && GameObjectState != GameObject_State.Flying)
                 Velocity.Y++;
         }
         protected void Jump()
@@ -326,9 +325,95 @@ namespace EkeGame2
             ActiveAnimation = Animation_State.jumpSquat;
             WaitForAnimation(Animations[ActiveAnimation]);
         }
+        public virtual void LoadAnimation(string name, int animationCount_idle=6, 
+            int animationCount_running = 8,int animationCount_jumping = 3,
+            int animationCount_falling = 2,int animationCount_landing = 3,int animationCount_falldamage = 2,
+            int animationCount_jumpSquat = 3,int animationCount_byWall = 6,int animationCount_death = 7,
+            int animationCount_wallcling = 2,int animationCount_throwing = 4)
+        {
+            var animations = (Animation_State[])Enum.GetValues(typeof(Animation_State));
+
+            foreach (var animation in animations)
+            {
+                var animationCount = 6;
+                var animationDirections = 2;
+                var frameUpdateDelay = 150;
+                var imagePath = name + "/idle";
+                switch (animation)
+                {
+                    case Animation_State.idle:
+                        animationCount = animationCount_idle;
+                        frameUpdateDelay = 150;
+                        imagePath = name + "/idle";
+                        break;
+                    case Animation_State.running:
+                        animationCount= animationCount_running;
+                        frameUpdateDelay = 150;
+                        imagePath = name + "/running";
+                        break;
+                    case Animation_State.jumping:
+                        animationCount = animationCount_jumping;
+                        frameUpdateDelay = 150;
+                        imagePath = name + "/jumping";
+                        break;
+                    case Animation_State.falling:
+                        animationCount = animationCount_falling;
+                        frameUpdateDelay = 50;
+                        imagePath = name + "/falling";
+                        break;
+                    case Animation_State.landing:
+                        animationCount = animationCount_landing;
+                        frameUpdateDelay = 300;
+                        imagePath = name + "/landing";
+                        break;
+                    case Animation_State.falldamage:
+                        animationCount = animationCount_falldamage;
+                        frameUpdateDelay = 250;
+                        imagePath = name + "/falldamage";
+                        break;
+                    case Animation_State.jumpSquat:
+                        animationCount = animationCount_jumpSquat;
+                        frameUpdateDelay = 150;
+                        imagePath = name + "/jumpsquat";
+                        break;
+                    case Animation_State.byWall:
+                        animationCount = animationCount_byWall;
+                        frameUpdateDelay = 150;
+                        imagePath = name + "/bywall";
+                        break;
+                    case Animation_State.death:
+                        animationCount = animationCount_death;
+                        frameUpdateDelay = 200;
+                        imagePath = name + "/death";
+                        break;
+                    case Animation_State.wallcling:
+                        animationCount = animationCount_wallcling;
+                        frameUpdateDelay = 400;
+                        imagePath = name + "/wallcling";
+                        break;
+                    case Animation_State.throwing:
+                        animationCount = animationCount_throwing;
+                        frameUpdateDelay = 120;
+                        imagePath = name + "/throwing";
+                        break;
+                }
+                try
+                {
+                    
+                    var animationImage = Content.Load<Texture2D>(imagePath);
+                    Animations[animation] = new Animation(Position, new Vector2(animationCount, animationDirections), frameUpdateDelay);
+
+                    Animations[animation].AnimationImage = animationImage;
+                }
+                catch (Exception ex)
+                {
+                    Animations[animation] = new Animation(Position, new Vector2(6, 2), 150);
+                    Animations[animation].AnimationImage = Content.Load<Texture2D>(name + "/idle");
+                }
+            }
+        }
         public virtual void LoadAnimation(string name)
         {
-
             var animations = (Animation_State[])Enum.GetValues(typeof(Animation_State));
 
             foreach (var animation in animations)
@@ -397,7 +482,7 @@ namespace EkeGame2
                 }
                 try
                 {
-                    
+
                     var animationImage = Content.Load<Texture2D>(imagePath);
                     Animations[animation] = new Animation(Position, new Vector2(animationCount, animationDirections), frameUpdateDelay);
 
@@ -413,7 +498,7 @@ namespace EkeGame2
 
         protected void WaitForAnimation(Animation a)
         {
-            Wait = a.AnimationLenght * a.AmountOfFrames;
+            Wait = a.AnimationLenght * a.AmountOfFrames-1;
         }
         protected void WaitTime(int ms)
         {
