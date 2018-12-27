@@ -20,6 +20,10 @@ namespace EkeGame2
             LoadAnimation(objektName);
             PlayerProjectile = playerProjectile;
         }
+        public void SetSpawnPosition(Vector2 newSpawn)
+        {
+            SpawnPoint = newSpawn;
+        }
         public override void Update(Level lvl, GameTime gt)
         {
             PlayerProjectile.Update(lvl,gt);

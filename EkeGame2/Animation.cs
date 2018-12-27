@@ -69,12 +69,11 @@ namespace EkeGame2
             Position = pos;
             RotationLoop =(RotationLoop+rotation)%1000;
             s.Draw(image, pos, sourceRect, Color.White, rotation, allignAnimation(), scale, 0, 0);
-            
 
         }
         private Vector2 allignAnimation()
         {
-            return new Vector2(FrameWidth/2, FrameHeight/2);
+            return new Vector2(FrameWidth/4, FrameHeight/3);
         }
         public Vector2 CurrentFrame
         {

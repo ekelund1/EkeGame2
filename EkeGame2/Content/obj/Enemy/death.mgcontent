@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <SourceFile>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/death.png</SourceFile>
-  <SourceTime>2018-12-14T13:00:43.1450916+01:00</SourceTime>
-  <DestFile>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/bin/Enemy/death.xnb</DestFile>
-  <DestTime>2018-12-24T10:27:54.5687992+01:00</DestTime>
+  <SourceTime>2018-12-14T13:11:55.6215247+01:00</SourceTime>
+  <DestFile>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/bin/Windows/x86/Debug/Content/Enemy/death.xnb</DestFile>
+  <DestTime>2018-12-27T11:13:03.329789+01:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2018-09-23T23:55:52+02:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

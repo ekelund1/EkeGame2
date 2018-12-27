@@ -62,7 +62,7 @@ namespace EkeGame2
                 Wait = 0;
                 Movement();
                 Gravity();
-                LevelCollsion(lvl);
+                LevelCollision(lvl);
                 if (lvl.LevelProjectileObjectCollision(this))
                 { 
                     Active = false;

@@ -2,8 +2,8 @@
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <SourceFile>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/jumping.png</SourceFile>
   <SourceTime>2018-12-14T11:20:06.61617+01:00</SourceTime>
-  <DestFile>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/bin/Enemy/jumping.xnb</DestFile>
-  <DestTime>2018-12-24T10:27:54.6378448+01:00</DestTime>
+  <DestFile>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/bin/Windows/x86/Debug/Content/Enemy/jumping.xnb</DestFile>
+  <DestTime>2018-12-27T11:13:03.3988409+01:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2018-09-23T23:55:52+02:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

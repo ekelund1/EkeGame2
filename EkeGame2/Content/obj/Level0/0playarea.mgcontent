@@ -2,8 +2,8 @@
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <SourceFile>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Level0/0playarea.png</SourceFile>
   <SourceTime>2018-12-13T18:03:57.7416256+01:00</SourceTime>
-  <DestFile>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/bin/Level0/0playarea.xnb</DestFile>
-  <DestTime>2018-12-24T10:27:56.7344218+01:00</DestTime>
+  <DestFile>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/bin/Windows/x86/Debug/Content/Level0/0playarea.xnb</DestFile>
+  <DestTime>2018-12-27T11:13:05.7883948+01:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2018-09-23T23:55:52+02:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

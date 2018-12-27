@@ -2,8 +2,8 @@
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <SourceFile>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Player/test_hitbox.png</SourceFile>
   <SourceTime>2018-12-10T19:42:10.3506465+01:00</SourceTime>
-  <DestFile>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/bin/Player/test_hitbox.xnb</DestFile>
-  <DestTime>2018-12-24T10:27:56.9154863+01:00</DestTime>
+  <DestFile>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/bin/Windows/x86/Debug/Content/Player/test_hitbox.xnb</DestFile>
+  <DestTime>2018-12-27T11:13:07.8171715+01:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2018-09-23T23:55:52+02:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

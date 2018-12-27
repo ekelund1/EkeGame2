@@ -20,6 +20,7 @@ namespace EkeGame2
         Player player;
         bool drawHitboxes = false;
         Camera MyCamera;
+        int CurrentLevel = 1;
         
 
         public Game1()
@@ -36,13 +37,18 @@ namespace EkeGame2
         /// </summary>
         protected override void Initialize()
         {
-            graphics.PreferredBackBufferHeight = 820;
             graphics.PreferredBackBufferWidth = 1380;
-            
-            
-
+            graphics.PreferredBackBufferHeight = 820;
             graphics.ApplyChanges();
-            
+
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+            SpriteBatch_FG = new SpriteBatch(GraphicsDevice);
+
+            lvl = new Level(Content, CurrentLevel);
+            MyCamera = new Camera(GraphicsDevice.Viewport, lvl, ref player);
+            PlayerProjectile = new Projectile(Content, "Fireball", 30, Vector2.Zero, ProjectileOwner.PLAYER);
+            player = new Player(Content, "Player", 15, lvl.PlayerSpawnPosition, ref PlayerProjectile);
+
 
             base.Initialize();
         }
@@ -54,18 +60,17 @@ namespace EkeGame2
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
+
             spriteBatch = new SpriteBatch(GraphicsDevice);
             SpriteBatch_FG = new SpriteBatch(GraphicsDevice);
-            lvl = new Level(Content, 0);
-            PlayerProjectile = new Projectile(Content, "Fireball", 30, Vector2.Zero, ProjectileOwner.PLAYER);
 
-            player = new Player(Content,"Player", 15, lvl.PlayerSpawnPosition, ref PlayerProjectile);
+            lvl = new Level(Content, CurrentLevel);
+            player = new Player(Content, "Player", 15, lvl.PlayerSpawnPosition, ref PlayerProjectile);
+
             MyCamera = new Camera(GraphicsDevice.Viewport, lvl, ref player);
 
-
-
-
-
+            player.SetSpawnPosition(lvl.PlayerSpawnPosition);
+            player.Respawn();
             // TODO: use this.Content to load your game content here
         }
 
@@ -75,6 +80,7 @@ namespace EkeGame2
         /// </summary>
         protected override void UnloadContent()
         {
+            Content.Unload();
             // TODO: Unload any non ContentManager content here
         }
 
@@ -113,7 +119,11 @@ namespace EkeGame2
                 drawHitboxes = !drawHitboxes;*/
 
             if (lvl.LevelGoalObjectCollision(player))
-                drawHitboxes = !drawHitboxes;
+            {
+                CurrentLevel--;
+                this.UnloadContent();
+                this.LoadContent();
+            }
             
             base.Update(gameTime);
             
