@@ -48,7 +48,7 @@ namespace EkeGame2
                     {
                         //foreach purple pixel in hitbox image. 
                         //spawn new enemy at purple pixel position
-                        EnemyStack.Push(new Enemy(EnemyType.Purple, Content, "Enemy", 15, new Vector2(x, y), y * 5));
+                        EnemyStack.Push(new Enemy(EnemyType.Purple, Content, "Enemy/Purple/", 15, new Vector2(x, y), y * 5));
                     }
                     else if (colors2D[x, y] == Color.Brown)
                     {

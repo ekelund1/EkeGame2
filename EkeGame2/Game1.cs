@@ -20,7 +20,7 @@ namespace EkeGame2
         Player player;
         bool drawHitboxes = false;
         Camera MyCamera;
-        int CurrentLevel = 1;
+        int CurrentLevel = 0;
         
 
         public Game1()
@@ -65,6 +65,8 @@ namespace EkeGame2
             SpriteBatch_FG = new SpriteBatch(GraphicsDevice);
 
             lvl = new Level(Content, CurrentLevel);
+            PlayerProjectile = new Projectile(Content, "Fireball", 30, Vector2.Zero, ProjectileOwner.PLAYER);
+
             player = new Player(Content, "Player", 15, lvl.PlayerSpawnPosition, ref PlayerProjectile);
 
             MyCamera = new Camera(GraphicsDevice.Viewport, lvl, ref player);
@@ -120,7 +122,7 @@ namespace EkeGame2
 
             if (lvl.LevelGoalObjectCollision(player))
             {
-                CurrentLevel--;
+                CurrentLevel++;
                 this.UnloadContent();
                 this.LoadContent();
             }

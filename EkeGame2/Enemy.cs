@@ -13,7 +13,7 @@ namespace EkeGame2
 {
     class Enemy : AbstractGameObject
     {
-        EnemyType Type;
+        readonly EnemyType Type;
         int counterEnemyCycle, EnemyCycleTimer;
         
         public Enemy(EnemyType et, ContentManager c, string objectName, int updateDelay, Vector2 spawnPosition, int timerOffset=0) : base(c, objectName ,updateDelay, spawnPosition)
@@ -34,15 +34,24 @@ namespace EkeGame2
             {
                 switch (Type)
                 { 
+                    //Jumper
                     case EnemyType.Purple:
                         counterEnemyCycle = 0;
                         Jump();
-                        if (!GoingRight)
+                        if (!GoingRight && GameObjectState==GameObject_State.Air)
                             Velocity.X += 5;
-                        else if (GoingRight)
+                        else if (GoingRight && GameObjectState == GameObject_State.Air)
                             Velocity.X -= 5;
                         GoingRight = !GoingRight;
-                        break;    
+                        break;
+                        //Walker
+                    case EnemyType.Orange:
+                        counterEnemyCycle = 0;
+                        if (GoingRight && Velocity.X <= 5)
+                            Velocity.X += 0.5f;
+                        else if (!GoingRight && Velocity.X >= -5)
+                            Velocity.X -= 0.5f;
+                        break;
                 }
             }
         }

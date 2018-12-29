@@ -152,7 +152,7 @@ namespace EkeGame2
         }
         protected void ChangeAnimationState(Animation_State a)
         {
-            if (!AnimationChanged)
+            if (!AnimationChanged && )
             {
                 ActiveAnimation = a;
                 AnimationChanged = true;
@@ -203,9 +203,14 @@ namespace EkeGame2
                     {
                         Velocity.Y = -Math.Max(1, Math.Abs(Velocity.X));
                         ResetVelocityY = true;
+                        i = Hitbox.Width + 1;
                     }
                     else if (i > 1 && lvl.HitboxColor(newPositionRectangle.Right, newPositionRectangle.Bottom - i) == Color.Black)
+                    {
                         Velocity.X = 0;
+                        i = Hitbox.Width + 1;
+                    }
+                    
                     
                 }
             }
@@ -219,10 +224,14 @@ namespace EkeGame2
                     {
                         Velocity.Y = -Math.Max(1,Math.Abs(Velocity.X));
                         ResetVelocityY = true;
+                        i = Hitbox.Width + 1;
+
                     }
                     else if (i > 1 && lvl.HitboxColor(newPositionRectangle.Left, newPositionRectangle.Bottom - i) == Color.Black)
+                    {
                         Velocity.X = 0;
-
+                        i = Hitbox.Width + 1;
+                    }
                 }
             }
             
