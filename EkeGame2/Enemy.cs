@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
+using EkeGame2;
 
 
 namespace EkeGame2
@@ -15,7 +16,9 @@ namespace EkeGame2
     {
         readonly EnemyType Type;
         int counterEnemyCycle, EnemyCycleTimer;
-        
+        public Projectile EnemyProjectile;
+
+
         public Enemy(EnemyType et, ContentManager c, string objectName, int updateDelay, Vector2 spawnPosition, int timerOffset=0) : base(c, objectName ,updateDelay, spawnPosition)
         {
             counterEnemyCycle=0+timerOffset;
@@ -23,14 +26,15 @@ namespace EkeGame2
             Type = et;
             LoadAnimation(objectName);
             Health = 1;
+            EnemyProjectile = new Projectile(c, "Fireball", 15, Vector2.Zero, ProjectileOwner.ENEMY);
+
+
         }
-        public void Behaviour(GameTime gt)
+        public void Behaviour(GameTime gt, Player ThePlayer)
         {
-            if (PreviousAnimation == Animation_State.death)
-                Active = false;
-            if (Active)
+            if (Active && GameObjectState!=GameObject_State.Death)
                 counterEnemyCycle += (int)gt.ElapsedGameTime.Milliseconds;
-            if (counterEnemyCycle >= EnemyCycleTimer)
+            if (counterEnemyCycle >= EnemyCycleTimer && GameObjectState != GameObject_State.Death)
             {
                 switch (Type)
                 { 
@@ -44,25 +48,57 @@ namespace EkeGame2
                             Velocity.X -= 5;
                         GoingRight = !GoingRight;
                         break;
-                        //Walker
+                        //Shooter
                     case EnemyType.Orange:
                         counterEnemyCycle = 0;
-                        if (GoingRight && Velocity.X <= 5)
-                            Velocity.X += 0.5f;
-                        else if (!GoingRight && Velocity.X >= -5)
-                            Velocity.X -= 0.5f;
+                        FacePlayer(ThePlayer);
+                        ShootProjectile();
                         break;
+
+                        //Yoyo fiende. Pappas idé.
                 }
             }
         }
-        public void EnemyUpdate(Level lvl, GameTime gt)
+        private void FacePlayer(Player ThePlayer)
+        {
+            if (ThePlayer.Position.X > Position.X)
+            {
+                GoingRight = true;
+            }
+            else
+                GoingRight = false;
+        }
+        private void ShootProjectile()
+        {
+            if (!EnemyProjectile.Active)
+            {
+                EnemyProjectile.Shoot(Position, GoingRight);
+                ChangeAnimationState(Animation_State.throwing);
+                LockAnimation(Animations[ActiveAnimation]);
+            }
+        }
+        public void Update(Level lvl, GameTime gt, Player ThePlayer)
         {
             if (Active)
-            {
-                Behaviour(gt);
-                Update(lvl, gt);
+            { 
+                Behaviour(gt,ThePlayer);
+                if (EnemyProjectile.Active)
+                    EnemyProjectile.Update(lvl, gt, Position);
+                base.Update(lvl, gt);
             }
-            
+        }
+       
+        public override void DrawGameObject(SpriteBatch s)
+        {
+            if (EnemyProjectile.Active)
+                EnemyProjectile.DrawGameObject(s);
+            base.DrawGameObject(s);
+        }
+        public override void DrawHitbox(SpriteBatch s)
+        {
+            if (EnemyProjectile.Active)
+                EnemyProjectile.DrawHitbox(s);
+            base.DrawHitbox(s);
         }
     }
 }

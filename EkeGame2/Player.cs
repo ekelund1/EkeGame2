@@ -14,66 +14,88 @@ namespace EkeGame2
     {
         Projectile PlayerProjectile;
 
-        public Player(ContentManager c, string objektName, int updateDelay, Vector2 spawnPosition, ref Projectile playerProjectile) : base(c,objektName,updateDelay,spawnPosition)
+        public Player(ContentManager c, string objektName, int updateDelay, Vector2 spawnPosition) : base(c,objektName,updateDelay,spawnPosition)
         {
             Health = 1;
             LoadAnimation(objektName);
-            PlayerProjectile = playerProjectile;
+            PlayerProjectile = new Projectile(c, "Fireball", 15, Vector2.Zero, ProjectileOwner.PLAYER);
+
         }
         public void SetSpawnPosition(Vector2 newSpawn)
         {
             SpawnPoint = newSpawn;
         }
-        public override void Update(Level lvl, GameTime gt)
+       
+        public void Movement(bool a, bool d, bool w, bool r, bool h, bool s)
         {
-            PlayerProjectile.Update(lvl,gt);
-            base.Update(lvl, gt);
-        }
-        public void Movement(bool a, bool d, bool w, bool r, bool h)
-        {
-            if (w && GameObjectState == GameObject_State.onGround)
-                Jump();
             if (r)
                 this.Respawn();
+            if (GameObjectState != GameObject_State.Death)
+            {
+                if (w && GameObjectState == GameObject_State.onGround)
+                    Jump();
 
-            if (h)
-                Shoot();
 
-            if (a && Velocity.X > -10)
-            {
-                Velocity.X--;
-            }
-            else if (d && Velocity.X < 10)
-            {
-                Velocity.X++;
-            }
-            else
-            {
-                if (Velocity.X < 0)
-                {
-                    Velocity.X++;
+                if (h)
+                { 
+                    if(w)
+                        ShootProjectile(Projectile_Trajectory.HIGH);
+                    else if(s)
+                        ShootProjectile(Projectile_Trajectory.LOW);
+                    else
+                        ShootProjectile();
                 }
-                else if (Velocity.X > 0)
+
+                if (a && Velocity.X > -10)
                 {
-                    Velocity.X--;
+                    Velocity.X -= 0.5f;
+                }
+                else if (d && Velocity.X < 10)
+                {
+                    Velocity.X += 0.5f; ;
+                }
+                else
+                {
+                    if (Velocity.X < 0)
+                    {
+                        Velocity.X += 0.5f;
+                    }
+                    else if (Velocity.X > 0)
+                    {
+                        Velocity.X -= 0.5f; ;
+                    }
                 }
             }
+        }
+        
+        public override void Update(Level lvl, GameTime gt)
+        {
+            base.Update(lvl, gt);
+            if (PlayerProjectile.Active)
+                PlayerProjectile.Update(lvl, gt,Position);
         }
         public void DrawPlayer(SpriteBatch s, GameTime gt)
         {            
             DrawGameObject(s);
+            if (PlayerProjectile.Active)
+                PlayerProjectile.DrawGameObject(s, gt);
         }
         
-        private void Shoot()
+        
+        public override void DrawHitbox(SpriteBatch s)
+        {
+            if (PlayerProjectile.Active)
+                PlayerProjectile.DrawHitbox(s);
+            base.DrawHitbox(s);
+        }
+        private void ShootProjectile(Projectile_Trajectory pt = Projectile_Trajectory.MEDIUM)
         {
             if (!PlayerProjectile.Active)
             {
-                PlayerProjectile.Shoot(Position, Velocity, GoingRight);
+                PlayerProjectile.Shoot(Position, GoingRight,pt);
                 ChangeAnimationState(Animation_State.throwing);
-                WaitForAnimation(Animations[ActiveAnimation]);
+                LockAnimation(Animations[ActiveAnimation]);
             }
         }
-        
-        
     }
 }

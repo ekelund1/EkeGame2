@@ -22,6 +22,8 @@ namespace EkeGame2
         private Stack<Enemy> EnemyStack;
         public Vector2 PlayerSpawnPosition;
         private Goal TheGoal;
+        Player RefThePlayer;
+        
         
 
         //Constructor
@@ -48,7 +50,7 @@ namespace EkeGame2
                     {
                         //foreach purple pixel in hitbox image. 
                         //spawn new enemy at purple pixel position
-                        EnemyStack.Push(new Enemy(EnemyType.Purple, Content, "Enemy/Purple/", 15, new Vector2(x, y), y * 5));
+                        EnemyStack.Push(new Enemy(EnemyType.Orange, Content, "Enemy/Purple/", 15, new Vector2(x, y), y * 5));
                     }
                     else if (colors2D[x, y] == Color.Brown)
                     {
@@ -106,11 +108,12 @@ namespace EkeGame2
         {
             s.Draw(Foreground, Vector2.Zero);
         }
-        public void Update(GameTime gt)
+        public void Update(GameTime gt, ref Player ThePlayer)
         {
             foreach (Enemy e in EnemyStack)
-                e.EnemyUpdate(this, gt);
+                e.Update(this, gt, ThePlayer);
             TheGoal.Update(this, gt);
+            RefThePlayer = ThePlayer;
         }
         public void DrawEnemies(SpriteBatch s)
         {
@@ -143,7 +146,7 @@ namespace EkeGame2
                 {
                     if (e.Active && e.Health>0 && proj.SpriteCollision(e))
                     {
-                        e.SetVelocity(proj.GetVelocity());
+                        e.SetVelocity(proj.GetVelocity()/2);
                         e.ChangeHealth(-1);
                         return true;
                     }
@@ -151,10 +154,14 @@ namespace EkeGame2
             }
             else if (proj.Owner == ProjectileOwner.ENEMY)
             {
+                //Check collision with player. if collision. Kill player
                 foreach (Enemy e in EnemyStack)
                 {
-                    if (e.Active && proj.SpriteCollision(e))
-                    {                        
+                    if (e.Active && e.EnemyProjectile.Active && e.Health > 0 
+                        && e.EnemyProjectile.SpriteCollision(RefThePlayer))
+                    {
+                        RefThePlayer.SetVelocity(proj.GetVelocity() / 2);
+                        RefThePlayer.ChangeHealth(-1);
                         return true;
                     }
                 }

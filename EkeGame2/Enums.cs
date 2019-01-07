@@ -22,4 +22,12 @@ namespace EkeGame2
     {
         PLAYER, ENEMY
     }
+    public enum Projectile_State
+    {
+        CHARGING, IN_MOTION
+    }
+    public enum Projectile_Trajectory
+    {
+        HIGH, MEDIUM, LOW
+    }
 }

@@ -15,7 +15,7 @@ namespace EkeGame2
     {
         protected ContentManager Content;
 
-        protected Vector2 Position;
+        public Vector2 Position;
         protected Vector2 Velocity;
         protected Vector2 SpawnPoint;
         public Texture2D Hitbox;
@@ -26,10 +26,12 @@ namespace EkeGame2
         protected GameObject_State GameObjectState;
         protected Dictionary<Animation_State, Animation> Animations;
 
+
         protected bool GoingRight;
-        protected float Wait;
+        protected float Wait, WaitCounter;
         public bool Active { get; set; }
-        protected int UpdateDelay, UpdateCounter;
+        protected int UpdateDelay, UpdateCounter, DeathTimerCounter, DeathTimerDelay;
+        protected float LockAnimationState, LockAnimationStateCounter;
         protected bool AnimationChanged;
         public int Health { get; set; }
         private bool ResetVelocityY;
@@ -49,6 +51,8 @@ namespace EkeGame2
             Hitbox = Content.Load<Texture2D>(objektName + "/test_hitbox");
             UpdateDelay = updateDelay;
             UpdateCounter = 0;
+            WaitCounter = 0;
+            LockAnimationStateCounter = 0;
             AnimationChanged = false;
             PositionRectangle = new Rectangle((int)Position.X, (int)Position.Y, Hitbox.Width, Hitbox.Height);
 
@@ -63,12 +67,16 @@ namespace EkeGame2
         public virtual void DrawHitbox(SpriteBatch s)
         {
             if (Active)
-                s.Draw(Hitbox, PositionRectangle, Color.Red);             
+            {
+                s.Draw(Hitbox, PositionRectangle, Color.Red);
+            }
         }
         public virtual void DrawGameObject(SpriteBatch s)
         {
             if (Active)
+            { 
                 Animations[ActiveAnimation].Draw(s, Position, new Vector2(2, 2));
+            }
         }
         public virtual void DrawGameObject(SpriteBatch s, GameTime gt)
         {
@@ -79,18 +87,24 @@ namespace EkeGame2
         {
             if (GameObjectState != GameObject_State.Death)
             {
-                GameObjectState = GameObject_State.Death;
+                ChangeGameObjectState(GameObject_State.Death);
                 AnimationChanged = false;
                 ChangeAnimationState(Animation_State.death);
-                WaitForAnimation(Animations[Animation_State.death]);
-                UpdateCounter = 0;
+                LockAnimation(Animations[Animation_State.death]);
+                DeathTimerCounter = 0;
+                DeathTimerDelay = 1100;
+                Velocity.X = Velocity.X / 2;
             }
         }
 
         public virtual void Update(Level lvl, GameTime gt)
         {
-            if (Active)            
+            if (Active)
+            {
                 UpdateCounter += (int)gt.ElapsedGameTime.Milliseconds;
+                LockAnimationStateCounter += (int)gt.ElapsedGameTime.Milliseconds;
+                DeathTimerCounter += (int)gt.ElapsedGameTime.Milliseconds;
+            }
             
             if (Health <= 0)            
                 this.Kill();            
@@ -131,7 +145,7 @@ namespace EkeGame2
                     case GameObject_State.Flying:
                         break;
                     case GameObject_State.Death:
-                        if (PreviousAnimation == Animation_State.death)
+                        if (DeathTimerCounter >= DeathTimerDelay)
                             Active = false;
                         break;
                 }
@@ -139,6 +153,12 @@ namespace EkeGame2
                 UpdateCounter = 0;
             }
             UpdateAnimations(gt);
+            
+        }
+        protected void ChangeGameObjectState(GameObject_State GO_S)
+        {
+            if (GameObjectState != GameObject_State.Death)
+                GameObjectState = GO_S;
         }
         protected void UpdateAnimations(GameTime gt)
         {
@@ -152,14 +172,23 @@ namespace EkeGame2
         }
         protected void ChangeAnimationState(Animation_State a)
         {
-            if (!AnimationChanged && )
+            if (!AnimationChanged && LockAnimationStateCounter >= LockAnimationState && ActiveAnimation!=Animation_State.death)
             {
                 ActiveAnimation = a;
                 AnimationChanged = true;
+                LockAnimationStateCounter = 0;
+                LockAnimationState = 0;
             }
         }
-        
-        
+        protected void LockAnimation(Animation a)
+        {
+            LockAnimationState = a.AnimationLenght * a.AmountOfFrames - 1;
+        }
+        protected void WaitForAnimation(Animation a)
+        {
+            Wait = a.AnimationLenght * a.AmountOfFrames - 1;
+        }
+
         protected void LevelCollision(Level lvl)
         {
             Rectangle newPositionRectangle = PositionRectangle;
@@ -185,7 +214,7 @@ namespace EkeGame2
                     if (lvl.HitboxColor(newPositionRectangle.Left + i, newPositionRectangle.Bottom) == Color.Black)
                     {
                         Velocity.Y = 0;
-                        GameObjectState = GameObject_State.onGround;
+                        ChangeGameObjectState(GameObject_State.onGround);
                         i = Hitbox.Width + 1;
                     }
                 }
@@ -241,6 +270,7 @@ namespace EkeGame2
         {
             
             GameObjectState = GameObject_State.Air;
+            ChangeAnimationState(Animation_State.falling);
             Position = SpawnPoint;
             Active = true;
             Health = 1;
@@ -261,7 +291,7 @@ namespace EkeGame2
         protected void Jump()
         {
             Velocity.Y = -20;
-            GameObjectState = GameObject_State.Air;
+            ChangeGameObjectState(GameObject_State.Air);
             ActiveAnimation = Animation_State.jumpSquat;
             WaitForAnimation(Animations[ActiveAnimation]);
         }
@@ -293,7 +323,7 @@ namespace EkeGame2
                         break;
                     case Animation_State.jumping:
                         animationCount = animationCount_jumping;
-                        frameUpdateDelay = 150;
+                        frameUpdateDelay = 60;
                         imagePath = name + "/jumping";
                         break;
                     case Animation_State.falling:
@@ -436,10 +466,8 @@ namespace EkeGame2
             }
         }
 
-        protected void WaitForAnimation(Animation a)
-        {
-            Wait = a.AnimationLenght * a.AmountOfFrames-1;
-        }
+       
+
         protected void WaitTime(int ms)
         {
             Wait = ms;

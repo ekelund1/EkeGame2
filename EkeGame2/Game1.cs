@@ -16,8 +16,7 @@ namespace EkeGame2
         SpriteBatch spriteBatch;
         SpriteBatch SpriteBatch_FG;
         Level lvl;
-        Projectile PlayerProjectile;
-        Player player;
+        Player ThePlayer;
         bool drawHitboxes = false;
         Camera MyCamera;
         int CurrentLevel = 0;
@@ -27,6 +26,7 @@ namespace EkeGame2
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            
         }
 
         /// <summary>
@@ -45,10 +45,8 @@ namespace EkeGame2
             SpriteBatch_FG = new SpriteBatch(GraphicsDevice);
 
             lvl = new Level(Content, CurrentLevel);
-            MyCamera = new Camera(GraphicsDevice.Viewport, lvl, ref player);
-            PlayerProjectile = new Projectile(Content, "Fireball", 30, Vector2.Zero, ProjectileOwner.PLAYER);
-            player = new Player(Content, "Player", 15, lvl.PlayerSpawnPosition, ref PlayerProjectile);
-
+            MyCamera = new Camera(GraphicsDevice.Viewport, lvl, ref ThePlayer);
+            ThePlayer = new Player(Content, "Player", 15, lvl.PlayerSpawnPosition);
 
             base.Initialize();
         }
@@ -65,14 +63,13 @@ namespace EkeGame2
             SpriteBatch_FG = new SpriteBatch(GraphicsDevice);
 
             lvl = new Level(Content, CurrentLevel);
-            PlayerProjectile = new Projectile(Content, "Fireball", 30, Vector2.Zero, ProjectileOwner.PLAYER);
 
-            player = new Player(Content, "Player", 15, lvl.PlayerSpawnPosition, ref PlayerProjectile);
+            ThePlayer = new Player(Content, "Player", 15, lvl.PlayerSpawnPosition);
 
-            MyCamera = new Camera(GraphicsDevice.Viewport, lvl, ref player);
+            MyCamera = new Camera(GraphicsDevice.Viewport, lvl, ref ThePlayer);
 
-            player.SetSpawnPosition(lvl.PlayerSpawnPosition);
-            player.Respawn();
+            ThePlayer.SetSpawnPosition(lvl.PlayerSpawnPosition);
+            ThePlayer.Respawn();
             // TODO: use this.Content to load your game content here
         }
 
@@ -99,28 +96,29 @@ namespace EkeGame2
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.T))
                 drawHitboxes = !drawHitboxes;
 
-            player.Movement(
+            ThePlayer.Movement(
                 Keyboard.GetState().IsKeyDown(Keys.A),
                 Keyboard.GetState().IsKeyDown(Keys.D),
                 Keyboard.GetState().IsKeyDown(Keys.W),
                 Keyboard.GetState().IsKeyDown(Keys.R),
-                Keyboard.GetState().IsKeyDown(Keys.H));
+                Keyboard.GetState().IsKeyDown(Keys.H),
+                Keyboard.GetState().IsKeyDown(Keys.S));
             
 
             if(Keyboard.GetState().CapsLock && !graphics.IsFullScreen)
                 graphics.ToggleFullScreen();
-            player.Update(lvl, gameTime);
-            lvl.Update(gameTime);
+            ThePlayer.Update(lvl, gameTime);
+            lvl.Update(gameTime, ref ThePlayer);
 
-            if (lvl.LevelEnemyObjectCollision(player))
-                player.ChangeHealth(-1);
+            if (lvl.LevelEnemyObjectCollision(ThePlayer))
+                ThePlayer.ChangeHealth(-1);
 
-            PlayerProjectile.Update(lvl,gameTime);
+            
 
             /*if (player.SpriteCollision(lvl.))
                 drawHitboxes = !drawHitboxes;*/
 
-            if (lvl.LevelGoalObjectCollision(player))
+            if (lvl.LevelGoalObjectCollision(ThePlayer))
             {
                 CurrentLevel++;
                 this.UnloadContent();
@@ -143,8 +141,7 @@ namespace EkeGame2
                 spriteBatch.Begin(SpriteSortMode.Texture, null, null, null, null, null, MyCamera.Transform);
 
                 lvl.DrawHitbox(spriteBatch);
-                PlayerProjectile.DrawHitbox(spriteBatch);
-                player.DrawHitbox(spriteBatch);
+                ThePlayer.DrawHitbox(spriteBatch);
                 spriteBatch.End();
             }
             else
@@ -152,8 +149,7 @@ namespace EkeGame2
                 spriteBatch.Begin(SpriteSortMode.Texture,null,null,null,null,null,MyCamera.Transform);
                 lvl.DrawBackground(spriteBatch);                
                 lvl.DrawPlayArea(spriteBatch);
-                player.DrawPlayer(spriteBatch, gameTime);
-                PlayerProjectile.DrawGameObject(spriteBatch, gameTime);
+                ThePlayer.DrawPlayer(spriteBatch, gameTime);
                 lvl.DrawEnemies(spriteBatch);
                 spriteBatch.End();
 
