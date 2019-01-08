@@ -4,6 +4,18 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
+    <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/Orange/bywall.png</File>
+    <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/Orange/death.png</File>
+    <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/Orange/falldamage.png</File>
+    <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/Orange/falling.png</File>
+    <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/Orange/idle.png</File>
+    <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/Orange/jumping.png</File>
+    <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/Orange/jumpsquat.png</File>
+    <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/Orange/landing.png</File>
+    <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/Orange/running.png</File>
+    <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/Orange/test_hitbox.png</File>
+    <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/Orange/throwing.png</File>
+    <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/Orange/wallcling.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/Purple/death.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/Purple/falldamage.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/Purple/falling.png</File>
@@ -55,6 +67,18 @@
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/SuperMarioFont.spritefont</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

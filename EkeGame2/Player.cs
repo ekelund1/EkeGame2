@@ -65,11 +65,13 @@ namespace EkeGame2
                 }
                 else
                 {
-                    if (Velocity.X < 0)
+                    if (Velocity.X < 0.5 && Velocity.X > -0.5)
+                        Velocity.X = 0;
+                    else if (Velocity.X <= -0.5)
                     {
                         Velocity.X += 0.5f;
                     }
-                    else if (Velocity.X > 0)
+                    else if (Velocity.X >= 0.5)
                     {
                         Velocity.X -= 0.5f; ;
                     }

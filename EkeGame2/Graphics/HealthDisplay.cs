@@ -18,22 +18,26 @@ namespace EkeGame2.Graphics
         //0 is background, 1 is health1, 2 is health2, 3 is health3.
         private Animation[] HealthMeter;
         private Animation[] HealthMeterNumber;
-
+        private int PreviousHealth;
         private Vector2 HealthNumberOffset;
+        private Vector2 HealthTextOffset;
         int UpdateCounter, UpdateDelay;
         private double NumberScaleOscillation;
+        private double HealthDisplayScale;
         bool Active;
+        
 
         public HealthDisplay(ContentManager c)
         {
             HealthMeter = new Animation[4];
             HealthMeterNumber = new Animation[4];
-            HealthNumberOffset = new Vector2(20, 20);
-
+            HealthNumberOffset = new Vector2(12, 8);
+            HealthTextOffset = new Vector2(-30,-50);
+            HealthDisplayScale = 0;
             Active = true;
             UpdateCounter = 0;
             UpdateDelay = 30;
-            AnchorPosition = new Vector2(700, 120);
+            AnchorPosition = new Vector2(700, 60);
             for (int i = 0; i < 4; i++)
             {
                 HealthMeter[i] = new Animation(AnchorPosition, Vector2.One, new Vector2(1.5f,1.5f));
@@ -44,6 +48,7 @@ namespace EkeGame2.Graphics
                 img = c.Load<Texture2D>("HUD/HealthDisplay/" + i.ToString());
                 HealthMeterNumber[i].AnimationImage = img;
             }
+            HealthText = c.Load<SpriteFont>("SuperMarioFont");
         }
         public void Draw(SpriteBatch s, GameTime gt)
         {
@@ -52,10 +57,11 @@ namespace EkeGame2.Graphics
                 for (int i = 0; i <= 3; i++)
                 {
                     if (HealthMeter[i].Active)
-                        HealthMeter[i].Draw(s, AnchorPosition);
+                        HealthMeter[i].Draw(s, AnchorPosition,0,HealthDisplayScale/1500);
                     if (HealthMeterNumber[i].Active)
-                        HealthMeterNumber[i].Draw(s, AnchorPosition+HealthNumberOffset);
+                        HealthMeterNumber[i].Draw(s, AnchorPosition+HealthNumberOffset,0,HealthDisplayScale / 1500);
                 }
+                s.DrawString(HealthText, "HEALTH", AnchorPosition+HealthTextOffset, Color.Wheat);
             }
         }
         public void Update(GameTime gt, Player ThePlayer, Level TheLvl)
@@ -63,13 +69,23 @@ namespace EkeGame2.Graphics
             if (Active)
             {
                 UpdateCounter += (int)gt.ElapsedGameTime.Milliseconds;
-                NumberScaleOscillation = 0.4 + Math.Sin(gt.TotalGameTime.TotalSeconds*2.33)/18;
+                NumberScaleOscillation = 0.3 + Math.Sin(gt.TotalGameTime.TotalSeconds*2.33)/18;
+                if (HealthDisplayScale > 0)
+                    HealthDisplayScale -= gt.ElapsedGameTime.Milliseconds*1.5;
+                else
+                    HealthDisplayScale = 0;
             }
                         
             if (UpdateCounter >= UpdateDelay)
             {
                 UpdateCounter = 0;
-                SetActive(ThePlayer);
+                if (PreviousHealth != ThePlayer.Health)
+                {
+                    SetActive(ThePlayer);
+                    PreviousHealth = ThePlayer.Health;
+                    HealthDisplayScale = 1500;
+                }
+               
                 for (int i = 0; i < 4; i++)
                 {
                     if (HealthMeter[i].Active)
@@ -137,6 +153,7 @@ namespace EkeGame2.Graphics
                     HealthMeterNumber[3].Active = false;
                     break;
             }
+            
         }
     }
 }

@@ -13,6 +13,7 @@ namespace EkeGame2
             Position = spawnPosition;
             PositionRectangle.Location = Position.ToPoint();
             LoadAnimation(c,objektName,8);
+            Animations[ActiveAnimation].AnimationScale = new Vector2(2, 2);
         }
         public override void Update(Level lvl, GameTime gt)
         {            

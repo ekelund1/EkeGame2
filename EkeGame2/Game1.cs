@@ -72,7 +72,7 @@ namespace EkeGame2
 
             ThePlayer.SetSpawnPosition(lvl.PlayerSpawnPosition);
             ThePlayer.Respawn();
-
+            
             ForegroundHealthDisplay = new HealthDisplay(Content);
             // TODO: use this.Content to load your game content here
         }
@@ -107,7 +107,6 @@ namespace EkeGame2
                 Keyboard.GetState().IsKeyDown(Keys.R),
                 Keyboard.GetState().IsKeyDown(Keys.H),
                 Keyboard.GetState().IsKeyDown(Keys.S));
-            
 
             if(Keyboard.GetState().CapsLock && !graphics.IsFullScreen)
                 graphics.ToggleFullScreen();
@@ -115,7 +114,7 @@ namespace EkeGame2
             lvl.Update(gameTime, ref ThePlayer);
 
             if (lvl.LevelEnemyObjectCollision(ThePlayer))
-                ThePlayer.ChangeHealth(-1);          
+                ThePlayer.ChangeHealth(-1,gameTime);          
 
             if (lvl.LevelGoalObjectCollision(ThePlayer))
             {
@@ -149,6 +148,8 @@ namespace EkeGame2
                 lvl.DrawPlayArea(spriteBatch);
                 ThePlayer.DrawPlayer(spriteBatch, gameTime);
                 lvl.DrawEnemies(spriteBatch);
+
+                
                 spriteBatch.End();
 
                 SpriteBatch_FG.Begin();

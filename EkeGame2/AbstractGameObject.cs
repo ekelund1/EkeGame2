@@ -32,6 +32,7 @@ namespace EkeGame2
         protected float LockAnimationState, LockAnimationStateCounter;
         protected bool AnimationChanged;
         public int Health { get; set; }
+        private double HealthInvunerabilityTimer;
         private bool ResetVelocityY;
 
         private string ObjectName { get; }
@@ -65,7 +66,7 @@ namespace EkeGame2
         {
             if (Active)
             {
-                s.Draw(Hitbox, PositionRectangle, Color.Red);
+                s.Draw(Hitbox, PositionRectangle, Color.White);
             }
         }
         public virtual void DrawGameObject(SpriteBatch s)
@@ -481,11 +482,13 @@ namespace EkeGame2
         {
             return Velocity;
         }
-        public void ChangeHealth(int value)
+        public void ChangeHealth(int value, GameTime gt)
         {
-            Health += value;
+            if (gt.TotalGameTime.TotalMilliseconds > HealthInvunerabilityTimer)
+            {
+                Health += value;
+                HealthInvunerabilityTimer = gt.TotalGameTime.TotalMilliseconds + 1000;
+            }
         }
-
     }
-
 }

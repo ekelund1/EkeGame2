@@ -35,12 +35,18 @@ namespace EkeGame2
             Hitbox = Content.Load<Texture2D>("Level" + id.ToString() + "/" + id.ToString() + "hitbox");
             PlayArea = Content.Load<Texture2D>("Level" + id.ToString() + "/" + id.ToString() + "playarea");
 
+
+            LoadLevel();
+            
+        }
+        private void LoadLevel()
+        {
             Color[] colors1D = new Color[Hitbox.Width * Hitbox.Height];
             Hitbox.GetData(colors1D);
 
-
             Color[,] colors2D = new Color[Hitbox.Width, Hitbox.Height];
             EnemyStack = new Stack<Enemy>();
+
             for (int x = 0; x < Hitbox.Width; x++)
             {
                 for (int y = 0; y < Hitbox.Height; y++)
@@ -50,7 +56,11 @@ namespace EkeGame2
                     {
                         //foreach purple pixel in hitbox image. 
                         //spawn new enemy at purple pixel position
-                        EnemyStack.Push(new Enemy(EnemyType.Orange, Content, "Enemy/Purple/", 15, new Vector2(x, y), y * 5));
+                        EnemyStack.Push(new Enemy(EnemyType.Purple, Content, "Enemy/Purple/", 15, new Vector2(x, y), y * 5));
+                    }
+                    else if (colors2D[x, y] == Color.Orange)
+                    {
+                        EnemyStack.Push(new Enemy(EnemyType.Orange, Content, "Enemy/Orange/", 15, new Vector2(x, y), y * 5));
                     }
                     else if (colors2D[x, y] == Color.Brown)
                     {
@@ -138,7 +148,7 @@ namespace EkeGame2
             }
             return false;
         }
-        public bool LevelProjectileObjectCollision(Projectile proj)
+        public bool LevelProjectileObjectCollision(Projectile proj, GameTime gt)
         {
             if (proj.Owner == ProjectileOwner.PLAYER)
             {
@@ -147,7 +157,7 @@ namespace EkeGame2
                     if (e.Active && e.Health>0 && proj.SpriteCollision(e))
                     {
                         e.SetVelocity(proj.GetVelocity()/2);
-                        e.ChangeHealth(-1);
+                        e.ChangeHealth(-1,gt);
                         return true;
                     }
                 }
@@ -161,7 +171,7 @@ namespace EkeGame2
                         && e.EnemyProjectile.SpriteCollision(RefThePlayer))
                     {
                         RefThePlayer.SetVelocity(proj.GetVelocity() / 2);
-                        RefThePlayer.ChangeHealth(-1);
+                        RefThePlayer.ChangeHealth(-1,gt);
                         return true;
                     }
                 }
