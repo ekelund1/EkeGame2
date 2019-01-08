@@ -18,7 +18,7 @@ namespace EkeGame2
         public Projectile(ContentManager c, string objektName, int updateDelay, Vector2 spawnPosition, ProjectileOwner owner) : base(c, objektName, updateDelay, spawnPosition)
         {
             Owner = owner;
-            LoadAnimation(objektName);
+            LoadAnimation(c,objektName);
             Active = false;
         }
         void Movement()
@@ -109,7 +109,7 @@ namespace EkeGame2
             }
         }
 
-        public override void LoadAnimation(string name)
+        public override void LoadAnimation(ContentManager Content, string name)
         {
             var animations = (Animation_State[])Enum.GetValues(typeof(Animation_State));
             foreach (var animation in animations)
@@ -122,13 +122,13 @@ namespace EkeGame2
                 try
                 {
                     var animationImage = Content.Load<Texture2D>(imagePath);
-                    Animations[animation] = new Animation(Position, new Vector2(animationCount, animationDirections), frameUpdateDelay);
+                    Animations[animation] = new Animation(Position, new Vector2(animationCount, animationDirections), new Vector2(3,3), frameUpdateDelay);
 
                     Animations[animation].AnimationImage = animationImage;
                 }
                 catch (Exception ex)
                 {
-                    Animations[animation] = new Animation(Position, new Vector2(8, 2), 10);
+                    Animations[animation] = new Animation(Position, new Vector2(8, 2), new Vector2(3, 3), 10);
                     Animations[animation].AnimationImage = Content.Load<Texture2D>(name + "/fireball");
                 }
             }

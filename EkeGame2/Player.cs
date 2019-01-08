@@ -16,16 +16,25 @@ namespace EkeGame2
 
         public Player(ContentManager c, string objektName, int updateDelay, Vector2 spawnPosition) : base(c,objektName,updateDelay,spawnPosition)
         {
-            Health = 1;
-            LoadAnimation(objektName);
+            Health = 3;
+            LoadAnimation(c,objektName);
             PlayerProjectile = new Projectile(c, "Fireball", 15, Vector2.Zero, ProjectileOwner.PLAYER);
-
         }
         public void SetSpawnPosition(Vector2 newSpawn)
         {
             SpawnPoint = newSpawn;
         }
-       
+        public override void Respawn()
+        {
+            GameObjectState = GameObject_State.Air;
+            PreviousAnimation = Animation_State.falling;
+            ActiveAnimation = Animation_State.falling;
+            Position = SpawnPoint;
+            Active = true;
+            Health = 3;
+            Velocity = Vector2.Zero;
+        }
+
         public void Movement(bool a, bool d, bool w, bool r, bool h, bool s)
         {
             if (r)

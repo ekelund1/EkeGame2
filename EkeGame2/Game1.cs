@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
+using EkeGame2.Graphics;
 
 
 namespace EkeGame2
@@ -15,18 +16,19 @@ namespace EkeGame2
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         SpriteBatch SpriteBatch_FG;
+        
         Level lvl;
         Player ThePlayer;
         bool drawHitboxes = false;
         Camera MyCamera;
         int CurrentLevel = 0;
+        HealthDisplay ForegroundHealthDisplay;
         
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            
         }
 
         /// <summary>
@@ -70,6 +72,8 @@ namespace EkeGame2
 
             ThePlayer.SetSpawnPosition(lvl.PlayerSpawnPosition);
             ThePlayer.Respawn();
+
+            ForegroundHealthDisplay = new HealthDisplay(Content);
             // TODO: use this.Content to load your game content here
         }
 
@@ -111,12 +115,7 @@ namespace EkeGame2
             lvl.Update(gameTime, ref ThePlayer);
 
             if (lvl.LevelEnemyObjectCollision(ThePlayer))
-                ThePlayer.ChangeHealth(-1);
-
-            
-
-            /*if (player.SpriteCollision(lvl.))
-                drawHitboxes = !drawHitboxes;*/
+                ThePlayer.ChangeHealth(-1);          
 
             if (lvl.LevelGoalObjectCollision(ThePlayer))
             {
@@ -124,10 +123,9 @@ namespace EkeGame2
                 this.UnloadContent();
                 this.LoadContent();
             }
-            
-            base.Update(gameTime);
-            
 
+            ForegroundHealthDisplay.Update(gameTime, ThePlayer, lvl);
+            base.Update(gameTime);
         }
 
         /// <summary>
@@ -154,7 +152,7 @@ namespace EkeGame2
                 spriteBatch.End();
 
                 SpriteBatch_FG.Begin();
-                //lvl.DrawForeground(SpriteBatch_FG);
+                ForegroundHealthDisplay.Draw(SpriteBatch_FG, gameTime);                
                 SpriteBatch_FG.End();
             }
             

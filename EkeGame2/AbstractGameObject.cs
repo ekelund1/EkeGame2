@@ -13,20 +13,18 @@ namespace EkeGame2
 
     public abstract class AbstractGameObject
     {
-        protected ContentManager Content;
-
         public Vector2 Position;
         protected Vector2 Velocity;
         protected Vector2 SpawnPoint;
         public Texture2D Hitbox;
         public Rectangle PositionRectangle;
-
+        
         protected Animation_State ActiveAnimation;
         protected Animation_State PreviousAnimation;
         protected GameObject_State GameObjectState;
         protected Dictionary<Animation_State, Animation> Animations;
 
-
+        protected int GameTimer;
         protected bool GoingRight;
         protected float Wait, WaitCounter;
         public bool Active { get; set; }
@@ -47,8 +45,7 @@ namespace EkeGame2
             GameObjectState = GameObject_State.Air;
             Position = spawnPosition;
             Velocity = Vector2.Zero;
-            Content = c;
-            Hitbox = Content.Load<Texture2D>(objektName + "/test_hitbox");
+            Hitbox = c.Load<Texture2D>(objektName + "/test_hitbox");
             UpdateDelay = updateDelay;
             UpdateCounter = 0;
             WaitCounter = 0;
@@ -75,13 +72,13 @@ namespace EkeGame2
         {
             if (Active)
             { 
-                Animations[ActiveAnimation].Draw(s, Position, new Vector2(2, 2));
+                Animations[ActiveAnimation].Draw(s, Position);
             }
         }
         public virtual void DrawGameObject(SpriteBatch s, GameTime gt)
         {
             if(Active)
-                Animations[ActiveAnimation].Draw(s, Position, new Vector2(4, 4),gt.ElapsedGameTime.Milliseconds);
+                Animations[ActiveAnimation].Draw(s, Position,gt.ElapsedGameTime.Milliseconds);
         }
         protected void Kill()
         {
@@ -266,16 +263,16 @@ namespace EkeGame2
             
         }
       
-        public void Respawn()
+        public virtual void Respawn()
         {
             
             GameObjectState = GameObject_State.Air;
-            ChangeAnimationState(Animation_State.falling);
+            PreviousAnimation = Animation_State.falling;
+            ActiveAnimation=Animation_State.falling;
             Position = SpawnPoint;
             Active = true;
             Health = 1;
-            Velocity=Vector2.Zero;
-            
+            Velocity=Vector2.Zero;            
         }
         public bool SpriteCollision(AbstractGameObject go)
         {
@@ -292,10 +289,11 @@ namespace EkeGame2
         {
             Velocity.Y = -20;
             ChangeGameObjectState(GameObject_State.Air);
-            ActiveAnimation = Animation_State.jumpSquat;
+            ChangeAnimationState(Animation_State.jumpSquat);
             WaitForAnimation(Animations[ActiveAnimation]);
         }
-        public virtual void LoadAnimation(string name, int animationCount_idle=6, 
+
+        public virtual void LoadAnimation(ContentManager Content, string name, int animationCount_idle=6, 
             int animationCount_running = 8,int animationCount_jumping = 3,
             int animationCount_falling = 2,int animationCount_landing = 3,int animationCount_falldamage = 2,
             int animationCount_jumpSquat = 3,int animationCount_byWall = 6,int animationCount_death = 7,
@@ -371,18 +369,18 @@ namespace EkeGame2
                 {
                     
                     var animationImage = Content.Load<Texture2D>(imagePath);
-                    Animations[animation] = new Animation(Position, new Vector2(animationCount, animationDirections), frameUpdateDelay);
+                    Animations[animation] = new Animation(Position, new Vector2(animationCount, animationDirections), Vector2.One, frameUpdateDelay);
 
                     Animations[animation].AnimationImage = animationImage;
                 }
                 catch (Exception ex)
                 {
-                    Animations[animation] = new Animation(Position, new Vector2(6, 2), 150);
+                    Animations[animation] = new Animation(Position, new Vector2(6, 2), Vector2.One, 150);
                     Animations[animation].AnimationImage = Content.Load<Texture2D>(name + "/idle");
                 }
             }
         }
-        public virtual void LoadAnimation(string name)
+        public virtual void LoadAnimation(ContentManager Content,string name)
         {
             var animations = (Animation_State[])Enum.GetValues(typeof(Animation_State));
 
@@ -454,13 +452,13 @@ namespace EkeGame2
                 {
 
                     var animationImage = Content.Load<Texture2D>(imagePath);
-                    Animations[animation] = new Animation(Position, new Vector2(animationCount, animationDirections), frameUpdateDelay);
+                    Animations[animation] = new Animation(Position, new Vector2(animationCount, animationDirections), new Vector2(2,2), frameUpdateDelay);
 
                     Animations[animation].AnimationImage = animationImage;
                 }
                 catch (Exception ex)
                 {
-                    Animations[animation] = new Animation(Position, new Vector2(6, 2), 150);
+                    Animations[animation] = new Animation(Position, new Vector2(6, 2), new Vector2(2, 2), 150);
                     Animations[animation].AnimationImage = Content.Load<Texture2D>(name + "/idle");
                 }
             }

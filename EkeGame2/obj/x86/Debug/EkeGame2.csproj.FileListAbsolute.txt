@@ -21,4 +21,3 @@ C:\Users\resjoneke\source\repos\EkeGame2\EkeGame2\obj\x86\Debug\EkeGame2.csproj.
 C:\Users\resjoneke\source\repos\EkeGame2\EkeGame2\obj\x86\Debug\EkeGame2.exe
 C:\Users\resjoneke\source\repos\EkeGame2\EkeGame2\obj\x86\Debug\EkeGame2.pdb
 C:\Users\resjoneke\source\repos\EkeGame2\EkeGame2\obj\x86\Debug\EkeGame2.csprojAssemblyReference.cache
-C:\Users\resjoneke\source\repos\EkeGame2\EkeGame2\bin\Windows\x86\Debug\Content\Content.mgcb

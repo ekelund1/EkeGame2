@@ -12,7 +12,7 @@ namespace EkeGame2
             GameObjectState = GameObject_State.Flying;
             Position = spawnPosition;
             PositionRectangle.Location = Position.ToPoint();
-            LoadAnimation(objektName,8);
+            LoadAnimation(c,objektName,8);
         }
         public override void Update(Level lvl, GameTime gt)
         {            

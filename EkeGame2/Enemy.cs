@@ -24,7 +24,7 @@ namespace EkeGame2
             counterEnemyCycle=0+timerOffset;
             EnemyCycleTimer = 2000;
             Type = et;
-            LoadAnimation(objectName);
+            LoadAnimation(c, objectName);
             Health = 1;
             EnemyProjectile = new Projectile(c, "Fireball", 15, Vector2.Zero, ProjectileOwner.ENEMY);
 
