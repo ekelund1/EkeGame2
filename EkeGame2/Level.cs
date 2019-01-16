@@ -31,7 +31,7 @@ namespace EkeGame2
         {
             Content = g;
             Background = Content.Load<Texture2D>("Level"+id.ToString()+"/"+id.ToString() + "background");
-            Foreground = Content.Load<Texture2D>("Level" + id.ToString() + "/" + id.ToString() + "foreground");
+            //Foreground = Content.Load<Texture2D>("Level" + id.ToString() + "/" + id.ToString() + "foreground");
             Hitbox = Content.Load<Texture2D>("Level" + id.ToString() + "/" + id.ToString() + "hitbox");
             PlayArea = Content.Load<Texture2D>("Level" + id.ToString() + "/" + id.ToString() + "playarea");
 
@@ -39,6 +39,7 @@ namespace EkeGame2
             LoadLevel();
             
         }
+
         private void LoadLevel()
         {
             Color[] colors1D = new Color[Hitbox.Width * Hitbox.Height];
@@ -69,7 +70,7 @@ namespace EkeGame2
                     else if (colors2D[x, y] == Color.Yellow)
                         TheGoal = new Goal(Content, "Goal", 15, new Vector2(x, y));
 
-
+                    
                 }
             }
             Hitbox_Colors = colors2D;
@@ -133,13 +134,13 @@ namespace EkeGame2
             TheGoal.DrawGameObject(s);
         }
 
-        public bool LevelGoalObjectCollision(AbstractGameObject player)
+        public bool LevelGoalObjectCollision(UnitObject player)
         {
             if (TheGoal.SpriteCollision(player))
                 return true;
             return false;
         }
-        public bool LevelEnemyObjectCollision(AbstractGameObject player)
+        public bool LevelEnemyObjectCollision(UnitObject player)
         {
             foreach (Enemy e in EnemyStack)
             {

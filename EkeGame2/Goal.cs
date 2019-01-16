@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Content;
 
 namespace EkeGame2
 {
-    class Goal : AbstractGameObject
+    class Goal : UnitObject
     {
         public Goal(ContentManager c, string objektName, int updateDelay, Vector2 spawnPosition) : base(c, objektName, updateDelay, spawnPosition)
         {

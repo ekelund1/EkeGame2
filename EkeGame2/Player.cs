@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Content;
 
 namespace EkeGame2
 {
-    public sealed class Player : AbstractGameObject
+    public class Player : UnitObject
     {
         Projectile PlayerProjectile;
 
@@ -26,13 +26,8 @@ namespace EkeGame2
         }
         public override void Respawn()
         {
-            GameObjectState = GameObject_State.Air;
-            PreviousAnimation = Animation_State.falling;
-            ActiveAnimation = Animation_State.falling;
-            Position = SpawnPoint;
-            Active = true;
+            base.Respawn();
             Health = 3;
-            Velocity = Vector2.Zero;
         }
 
         public void Movement(bool a, bool d, bool w, bool r, bool h, bool s)
@@ -57,24 +52,11 @@ namespace EkeGame2
 
                 if (a && Velocity.X > -10)
                 {
-                    Velocity.X -= 0.5f;
+                    Velocity.X -= (0.5f - Velocity.X * 0.05f);
                 }
                 else if (d && Velocity.X < 10)
                 {
-                    Velocity.X += 0.5f; ;
-                }
-                else
-                {
-                    if (Velocity.X < 0.5 && Velocity.X > -0.5)
-                        Velocity.X = 0;
-                    else if (Velocity.X <= -0.5)
-                    {
-                        Velocity.X += 0.5f;
-                    }
-                    else if (Velocity.X >= 0.5)
-                    {
-                        Velocity.X -= 0.5f; ;
-                    }
+                    Velocity.X += (0.5f + Velocity.X*0.05f);
                 }
             }
         }

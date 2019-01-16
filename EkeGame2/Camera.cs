@@ -177,13 +177,13 @@ namespace EkeGame2
             ///Follow player///
             ///////////////////
             Vector2 PlayerPos = Vector2.Transform(PlayerObject.GetPosition, this.Transform);
-            if (PlayerPos.X > 900)
+            if (PlayerPos.X > 700)
                 cameraMovement.X = moveSpeed;
-            else if (PlayerPos.X < 400)
+            else if (PlayerPos.X < 600)
                 cameraMovement.X = -moveSpeed;
-            if (PlayerPos.Y < 300)
+            if (PlayerPos.Y < 400)
                 cameraMovement.Y = -moveSpeed;
-            else if (PlayerPos.Y > 500)
+            else if (PlayerPos.Y > 600)
                 cameraMovement.Y = moveSpeed;
             CameraLogic();
 

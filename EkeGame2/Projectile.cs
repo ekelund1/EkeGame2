@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Content;
 
 namespace EkeGame2
 {
-    public sealed class Projectile : AbstractGameObject
+    public sealed class Projectile : UnitObject
     {
         public ProjectileOwner Owner { get;set; }
         private Projectile_State ProjectileState;
@@ -63,7 +63,7 @@ namespace EkeGame2
                     case Projectile_State.IN_MOTION:
                         Movement();
                         Gravity();
-                        LevelCollision(lvl);
+                        LevelCollision(lvl, gt);
                         if (lvl.LevelProjectileObjectCollision(this,gt))
                         {
                             Active = false;

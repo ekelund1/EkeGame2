@@ -12,7 +12,7 @@ using EkeGame2;
 
 namespace EkeGame2
 {
-    class Enemy : AbstractGameObject
+    class Enemy : UnitObject
     {
         readonly EnemyType Type;
         int counterEnemyCycle, EnemyCycleTimer;

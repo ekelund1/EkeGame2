@@ -61,7 +61,10 @@ namespace EkeGame2.Graphics
                     if (HealthMeterNumber[i].Active)
                         HealthMeterNumber[i].Draw(s, AnchorPosition+HealthNumberOffset,0,HealthDisplayScale / 1500);
                 }
+                s.DrawString(HealthText, "HEALTH", AnchorPosition + HealthTextOffset*1.06f, Color.Black);
                 s.DrawString(HealthText, "HEALTH", AnchorPosition+HealthTextOffset, Color.Wheat);
+
+
             }
         }
         public void Update(GameTime gt, Player ThePlayer, Level TheLvl)

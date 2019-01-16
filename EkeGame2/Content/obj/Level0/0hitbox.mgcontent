@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <SourceFile>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Level0/0hitbox.png</SourceFile>
-  <SourceTime>2019-01-08T14:03:54.3359549+01:00</SourceTime>
+  <SourceTime>2019-01-09T10:58:32.2183938+01:00</SourceTime>
   <DestFile>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/bin/Windows/x86/Debug/Content/Level0/0hitbox.xnb</DestFile>
-  <DestTime>2019-01-08T14:10:44.571209+01:00</DestTime>
+  <DestTime>2019-01-15T12:22:32.1110788+01:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2018-09-23T23:55:52+02:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

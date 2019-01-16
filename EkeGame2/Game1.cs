@@ -3,6 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
 using EkeGame2.Graphics;
+using System;
+using System.Collections.Generic;
+
 
 
 namespace EkeGame2
@@ -12,7 +15,6 @@ namespace EkeGame2
     /// </summary>
     public class Game1 : Game
     {
-        
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         SpriteBatch SpriteBatch_FG;
@@ -24,6 +26,8 @@ namespace EkeGame2
         int CurrentLevel = 0;
         HealthDisplay ForegroundHealthDisplay;
         
+
+
 
         public Game1()
         {
@@ -114,9 +118,12 @@ namespace EkeGame2
             lvl.Update(gameTime, ref ThePlayer);
 
             if (lvl.LevelEnemyObjectCollision(ThePlayer))
-                ThePlayer.ChangeHealth(-1,gameTime);          
+            {
+                ThePlayer.ChangeHealth(-1, gameTime);
+                
+            }
 
-            if (lvl.LevelGoalObjectCollision(ThePlayer))
+            if (lvl.LevelGoalObjectCollision(ThePlayer) ||Keyboard.GetState().IsKeyDown(Keys.L))
             {
                 CurrentLevel++;
                 this.UnloadContent();
@@ -148,8 +155,6 @@ namespace EkeGame2
                 lvl.DrawPlayArea(spriteBatch);
                 ThePlayer.DrawPlayer(spriteBatch, gameTime);
                 lvl.DrawEnemies(spriteBatch);
-
-                
                 spriteBatch.End();
 
                 SpriteBatch_FG.Begin();
