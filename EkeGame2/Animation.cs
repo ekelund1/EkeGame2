@@ -70,7 +70,7 @@ namespace EkeGame2
         }
         private Vector2 allignAnimation()
         {
-            return new Vector2(FrameWidth/4, FrameHeight/3);
+            return new Vector2(FrameWidth/3, FrameHeight/3);
         }
         public Vector2 CurrentFrame
         {

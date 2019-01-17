@@ -61,6 +61,18 @@
 /processorParam:TextureFormat=Color
 /build:Enemy/Orange/falling.png
 
+#begin Enemy/Orange/hitbox.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Enemy/Orange/hitbox.png
+
 #begin Enemy/Orange/idle.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -121,18 +133,6 @@
 /processorParam:TextureFormat=Color
 /build:Enemy/Orange/running.png
 
-#begin Enemy/Orange/test_hitbox.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Enemy/Orange/test_hitbox.png
-
 #begin Enemy/Orange/throwing.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -156,6 +156,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Enemy/Orange/wallcling.png
+
+#begin Enemy/Purple/bywall.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Enemy/Purple/bywall.png
 
 #begin Enemy/Purple/death.png
 /importer:TextureImporter
@@ -192,6 +204,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Enemy/Purple/falling.png
+
+#begin Enemy/Purple/hitbox.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Enemy/Purple/hitbox.png
 
 #begin Enemy/Purple/idle.png
 /importer:TextureImporter
@@ -241,18 +265,6 @@
 /processorParam:TextureFormat=Color
 /build:Enemy/Purple/running.png
 
-#begin Enemy/Purple/test_hitbox.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Enemy/Purple/test_hitbox.png
-
 #begin Enemy/Purple/throwing.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -289,7 +301,7 @@
 /processorParam:TextureFormat=Color
 /build:Fireball/fireball.png
 
-#begin Fireball/test_hitbox.png
+#begin Fireball/hitbox.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -299,7 +311,19 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Fireball/test_hitbox.png
+/build:Fireball/hitbox.png
+
+#begin Goal/hitbox.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Goal/hitbox.png
 
 #begin Goal/idle.png
 /importer:TextureImporter
@@ -313,18 +337,6 @@
 /processorParam:TextureFormat=Color
 /build:Goal/idle.png
 
-#begin Goal/test_hitbox.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Goal/test_hitbox.png
-
 #begin Hammer/hammer.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -337,7 +349,7 @@
 /processorParam:TextureFormat=Color
 /build:Hammer/hammer.png
 
-#begin Hammer/test_hitbox.png
+#begin Hammer/hitbox.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -347,7 +359,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Hammer/test_hitbox.png
+/build:Hammer/hitbox.png
 
 #begin HUD/HealthDisplay/0.png
 /importer:TextureImporter
@@ -541,6 +553,18 @@
 /processorParam:TextureFormat=Color
 /build:Level0/0hitbox.png
 
+#begin Level0/0hitbox.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Level0/0hitbox.png
+
 #begin Level0/0playarea.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -601,66 +625,6 @@
 /processorParam:TextureFormat=Color
 /build:Level2/2background.png
 
-#begin Level2/2background.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Level2/2background.png
-
-#begin Level2/2hitbox.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Level2/2hitbox.png
-
-#begin Level2/2hitbox.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Level2/2hitbox.png
-
-#begin Level2/2hitbox.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Level2/2hitbox.png
-
-#begin Level2/2hitbox.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Level2/2hitbox.png
-
 #begin Level2/2hitbox.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -685,7 +649,7 @@
 /processorParam:TextureFormat=Color
 /build:Level2/2playarea.png
 
-#begin Level2/2playarea.png
+#begin Platform/hitbox.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -695,9 +659,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Level2/2playarea.png
+/build:Platform/hitbox.png
 
-#begin Level2/2playarea.png
+#begin Platform/idle.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -707,7 +671,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Level2/2playarea.png
+/build:Platform/idle.png
 
 #begin Player/bywall.png
 /importer:TextureImporter
@@ -756,6 +720,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Player/falling.png
+
+#begin Player/hitbox.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Player/hitbox.png
 
 #begin Player/idle.png
 /importer:TextureImporter
@@ -816,18 +792,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Player/running.png
-
-#begin Player/test_hitbox.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Player/test_hitbox.png
 
 #begin Player/throwing.png
 /importer:TextureImporter

@@ -20,33 +20,30 @@ namespace EkeGame2
         public Color[,] Hitbox_Colors;
         Texture2D PlayArea;
         private Stack<Enemy> EnemyStack;
+        private Stack<Platform> PlatformStack;
         public Vector2 PlayerSpawnPosition;
         private Goal TheGoal;
         Player RefThePlayer;
         
-        
-
-        //Constructor
-        public Level(ContentManager g, int id)
+        public Level(ContentManager g, int levelID)
         {
             Content = g;
-            Background = Content.Load<Texture2D>("Level"+id.ToString()+"/"+id.ToString() + "background");
+            Background = Content.Load<Texture2D>("Level"+levelID.ToString()+"/"+levelID.ToString() + "background");
             //Foreground = Content.Load<Texture2D>("Level" + id.ToString() + "/" + id.ToString() + "foreground");
-            Hitbox = Content.Load<Texture2D>("Level" + id.ToString() + "/" + id.ToString() + "hitbox");
-            PlayArea = Content.Load<Texture2D>("Level" + id.ToString() + "/" + id.ToString() + "playarea");
-
-
-            LoadLevel();
+            Hitbox = Content.Load<Texture2D>("Level" + levelID.ToString() + "/" + levelID.ToString() + "hitbox");
+            PlayArea = Content.Load<Texture2D>("Level" + levelID.ToString() + "/" + levelID.ToString() + "playarea");
             
+            LoadLevel(levelID);            
         }
 
-        private void LoadLevel()
+        private void LoadLevel(int levelID)
         {
             Color[] colors1D = new Color[Hitbox.Width * Hitbox.Height];
             Hitbox.GetData(colors1D);
 
             Color[,] colors2D = new Color[Hitbox.Width, Hitbox.Height];
             EnemyStack = new Stack<Enemy>();
+            PlatformStack = new Stack<Platform>();
 
             for (int x = 0; x < Hitbox.Width; x++)
             {
@@ -67,10 +64,13 @@ namespace EkeGame2
                     {
                         PlayerSpawnPosition = new Vector2(x, y);
                     }
-                    else if (colors2D[x, y] == Color.Yellow)
+                    else if (colors2D[x, y] == Color.Yellow) //255 255 0
                         TheGoal = new Goal(Content, "Goal", 15, new Vector2(x, y));
+                    else if (colors2D[x, y] == Color.Blue) //0 0 255
+                        PlatformStack.Push(new Platform(Platform_Type.MOVING_PLATFORM_UPnDOWN, Content, "Platform", new Vector2(x, y)));
+                    else if (colors2D[x, y] == Color.CadetBlue) //95 158 160
+                        PlatformStack.Push(new Platform(Platform_Type.MOVING_PLATFORM_CIRCLE, Content, "Platform", new Vector2(x, y)));
 
-                    
                 }
             }
             Hitbox_Colors = colors2D;
@@ -112,6 +112,11 @@ namespace EkeGame2
                 if(e.Active)
                     e.DrawHitbox(s);
             }
+            foreach (Platform p in PlatformStack)
+            {
+                if (p.Active)
+                    p.DrawHitbox(s);
+            }
             TheGoal.DrawHitbox(s);
             s.Draw(Hitbox, Vector2.Zero);
         }
@@ -123,14 +128,27 @@ namespace EkeGame2
         {
             foreach (Enemy e in EnemyStack)
                 e.Update(this, gt, ThePlayer);
+            foreach (Platform p in PlatformStack)
+            { 
+                p.Update(this, gt);
+                p.PlatformUnitCollision(ref ThePlayer);
+            }
+            if (this.LevelEnemyObjectCollision(ThePlayer))
+                ThePlayer.ChangeHealth(-1, gt);
+            
+
             TheGoal.Update(this, gt);
             RefThePlayer = ThePlayer;
         }
-        public void DrawEnemies(SpriteBatch s)
+        
+        public void DrawLevelGameObjects(SpriteBatch s)
         {
             foreach (Enemy e in EnemyStack)
                 if(e.Active)
                     e.DrawGameObject(s);
+            foreach (Platform p in PlatformStack)
+                if (p.Active)
+                    p.DrawGameObject(s);
             TheGoal.DrawGameObject(s);
         }
 
@@ -149,6 +167,7 @@ namespace EkeGame2
             }
             return false;
         }
+        
         public bool LevelProjectileObjectCollision(Projectile proj, GameTime gt)
         {
             if (proj.Owner == ProjectileOwner.PLAYER)
@@ -179,6 +198,16 @@ namespace EkeGame2
             }
             return false;
         }
-        
+        public void ChangeHitboxColorGrid(Rectangle objectPositionRectangle, Color newColor, Color oldColor)
+        {
+            for (int i = 0; i < objectPositionRectangle.Width; i++)
+            {
+                for (int j = 0; j < objectPositionRectangle.Height; j++)
+                {
+                    if (Hitbox_Colors[objectPositionRectangle.Location.X + i, objectPositionRectangle.Location.Y + j] == oldColor)
+                        Hitbox_Colors[objectPositionRectangle.Location.X + i, objectPositionRectangle.Location.Y + j] = newColor;
+                }
+            }
+        }
     }
 }

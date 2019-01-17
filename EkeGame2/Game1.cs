@@ -25,7 +25,7 @@ namespace EkeGame2
         Camera MyCamera;
         int CurrentLevel = 0;
         HealthDisplay ForegroundHealthDisplay;
-        
+        Platform plat1,plat2;
 
 
 
@@ -76,7 +76,10 @@ namespace EkeGame2
 
             ThePlayer.SetSpawnPosition(lvl.PlayerSpawnPosition);
             ThePlayer.Respawn();
-            
+
+           // plat1 = new Platform(Content, "platform", new Vector2(300, 800), Platform_Type.MOVING_PLATFORM_UPnDOWN);
+            //plat2 = new Platform(Content, "platform", new Vector2(300, 800), Platform_Type.MOVING_PLATFORM_LEFTnRIGHT);
+
             ForegroundHealthDisplay = new HealthDisplay(Content);
             // TODO: use this.Content to load your game content here
         }
@@ -117,18 +120,16 @@ namespace EkeGame2
             ThePlayer.Update(lvl, gameTime);
             lvl.Update(gameTime, ref ThePlayer);
 
-            if (lvl.LevelEnemyObjectCollision(ThePlayer))
-            {
-                ThePlayer.ChangeHealth(-1, gameTime);
-                
-            }
-
+            //This one should probably check collision inside LevelUpdate. And then instead set a flag for going to the next level.
             if (lvl.LevelGoalObjectCollision(ThePlayer) ||Keyboard.GetState().IsKeyDown(Keys.L))
             {
                 CurrentLevel++;
                 this.UnloadContent();
                 this.LoadContent();
             }
+
+            //plat1.Update(lvl, gameTime);
+            //plat2.Update(lvl, gameTime);
 
             ForegroundHealthDisplay.Update(gameTime, ThePlayer, lvl);
             base.Update(gameTime);
@@ -154,7 +155,10 @@ namespace EkeGame2
                 lvl.DrawBackground(spriteBatch);                
                 lvl.DrawPlayArea(spriteBatch);
                 ThePlayer.DrawPlayer(spriteBatch, gameTime);
-                lvl.DrawEnemies(spriteBatch);
+                lvl.DrawLevelGameObjects(spriteBatch);
+
+               // plat1.DrawGameObject(spriteBatch);
+               // plat2.DrawGameObject(spriteBatch);
                 spriteBatch.End();
 
                 SpriteBatch_FG.Begin();

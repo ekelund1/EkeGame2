@@ -35,4 +35,12 @@ namespace EkeGame2
     {
         TOP, RIGHT, BOTTOM, LEFT
     }
+    public enum Platform_Type
+    {
+        MOVING_PLATFORM_UPnDOWN,MOVING_PLATFORM_LEFTnRIGHT, MOVING_PLATFORM_CIRCLE
+    }
+    public enum Platform_State
+    {
+        MOVING, DECELERATING, ACCELERATING, PAUSE
+    }
 }

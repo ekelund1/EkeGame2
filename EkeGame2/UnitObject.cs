@@ -80,7 +80,6 @@ namespace EkeGame2
             }
             UpdateAnimations(gt);
         }
-
         public void ChangeHealth(int value, GameTime gt)
         {
             if (gt.TotalGameTime.TotalMilliseconds > HealthInvunerabilityTimer)
@@ -129,24 +128,21 @@ namespace EkeGame2
             Active = true;
             Health = 1;
             Velocity = Vector2.Zero;
-        }
-        public bool SpriteCollision(AbstractGameObject go)
-        {
-            if (PositionRectangle.Intersects(go.PositionRectangle))
-                return true;
-            return false;
-        }
+        }        
         public virtual void LevelCollision(Level lvl, GameTime gt)
         {
             Rectangle newPositionRectangle = PositionRectangle;
             newPositionRectangle.Offset(Velocity.X, Velocity.Y);
+            Color PixelColor;
 
             //Check top
             if (Velocity.Y < 0)
             {
                 for (int i = 0; i < Hitbox.Width; i++)
                 {
-                    if (lvl.HitboxColor(newPositionRectangle.Left + i, newPositionRectangle.Top) == Color.Black)
+                    PixelColor = lvl.HitboxColor(newPositionRectangle.Left + i, newPositionRectangle.Top);
+
+                    if (PixelColor == Color.Black)
                     {
                         Velocity.Y = 0;
                     }
@@ -157,7 +153,7 @@ namespace EkeGame2
                 //Check bottom
                 for (int i = 0; i < Hitbox.Width; i++)
                 {
-                    Color PixelColor = lvl.HitboxColor(newPositionRectangle.Left + i, newPositionRectangle.Bottom);
+                    PixelColor = lvl.HitboxColor(newPositionRectangle.Left + i, newPositionRectangle.Bottom);
                     //If collision with ground. Snap to ground.
                     if (PixelColor == Color.Black)
                     {
@@ -165,6 +161,7 @@ namespace EkeGame2
                         ChangeGameObjectState(GameObject_State.onGround);
                         i = Hitbox.Width + 1;
                     }
+                   
                     //Collision with Lava
                     else if (PixelColor == Color.Red)
                     {
@@ -202,8 +199,6 @@ namespace EkeGame2
                         Velocity.X = 0;
                         i = Hitbox.Width + 1;
                     }
-
-
                 }
             }
             else

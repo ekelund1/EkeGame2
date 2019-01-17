@@ -11,21 +11,103 @@ using Microsoft.Xna.Framework.Content;
 
 namespace EkeGame2
 {
-    class Platform
+    class Platform : AbstractGameObject
     {
-        Vector2 Position;
-        Vector2 Velocity;
-        Vector2 SpawnPoint;
+        int PlatformCycleCounter;
+        bool GoingUp;
+        Color PlatformTypeColor;
+        Platform_Type PlatformType;
+        Platform_State PlatformState;
 
-        Texture2D Hitbox;
-        Rectangle PositionRectangle;
-        Dictionary<Animation_State, Animation> Animations;
+        public Platform(Platform_Type platformType, ContentManager c, string objectName, Vector2 spawnPosition) : base(c, objectName, 15, spawnPosition)
+        {
+            PlatformCycleCounter = 0;
+            PlatformType = platformType;
+            GoingUp = false;
+            GoingRight = true;
 
-        int UpdateDelay;
+            PositionRectangle.Location = Position.ToPoint();
+            switch (platformType)
+            {
+                case Platform_Type.MOVING_PLATFORM_UPnDOWN:
+                    PlatformTypeColor = Color.Blue;
+                    break;
+                case Platform_Type.MOVING_PLATFORM_LEFTnRIGHT:
+                    PlatformTypeColor = Color.CadetBlue;
+                    break;
+            }
 
-        public Platform(ContentManager c, string objectName, Vector2 spawnPosition)
+
+            var animationImage = c.Load<Texture2D>(objectName + "/idle");
+            Animations[Animation_State.idle] = new Animation(Position, new Vector2(1, 1), Vector2.One, 15);
+            Animations[Animation_State.idle].AnimationImage = animationImage;
+
+        }
+
+        public override void Update(Level lvl, GameTime gt)
+        {
+            if (Active)
+                UpdateCounter += (int)gt.ElapsedGameTime.Milliseconds;
+
+            if (UpdateCounter >= UpdateDelay)
+            {
+                UpdateCounter = 0;
+                switch (PlatformType)
+                {
+                    case Platform_Type.MOVING_PLATFORM_CIRCLE:
+                    case Platform_Type.MOVING_PLATFORM_UPnDOWN:
+                    case Platform_Type.MOVING_PLATFORM_LEFTnRIGHT:
+                        MovingPlatformBehaviour(gt);
+                        Position += Velocity;
+                        PositionRectangle.Location = Position.ToPoint();
+                        break;
+                }
+            }
+            UpdateAnimations(gt);
+        }
+        public void PlatformUnitCollision(ref Player playerObject)
+        {
+            if (this.SpriteCollision(playerObject) && playerObject.GetVelocity().Y >= 0)
+            {
+                playerObject.Position.Y = this.PositionRectangle.Top - playerObject.Hitbox.Height;
+                playerObject.Velocity.Y = 0;
+                playerObject.Position.X += this.Velocity.X;
+                playerObject.ChangeGameObjectState(GameObject_State.onGround);
+            }
+        }
+        public void PlatformUnitCollision(ref Enemy enemyObject)
+        {
+            if (this.SpriteCollision(enemyObject) && enemyObject.GetVelocity().Y >= 0)
+            {
+                enemyObject.Position.Y = this.PositionRectangle.Top - enemyObject.Hitbox.Height;
+                enemyObject.Velocity.Y = 0;
+                enemyObject.Position.X = this.Velocity.X;
+                enemyObject.ChangeGameObjectState(GameObject_State.onGround);
+                
+            }
+        }
+        private void MovingPlatformBehaviour(GameTime gt)
         {
 
+            if (PlatformState == Platform_State.MOVING)
+            {
+                if (PlatformType == Platform_Type.MOVING_PLATFORM_UPnDOWN)
+                    Velocity.Y = (float)Math.Sin(gt.TotalGameTime.TotalSeconds) * 1.5f;
+                else if (PlatformType == Platform_Type.MOVING_PLATFORM_LEFTnRIGHT)
+                    Velocity.X = (float)Math.Sin(gt.TotalGameTime.TotalSeconds) * 1.5f;
+                else if (PlatformType == Platform_Type.MOVING_PLATFORM_CIRCLE)
+                {
+                    Velocity.X = (float)Math.Cos(gt.TotalGameTime.TotalSeconds) * 1.5f;
+                    Velocity.Y = (float)Math.Sin(gt.TotalGameTime.TotalSeconds) * 1.5f;
+                }
+
+            }
+            else if (PlatformState == Platform_State.PAUSE)
+                Velocity = Vector2.Zero;
+        }
+        public void ChangePlatformState(Platform_State pt)
+        {
+            PlatformState = pt;
         }
     }
 }

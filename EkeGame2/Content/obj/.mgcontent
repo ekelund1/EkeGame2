@@ -8,30 +8,31 @@
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/Orange/death.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/Orange/falldamage.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/Orange/falling.png</File>
+    <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/Orange/hitbox.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/Orange/idle.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/Orange/jumping.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/Orange/jumpsquat.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/Orange/landing.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/Orange/running.png</File>
-    <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/Orange/test_hitbox.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/Orange/throwing.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/Orange/wallcling.png</File>
+    <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/Purple/bywall.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/Purple/death.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/Purple/falldamage.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/Purple/falling.png</File>
+    <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/Purple/hitbox.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/Purple/idle.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/Purple/jumping.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/Purple/landing.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/Purple/running.png</File>
-    <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/Purple/test_hitbox.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/Purple/throwing.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/Purple/wallcling.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Fireball/fireball.png</File>
-    <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Fireball/test_hitbox.png</File>
+    <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Fireball/hitbox.png</File>
+    <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Goal/hitbox.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Goal/idle.png</File>
-    <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Goal/test_hitbox.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Hammer/hammer.png</File>
-    <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Hammer/test_hitbox.png</File>
+    <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Hammer/hitbox.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/HUD/HealthDisplay/0.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/HUD/HealthDisplay/1.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/HUD/HealthDisplay/2.png</File>
@@ -55,21 +56,26 @@
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Level2/2background.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Level2/2hitbox.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Level2/2playarea.png</File>
+    <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Platform/hitbox.png</File>
+    <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Platform/idle.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Player/bywall.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Player/death.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Player/falldamage.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Player/falling.png</File>
+    <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Player/hitbox.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Player/idle.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Player/jumping.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Player/jumpsquat.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Player/landing.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Player/running.png</File>
-    <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Player/test_hitbox.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Player/throwing.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Player/wallcling.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/SuperMarioFont.spritefont</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

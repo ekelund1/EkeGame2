@@ -15,7 +15,7 @@ namespace EkeGame2
     public abstract class AbstractGameObject
     {
         public Vector2 Position;
-        protected Vector2 Velocity;
+        public Vector2 Velocity;
         protected Vector2 SpawnPoint;
         public Texture2D Hitbox;
         public Rectangle PositionRectangle;
@@ -44,14 +44,13 @@ namespace EkeGame2
             GameObjectState = GameObject_State.Air;
             Position = spawnPosition;
             Velocity = Vector2.Zero;
-            Hitbox = c.Load<Texture2D>(objektName + "/test_hitbox");
+            Hitbox = c.Load<Texture2D>(objektName + "/hitbox");
             UpdateDelay = updateDelay;
             UpdateCounter = 0;
             WaitCounter = 0;
             LockAnimationStateCounter = 0;
             AnimationChanged = false;
             PositionRectangle = new Rectangle((int)Position.X, (int)Position.Y, Hitbox.Width, Hitbox.Height);
-
             
             Active = true;
         }
@@ -59,6 +58,12 @@ namespace EkeGame2
         {
             Velocity = velocity;
         }
+        public void SetVelocity(int x, int y)
+        {
+            Velocity.X = x;
+            Velocity.Y = y;
+        }
+                
         public virtual void DrawHitbox(SpriteBatch s)
         {
             if (Active)
@@ -77,11 +82,8 @@ namespace EkeGame2
         {
             if(Active)
                 Animations[ActiveAnimation].Draw(s, Position,gt.ElapsedGameTime.Milliseconds);
-        }
-        
-
-        
-        protected void ChangeGameObjectState(GameObject_State GO_S)
+        }    
+        public void ChangeGameObjectState(GameObject_State GO_S)
         {
             if (GameObjectState != GameObject_State.Death)
                 GameObjectState = GO_S;
@@ -114,7 +116,12 @@ namespace EkeGame2
         {
             Wait = a.AnimationLenght * a.AmountOfFrames - 1;
         }
-        
+        public virtual bool SpriteCollision(AbstractGameObject go)
+        {
+            if (PositionRectangle.Intersects(go.PositionRectangle))
+                return true;
+            return false;
+        }
         public virtual void LoadAnimation(ContentManager Content, string name, int animationCount_idle=6, 
             int animationCount_running = 8,int animationCount_jumping = 3,
             int animationCount_falling = 2,int animationCount_landing = 3,int animationCount_falldamage = 2,
