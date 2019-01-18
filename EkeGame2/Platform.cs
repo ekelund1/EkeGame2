@@ -13,20 +13,16 @@ namespace EkeGame2
 {
     class Platform : AbstractGameObject
     {
-        int PlatformCycleCounter;
-        bool GoingUp;
         Color PlatformTypeColor;
         Platform_Type PlatformType;
         Platform_State PlatformState;
 
         public Platform(Platform_Type platformType, ContentManager c, string objectName, Vector2 spawnPosition) : base(c, objectName, 15, spawnPosition)
         {
-            PlatformCycleCounter = 0;
             PlatformType = platformType;
-            GoingUp = false;
             GoingRight = true;
 
-            PositionRectangle.Location = Position.ToPoint();
+            UpdatePositionRectangle();
             switch (platformType)
             {
                 case Platform_Type.MOVING_PLATFORM_UPnDOWN:
@@ -59,7 +55,7 @@ namespace EkeGame2
                     case Platform_Type.MOVING_PLATFORM_LEFTnRIGHT:
                         MovingPlatformBehaviour(gt);
                         Position += Velocity;
-                        PositionRectangle.Location = Position.ToPoint();
+                        UpdatePositionRectangle();
                         break;
                 }
             }
@@ -69,7 +65,7 @@ namespace EkeGame2
         {
             if (this.SpriteCollision(playerObject) && playerObject.GetVelocity().Y >= 0)
             {
-                playerObject.Position.Y = this.PositionRectangle.Top - playerObject.Hitbox.Height;
+                playerObject.Position.Y = this.PositionRectangle.Top- playerObject.Hitbox.Height/2;
                 playerObject.Velocity.Y = 0;
                 playerObject.Position.X += this.Velocity.X;
                 playerObject.ChangeGameObjectState(GameObject_State.onGround);

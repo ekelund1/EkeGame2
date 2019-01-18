@@ -19,7 +19,7 @@ namespace EkeGame2
         protected Vector2 SpawnPoint;
         public Texture2D Hitbox;
         public Rectangle PositionRectangle;
-        
+        protected Point HitboxOffset;
         protected Animation_State ActiveAnimation;
         protected Animation_State PreviousAnimation;
         protected GameObject_State GameObjectState;
@@ -29,12 +29,12 @@ namespace EkeGame2
         protected bool GoingRight;
         protected float Wait, WaitCounter;
         public bool Active { get; set; }
-        protected int UpdateDelay, UpdateCounter, DeathTimerCounter, DeathTimerDelay;
+        protected int UpdateDelay, UpdateCounter, DeathDelayTimer;
         protected float LockAnimationState, LockAnimationStateCounter;
         protected bool AnimationChanged;
 
         private string ObjectName { get; }
-        
+
         protected AbstractGameObject(ContentManager c, string objektName, int updateDelay, Vector2 spawnPosition)
         {
             ObjectName = objektName;
@@ -51,7 +51,7 @@ namespace EkeGame2
             LockAnimationStateCounter = 0;
             AnimationChanged = false;
             PositionRectangle = new Rectangle((int)Position.X, (int)Position.Y, Hitbox.Width, Hitbox.Height);
-            
+            HitboxOffset = new Point(Hitbox.Width / 2, Hitbox.Height / 2);
             Active = true;
         }
         public void SetVelocity(Vector2 velocity)
@@ -62,6 +62,10 @@ namespace EkeGame2
         {
             Velocity.X = x;
             Velocity.Y = y;
+        }
+        protected void UpdatePositionRectangle()
+        {
+            PositionRectangle.Location = Position.ToPoint() - HitboxOffset;
         }
                 
         public virtual void DrawHitbox(SpriteBatch s)
@@ -78,10 +82,10 @@ namespace EkeGame2
                 Animations[ActiveAnimation].Draw(s, Position);
             }
         }
-        public virtual void DrawGameObject(SpriteBatch s, GameTime gt)
+        public virtual void DrawGameObject(SpriteBatch s, float rotation)
         {
             if(Active)
-                Animations[ActiveAnimation].Draw(s, Position,gt.ElapsedGameTime.Milliseconds);
+                Animations[ActiveAnimation].Draw(s, Position,rotation);
         }    
         public void ChangeGameObjectState(GameObject_State GO_S)
         {
@@ -276,18 +280,23 @@ namespace EkeGame2
                         frameUpdateDelay = 120;
                         imagePath = name + "/throwing";
                         break;
+                    case Animation_State.airroll:
+                        animationCount = 1;
+                        frameUpdateDelay = 30;
+                        imagePath = name + "/airroll";
+                        break;
                 }
                 try
                 {
 
                     var animationImage = Content.Load<Texture2D>(imagePath);
-                    Animations[animation] = new Animation(Position, new Vector2(animationCount, animationDirections), new Vector2(2,2), frameUpdateDelay);
+                    Animations[animation] = new Animation(Position, new Vector2(animationCount, animationDirections), new Vector2(1.5f,1.5f), frameUpdateDelay);
 
                     Animations[animation].AnimationImage = animationImage;
                 }
                 catch (Exception ex)
                 {
-                    Animations[animation] = new Animation(Position, new Vector2(6, 2), new Vector2(2, 2), 150);
+                    Animations[animation] = new Animation(Position, new Vector2(6, 2), new Vector2(1.5f, 1.5f), 150);
                     Animations[animation].AnimationImage = Content.Load<Texture2D>(name + "/idle");
                 }
             }
@@ -300,6 +309,7 @@ namespace EkeGame2
             if (UpdateCounter >= UpdateDelay)
                 Position += Velocity;
             UpdateAnimations(gt);
+            
         }
 
         protected void WaitTime(int ms)

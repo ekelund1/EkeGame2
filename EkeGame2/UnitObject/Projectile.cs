@@ -89,7 +89,7 @@ namespace EkeGame2
                 
                 
             }
-            PositionRectangle.Location = Position.ToPoint();
+            UpdatePositionRectangle();
             UpdateAnimations(gt);
         }
 

@@ -31,13 +31,13 @@ namespace EkeGame2.Graphics
         {
             HealthMeter = new Animation[4];
             HealthMeterNumber = new Animation[4];
-            HealthNumberOffset = new Vector2(12, 8);
-            HealthTextOffset = new Vector2(-30,-50);
+            HealthNumberOffset = new Vector2(0, 0);
+            HealthTextOffset = new Vector2(-50,-50);
             HealthDisplayScale = 0;
             Active = true;
             UpdateCounter = 0;
             UpdateDelay = 30;
-            AnchorPosition = new Vector2(700, 60);
+            AnchorPosition = new Vector2(700, 80);
             for (int i = 0; i < 4; i++)
             {
                 HealthMeter[i] = new Animation(AnchorPosition, Vector2.One, new Vector2(1.5f,1.5f));
@@ -61,7 +61,7 @@ namespace EkeGame2.Graphics
                     if (HealthMeterNumber[i].Active)
                         HealthMeterNumber[i].Draw(s, AnchorPosition+HealthNumberOffset,0,HealthDisplayScale / 1500);
                 }
-                s.DrawString(HealthText, "HEALTH", AnchorPosition + HealthTextOffset*1.06f, Color.Black);
+                s.DrawString(HealthText, "HEALTH", AnchorPosition + HealthTextOffset+Vector2.One*3, Color.Black);
                 s.DrawString(HealthText, "HEALTH", AnchorPosition+HealthTextOffset, Color.Wheat);
 
 

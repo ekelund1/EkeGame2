@@ -19,7 +19,8 @@ namespace EkeGame2
         bool active;
         Vector2 position, amountOfFrames, currentFrame;
         Texture2D image;
-        Rectangle sourceRect;        
+        Rectangle sourceRect;
+        
 
         public Animation(Vector2 pos, Vector2 frames, Vector2 scale, float _switchFrame=200)
         {
@@ -27,7 +28,7 @@ namespace EkeGame2
             switchFrame = _switchFrame;
             position = pos;
             amountOfFrames = frames;
-            Scale = scale;
+            Scale = scale;            
         }
         public void Initialize(Vector2 position, Vector2 frames)
         {
@@ -64,13 +65,13 @@ namespace EkeGame2
         public void Draw(SpriteBatch s, Vector2 pos, float rotation = 0, double extraScale=0)
         {
             Position = pos;
-            RotationLoop = (RotationLoop+rotation)%1000;
+            RotationLoop = (RotationLoop+rotation);
 
-            s.Draw(image, pos, sourceRect, Color.White, rotation, allignAnimation(), Scale+new Vector2((float)extraScale,(float)extraScale), 0, 0);
+            s.Draw(image, pos, sourceRect, Color.White, RotationLoop, AllignAnimation(), Scale+new Vector2((float)extraScale,(float)extraScale), 0, 0);
         }
-        private Vector2 allignAnimation()
+        private Vector2 AllignAnimation()
         {
-            return new Vector2(FrameWidth/3, FrameHeight/3);
+            return new Vector2(FrameWidth/2, FrameHeight/2);
         }
         public Vector2 CurrentFrame
         {

@@ -4,6 +4,9 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
+    <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Collectible/death.png</File>
+    <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Collectible/hitbox.png</File>
+    <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Collectible/idle.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/Orange/bywall.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/Orange/death.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/Orange/falldamage.png</File>
@@ -58,6 +61,7 @@
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Level2/2playarea.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Platform/hitbox.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Platform/idle.png</File>
+    <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Player/airroll.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Player/bywall.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Player/death.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Player/falldamage.png</File>
@@ -73,6 +77,10 @@
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/SuperMarioFont.spritefont</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

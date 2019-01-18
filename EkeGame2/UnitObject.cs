@@ -16,6 +16,10 @@ namespace EkeGame2
         protected double HealthInvunerabilityTimer;
         protected bool ResetVelocityY;
 
+        protected bool UsedAirRoll;
+        protected int AirRollTimer;
+        protected Vector2 AirRolled_SavedVelocity;
+
         public UnitObject(ContentManager c, string objectName, int updateDelay, Vector2 spawnPosition) : base(c, objectName, updateDelay, spawnPosition)
         {
             GoingRight = false;
@@ -28,18 +32,17 @@ namespace EkeGame2
             {
                 UpdateCounter += (int)gt.ElapsedGameTime.Milliseconds;
                 LockAnimationStateCounter += (int)gt.ElapsedGameTime.Milliseconds;
-                DeathTimerCounter += (int)gt.ElapsedGameTime.Milliseconds;
             }
 
             if (Health <= 0)
-                this.Kill();
+                this.Kill(gt);
 
             if (UpdateCounter >= UpdateDelay && UpdateCounter >= Wait && Active)
             {
                 Gravity();
                 LevelCollision(lvl, gt);
                 Position += Velocity;
-                PositionRectangle.Location = Position.ToPoint();
+                UpdatePositionRectangle();            
                 VelocityDecay();
                 if (ResetVelocityY)
                 {
@@ -67,11 +70,19 @@ namespace EkeGame2
                             GoingRight = true;
                         else if (Velocity.X < 0)
                             GoingRight = false;
+                        UsedAirRoll = false;
                         break;
                     case GameObject_State.Flying:
                         break;
+                    case GameObject_State.AirRoll:
+                        if (gt.TotalGameTime.TotalMilliseconds >= AirRollTimer)
+                        {
+                            ChangeGameObjectState(GameObject_State.Air);
+                            Velocity /= 3;
+                        }
+                        break;
                     case GameObject_State.Death:
-                        if (DeathTimerCounter >= DeathTimerDelay)
+                        if (gt.TotalGameTime.TotalMilliseconds >= DeathDelayTimer)
                             Active = false;
                         break;
                 }
@@ -88,7 +99,7 @@ namespace EkeGame2
                 HealthInvunerabilityTimer = gt.TotalGameTime.TotalMilliseconds + 1000;
             }
         }
-        protected void Kill()
+        protected void Kill(GameTime gt)
         {
             if (GameObjectState != GameObject_State.Death)
             {
@@ -96,28 +107,48 @@ namespace EkeGame2
                 AnimationChanged = false;
                 ChangeAnimationState(Animation_State.death);
                 LockAnimation(Animations[Animation_State.death]);
-                DeathTimerCounter = 0;
-                DeathTimerDelay = 1100;
+               
+                DeathDelayTimer = (int)gt.TotalGameTime.TotalMilliseconds+ 1100;
                 Velocity.X = Velocity.X / 2;
             }
         }
         protected void VelocityDecay(float decayAlteration = 0)
         {
-            if (Velocity.X < 0.5 && Velocity.X > -0.5)
-                Velocity.X = 0;
-            Velocity.X *= 0.9f + decayAlteration;
+            switch (GameObjectState)
+            {
+                default:
+                    if (Velocity.X < 0.5 && Velocity.X > -0.5)
+                        Velocity.X = 0;
+                    Velocity.X *= 0.9f + decayAlteration;
+                    break;
+                case GameObject_State.AirRoll:
+                    break;
+            }
         }
         protected void Jump()
         {
             Velocity.Y = -20;
             ChangeGameObjectState(GameObject_State.Air);
             ChangeAnimationState(Animation_State.jumpSquat);
-            WaitForAnimation(Animations[ActiveAnimation]);
         }
         protected void Gravity()
         {
-            if (Velocity.Y < 20 && GameObjectState != GameObject_State.Flying)
-                Velocity.Y++;
+            switch (GameObjectState)
+            {
+                case GameObject_State.Flying:
+                    break;
+                case GameObject_State.AirRoll:
+                    Velocity.Y += 0.4f;
+                    break;
+
+                default:
+                    if (Velocity.Y < 20)
+                        Velocity.Y++;
+                    else if (Velocity.Y > 20)
+                        Velocity.Y--;
+                    break;                
+            }
+            
         }
         public virtual void Respawn()
         {
@@ -223,6 +254,17 @@ namespace EkeGame2
             }
 
         }
-
+        public override void DrawGameObject(SpriteBatch s)
+        {
+            switch (GameObjectState)
+            {
+                default:
+                    base.DrawGameObject(s);
+                    break;
+                case GameObject_State.AirRoll:
+                    base.DrawGameObject(s, 0.4f);
+                        break;
+            }
+        }
     }
 }

@@ -24,8 +24,7 @@ namespace EkeGame2
         bool drawHitboxes = false;
         Camera MyCamera;
         int CurrentLevel = 0;
-        HealthDisplay ForegroundHealthDisplay;
-        Platform plat1,plat2;
+        GameHud TheGameHud;
 
 
 
@@ -77,10 +76,7 @@ namespace EkeGame2
             ThePlayer.SetSpawnPosition(lvl.PlayerSpawnPosition);
             ThePlayer.Respawn();
 
-           // plat1 = new Platform(Content, "platform", new Vector2(300, 800), Platform_Type.MOVING_PLATFORM_UPnDOWN);
-            //plat2 = new Platform(Content, "platform", new Vector2(300, 800), Platform_Type.MOVING_PLATFORM_LEFTnRIGHT);
-
-            ForegroundHealthDisplay = new HealthDisplay(Content);
+            TheGameHud = new GameHud(Content);
             // TODO: use this.Content to load your game content here
         }
 
@@ -91,7 +87,6 @@ namespace EkeGame2
         protected override void UnloadContent()
         {
             Content.Unload();
-            // TODO: Unload any non ContentManager content here
         }
 
         /// <summary>
@@ -107,13 +102,14 @@ namespace EkeGame2
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.T))
                 drawHitboxes = !drawHitboxes;
 
-            ThePlayer.Movement(
+            ThePlayer.Movement(gameTime,
                 Keyboard.GetState().IsKeyDown(Keys.A),
                 Keyboard.GetState().IsKeyDown(Keys.D),
                 Keyboard.GetState().IsKeyDown(Keys.W),
                 Keyboard.GetState().IsKeyDown(Keys.R),
                 Keyboard.GetState().IsKeyDown(Keys.H),
-                Keyboard.GetState().IsKeyDown(Keys.S));
+                Keyboard.GetState().IsKeyDown(Keys.S),
+                Keyboard.GetState().IsKeyDown(Keys.J));
 
             if(Keyboard.GetState().CapsLock && !graphics.IsFullScreen)
                 graphics.ToggleFullScreen();
@@ -127,11 +123,8 @@ namespace EkeGame2
                 this.UnloadContent();
                 this.LoadContent();
             }
-
-            //plat1.Update(lvl, gameTime);
-            //plat2.Update(lvl, gameTime);
-
-            ForegroundHealthDisplay.Update(gameTime, ThePlayer, lvl);
+            
+            TheGameHud.Update(gameTime, ThePlayer, lvl);
             base.Update(gameTime);
         }
 
@@ -141,6 +134,8 @@ namespace EkeGame2
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+
             if (drawHitboxes)
             {
                 spriteBatch.Begin(SpriteSortMode.Texture, null, null, null, null, null, MyCamera.Transform);
@@ -154,21 +149,16 @@ namespace EkeGame2
                 spriteBatch.Begin(SpriteSortMode.Texture,null,null,null,null,null,MyCamera.Transform);
                 lvl.DrawBackground(spriteBatch);                
                 lvl.DrawPlayArea(spriteBatch);
-                ThePlayer.DrawPlayer(spriteBatch, gameTime);
+                ThePlayer.DrawPlayer(spriteBatch);
                 lvl.DrawLevelGameObjects(spriteBatch);
 
-               // plat1.DrawGameObject(spriteBatch);
-               // plat2.DrawGameObject(spriteBatch);
                 spriteBatch.End();
 
                 SpriteBatch_FG.Begin();
-                ForegroundHealthDisplay.Draw(SpriteBatch_FG, gameTime);                
+                TheGameHud.Draw(SpriteBatch_FG, gameTime);                
                 SpriteBatch_FG.End();
             }
             
-
-            
-            // TODO: Add your drawing code here
 
             base.Draw(gameTime);
         }

@@ -46,6 +46,9 @@
     <Compile Include="AbstractGameObject.cs" />
     <Compile Include="Animation.cs" />
     <Compile Include="Camera.cs" />
+    <Compile Include="Collectible.cs" />
+    <Compile Include="Graphics\CollectibleDisplay.cs" />
+    <Compile Include="Graphics\FPSCounter.cs" />
     <Compile Include="UnitObject\Enemy.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Game1.cs" />

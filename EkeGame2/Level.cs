@@ -19,8 +19,11 @@ namespace EkeGame2
         public Texture2D Hitbox;
         public Color[,] Hitbox_Colors;
         Texture2D PlayArea;
+
         private Stack<Enemy> EnemyStack;
         private Stack<Platform> PlatformStack;
+        private Stack<Collectible> CollectibleStack;
+
         public Vector2 PlayerSpawnPosition;
         private Goal TheGoal;
         Player RefThePlayer;
@@ -44,6 +47,7 @@ namespace EkeGame2
             Color[,] colors2D = new Color[Hitbox.Width, Hitbox.Height];
             EnemyStack = new Stack<Enemy>();
             PlatformStack = new Stack<Platform>();
+            CollectibleStack = new Stack<Collectible>();
 
             for (int x = 0; x < Hitbox.Width; x++)
             {
@@ -70,6 +74,8 @@ namespace EkeGame2
                         PlatformStack.Push(new Platform(Platform_Type.MOVING_PLATFORM_UPnDOWN, Content, "Platform", new Vector2(x, y)));
                     else if (colors2D[x, y] == Color.CadetBlue) //95 158 160
                         PlatformStack.Push(new Platform(Platform_Type.MOVING_PLATFORM_CIRCLE, Content, "Platform", new Vector2(x, y)));
+                    else if (colors2D[x, y] == Color.YellowGreen) //154 205 50 Collectible
+                        CollectibleStack.Push(new Collectible(Content, "Collectible", new Vector2(x, y)));
 
                 }
             }
@@ -117,6 +123,11 @@ namespace EkeGame2
                 if (p.Active)
                     p.DrawHitbox(s);
             }
+            foreach (Collectible c in CollectibleStack)
+            {
+                if (c.Active)
+                    c.DrawHitbox(s);
+            }
             TheGoal.DrawHitbox(s);
             s.Draw(Hitbox, Vector2.Zero);
         }
@@ -128,6 +139,14 @@ namespace EkeGame2
         {
             foreach (Enemy e in EnemyStack)
                 e.Update(this, gt, ThePlayer);
+            foreach (Collectible c in CollectibleStack)
+            { 
+                c.Update(this, gt);
+                if (c.SpriteCollision(ThePlayer) && !c.IsCollected)
+                {                    
+                    ThePlayer.ChangeCollectibles(c.TriggerCollect(gt));
+                }
+            }
             foreach (Platform p in PlatformStack)
             { 
                 p.Update(this, gt);
@@ -149,6 +168,9 @@ namespace EkeGame2
             foreach (Platform p in PlatformStack)
                 if (p.Active)
                     p.DrawGameObject(s);
+            foreach (Collectible c in CollectibleStack)
+                if (c.Active)
+                    c.DrawGameObject(s);
             TheGoal.DrawGameObject(s);
         }
 
