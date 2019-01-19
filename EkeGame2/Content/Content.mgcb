@@ -889,6 +889,18 @@
 /processorParam:TextureFormat=Color
 /build:Player/wallcling.png
 
+#begin SpawnableEffects/TINY_STARS.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:SpawnableEffects/TINY_STARS.png
+
 #begin SuperMarioFont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor

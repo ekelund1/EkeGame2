@@ -100,7 +100,7 @@ namespace EkeGame2
                 PreviousAnimation = ActiveAnimation;
             }
             AnimationChanged = false;
-            Animations[ActiveAnimation].Update(gt, ActiveAnimation, GoingRight);
+            Animations[ActiveAnimation].Update(gt, GoingRight);
         }
         protected void ChangeAnimationState(Animation_State a)
         {

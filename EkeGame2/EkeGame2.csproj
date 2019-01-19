@@ -49,6 +49,8 @@
     <Compile Include="Collectible.cs" />
     <Compile Include="Graphics\CollectibleDisplay.cs" />
     <Compile Include="Graphics\FPSCounter.cs" />
+    <Compile Include="SpawnableEffects\SpawnableEffect.cs" />
+    <Compile Include="SpawnableEffects\SpawnableEffect_Library.cs" />
     <Compile Include="UnitObject\Enemy.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Game1.cs" />

@@ -92,11 +92,11 @@ namespace EkeGame2.Graphics
                 for (int i = 0; i < 4; i++)
                 {
                     if (HealthMeter[i].Active)
-                        HealthMeter[i].Update(gt, Animation_State.idle, true);
+                        HealthMeter[i].Update(gt, true);
                     if (HealthMeterNumber[i].Active)
                     {
                         HealthMeterNumber[i].AnimationScale = new Vector2((float)NumberScaleOscillation, (float)NumberScaleOscillation);
-                        HealthMeterNumber[i].Update(gt, Animation_State.idle, true);
+                        HealthMeterNumber[i].Update(gt,true);
                     }
                 }
             }

@@ -27,7 +27,10 @@ namespace EkeGame2.Graphics
         {
             AnchorPosition = new Vector2(100, 70);
             TextOffset = new Vector2(15, 0);
-            UpdateCounter = 200;
+            UpdateCounter = 0;
+            UpdateDelay = 25;
+            DisplayScale = 1;
+            Active = true;
 
             var animationImage = c.Load<Texture2D>("Collectible/idle");
             CollectibleIcon = new Animation(AnchorPosition, new Vector2(8, 1), Vector2.One, 200);
@@ -38,21 +41,21 @@ namespace EkeGame2.Graphics
         public void Update(GameTime gt, Player ThePlayer)
         {
             if (Active)
-                UpdateCounter += (int)gt.ElapsedGameTime.TotalMilliseconds;
+                UpdateCounter += (int)gt.ElapsedGameTime.Milliseconds;
             if (UpdateCounter >= UpdateDelay)
             {
                 UpdateCounter = 0;
                 if (CollectedAmount < ThePlayer.CollectedAmount)
                 {
                     CollectedAmount++;
-                    DisplayScale = 3.5;
+                    DisplayScale = 2.5;
                 }
                 if (DisplayScale > 1)
-                    DisplayScale *= 0.85;
+                    DisplayScale *= 0.95;
                 else
                     DisplayScale = 1;
             }
-            CollectibleIcon.Update(gt, Animation_State.idle, true);
+            CollectibleIcon.Update(gt, true);
         }
         public void Draw(SpriteBatch s)
         {

@@ -7,6 +7,10 @@ using Microsoft.Xna.Framework;
 
 namespace EkeGame2
 {
+    public enum SpawnableEffect_Type
+    {
+        TINY_STARS,
+    }
     public enum Animation_State
     {
         idle = 0, running = 1, jumping = 2, falling = 3, landing = 4, hurt = 5, jumpSquat = 6, falldamage = 7, byWall = 8, death = 9, wallcling = 10, throwing = 11, airroll=12

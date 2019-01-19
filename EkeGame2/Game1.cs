@@ -115,7 +115,7 @@ namespace EkeGame2
                 graphics.ToggleFullScreen();
             ThePlayer.Update(lvl, gameTime);
             lvl.Update(gameTime, ref ThePlayer);
-
+            
             //This one should probably check collision inside LevelUpdate. And then instead set a flag for going to the next level.
             if (lvl.LevelGoalObjectCollision(ThePlayer) ||Keyboard.GetState().IsKeyDown(Keys.L))
             {

@@ -27,7 +27,7 @@ namespace EkeGame2
             UpdatePositionRectangle();
             ScaleOscillation = 0;
 
-            CollectibleValue = 1;
+            CollectibleValue = 10;
 
             var animationImage = c.Load<Texture2D>(objectName + "/idle");
             Animations[Animation_State.idle] = new Animation(Position, new Vector2(8, 1), Vector2.One, 500);

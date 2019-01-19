@@ -19,8 +19,7 @@ namespace EkeGame2
         bool active;
         Vector2 position, amountOfFrames, currentFrame;
         Texture2D image;
-        Rectangle sourceRect;
-        
+        Rectangle sourceRect;        
 
         public Animation(Vector2 pos, Vector2 frames, Vector2 scale, float _switchFrame=200)
         {
@@ -37,7 +36,7 @@ namespace EkeGame2
             this.position = position;
             this.amountOfFrames = frames;
         }
-        public void Update(GameTime gameTime, Animation_State state, bool goingRight)
+        public void Update(GameTime gameTime, bool goingRight)
         {
             active = true;
             frameCounter += (int)gameTime.ElapsedGameTime.TotalMilliseconds;

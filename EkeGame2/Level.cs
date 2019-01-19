@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
+using EkeGame2.SpawnableEffects;
 
 
 namespace EkeGame2
@@ -19,28 +20,34 @@ namespace EkeGame2
         public Texture2D Hitbox;
         public Color[,] Hitbox_Colors;
         Texture2D PlayArea;
+        private SpawnableEffect_Library TheSpawnableEffect_Library;
 
         private Stack<Enemy> EnemyStack;
         private Stack<Platform> PlatformStack;
         private Stack<Collectible> CollectibleStack;
+        public SpawnableEffect_List SpawnableEffectList;
 
         public Vector2 PlayerSpawnPosition;
         private Goal TheGoal;
         Player RefThePlayer;
         
-        public Level(ContentManager g, int levelID)
+        public Level(ContentManager content, int levelID)
         {
-            Content = g;
+            Content = content;
+
             Background = Content.Load<Texture2D>("Level"+levelID.ToString()+"/"+levelID.ToString() + "background");
             //Foreground = Content.Load<Texture2D>("Level" + id.ToString() + "/" + id.ToString() + "foreground");
             Hitbox = Content.Load<Texture2D>("Level" + levelID.ToString() + "/" + levelID.ToString() + "hitbox");
             PlayArea = Content.Load<Texture2D>("Level" + levelID.ToString() + "/" + levelID.ToString() + "playarea");
             
-            LoadLevel(levelID);            
+            LoadLevel(levelID);       
+            
         }
 
         private void LoadLevel(int levelID)
         {
+            TheSpawnableEffect_Library = new SpawnableEffect_Library(Content);
+
             Color[] colors1D = new Color[Hitbox.Width * Hitbox.Height];
             Hitbox.GetData(colors1D);
 
@@ -48,6 +55,7 @@ namespace EkeGame2
             EnemyStack = new Stack<Enemy>();
             PlatformStack = new Stack<Platform>();
             CollectibleStack = new Stack<Collectible>();
+            SpawnableEffectList = new SpawnableEffect_List();
 
             for (int x = 0; x < Hitbox.Width; x++)
             {
