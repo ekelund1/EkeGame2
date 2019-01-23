@@ -16,8 +16,10 @@ namespace EkeGame2
     public class Game1 : Game
     {
         GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-        SpriteBatch SpriteBatch_FG;
+        SpriteBatch spriteBatch_LayerLowest;
+        SpriteBatch spriteBatch_LayerMiddle;
+        SpriteBatch spriteBatch_LayerHighest;
+        SpriteBatch SpriteBatch_HUD;
         
         Level lvl;
         Player ThePlayer;
@@ -25,8 +27,6 @@ namespace EkeGame2
         Camera MyCamera;
         int CurrentLevel = 0;
         GameHud TheGameHud;
-
-
 
         public Game1()
         {
@@ -46,8 +46,11 @@ namespace EkeGame2
             graphics.PreferredBackBufferHeight = 820;
             graphics.ApplyChanges();
 
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-            SpriteBatch_FG = new SpriteBatch(GraphicsDevice);
+            spriteBatch_LayerLowest = new SpriteBatch(GraphicsDevice);
+            spriteBatch_LayerMiddle = new SpriteBatch(GraphicsDevice);
+            spriteBatch_LayerHighest = new SpriteBatch(GraphicsDevice);
+
+            SpriteBatch_HUD = new SpriteBatch(GraphicsDevice);
 
             lvl = new Level(Content, CurrentLevel);
             MyCamera = new Camera(GraphicsDevice.Viewport, lvl, ref ThePlayer);
@@ -64,8 +67,8 @@ namespace EkeGame2
         {
             // Create a new SpriteBatch, which can be used to draw textures.
 
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-            SpriteBatch_FG = new SpriteBatch(GraphicsDevice);
+            spriteBatch_LayerLowest = new SpriteBatch(GraphicsDevice);
+            SpriteBatch_HUD = new SpriteBatch(GraphicsDevice);
 
             lvl = new Level(Content, CurrentLevel);
 
@@ -138,25 +141,32 @@ namespace EkeGame2
 
             if (drawHitboxes)
             {
-                spriteBatch.Begin(SpriteSortMode.Texture, null, null, null, null, null, MyCamera.Transform);
+                spriteBatch_LayerLowest.Begin(SpriteSortMode.Texture, null, null, null, null, null, MyCamera.Transform);
 
-                lvl.DrawHitbox(spriteBatch);
-                ThePlayer.DrawHitbox(spriteBatch);
-                spriteBatch.End();
+                lvl.DrawHitbox(spriteBatch_LayerLowest);
+                ThePlayer.DrawHitbox(spriteBatch_LayerLowest);
+                spriteBatch_LayerLowest.End();
             }
             else
             {
-                spriteBatch.Begin(SpriteSortMode.Texture,null,null,null,null,null,MyCamera.Transform);
-                lvl.DrawBackground(spriteBatch);                
-                lvl.DrawPlayArea(spriteBatch);
-                ThePlayer.DrawPlayer(spriteBatch);
-                lvl.DrawLevelGameObjects(spriteBatch);
+                spriteBatch_LayerLowest.Begin(SpriteSortMode.Texture,null,null,null,null,null,MyCamera.Transform);
+                lvl.DrawLevel_LowestLayer(spriteBatch_LayerLowest);
+                spriteBatch_LayerLowest.End();
 
-                spriteBatch.End();
+                spriteBatch_LayerMiddle.Begin(SpriteSortMode.Texture, null, null, null, null, null, MyCamera.Transform);
+                ThePlayer.DrawPlayer(spriteBatch_LayerMiddle);
+                lvl.DrawLevelGameObjects(spriteBatch_LayerMiddle);
+                spriteBatch_LayerMiddle.End();
 
-                SpriteBatch_FG.Begin();
-                TheGameHud.Draw(SpriteBatch_FG, gameTime);                
-                SpriteBatch_FG.End();
+                spriteBatch_LayerHighest.Begin(SpriteSortMode.Texture, null, null, null, null, null, MyCamera.Transform);
+                lvl.DrawLevel_HighestLayer(spriteBatch_LayerHighest);
+                spriteBatch_LayerHighest.End();
+
+
+
+                SpriteBatch_HUD.Begin();
+                TheGameHud.Draw(SpriteBatch_HUD, gameTime);                
+                SpriteBatch_HUD.End();
             }
             
 

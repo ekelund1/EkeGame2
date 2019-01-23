@@ -23,15 +23,23 @@ namespace EkeGame2.SpawnableEffects
             {
                 if (se.Active)
                     se.Update(gt);
-                else
-                    TheSpawnableEffectList.Remove(se);
             }
+            TheSpawnableEffectList.RemoveAll(se => !se.Active);
+            
         }
-        public void Draw(SpriteBatch spriteBatch)
+        public void DrawLowest(SpriteBatch spriteBatch)
         {
             foreach (SpawnableEffect se in TheSpawnableEffectList)
             {
-                if (se.Active)
+                if (se.Active && se.OnLowestLayer)
+                    se.Draw(spriteBatch);
+            }
+        }
+        public void DrawHighest(SpriteBatch spriteBatch)
+        {
+            foreach (SpawnableEffect se in TheSpawnableEffectList)
+            {
+                if (se.Active && !se.OnLowestLayer)
                     se.Draw(spriteBatch);
             }
         }

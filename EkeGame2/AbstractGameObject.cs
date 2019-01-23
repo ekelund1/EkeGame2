@@ -39,7 +39,7 @@ namespace EkeGame2
         {
             ObjectName = objektName;
             Animations = new Dictionary<Animation_State, Animation>();
-
+            SpawnPoint = spawnPosition;
             ActiveAnimation = Animation_State.idle;
             GameObjectState = GameObject_State.Air;
             Position = spawnPosition;
@@ -169,7 +169,7 @@ namespace EkeGame2
                         break;
                     case Animation_State.falldamage:
                         animationCount = animationCount_falldamage;
-                        frameUpdateDelay = 250;
+                        frameUpdateDelay = 150;
                         imagePath = name + "/falldamage";
                         break;
                     case Animation_State.jumpSquat:
@@ -184,7 +184,7 @@ namespace EkeGame2
                         break;
                     case Animation_State.death:
                         animationCount = animationCount_death;
-                        frameUpdateDelay = 200;
+                        frameUpdateDelay = 150;
                         imagePath = name + "/death";
                         break;
                     case Animation_State.wallcling:
@@ -252,7 +252,7 @@ namespace EkeGame2
                         break;
                     case Animation_State.falldamage:
                         animationCount = 2;
-                        frameUpdateDelay = 250;
+                        frameUpdateDelay = 150;
                         imagePath = name + "/falldamage";
                         break;
                     case Animation_State.jumpSquat:
@@ -267,7 +267,7 @@ namespace EkeGame2
                         break;
                     case Animation_State.death:
                         animationCount = 7;
-                        frameUpdateDelay = 200;
+                        frameUpdateDelay = 150;
                         imagePath = name + "/death";
                         break;
                     case Animation_State.wallcling:

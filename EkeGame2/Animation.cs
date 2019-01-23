@@ -27,7 +27,7 @@ namespace EkeGame2
             switchFrame = _switchFrame;
             position = pos;
             amountOfFrames = frames;
-            Scale = scale;            
+            Scale = scale;
         }
         public void Initialize(Vector2 position, Vector2 frames)
         {
@@ -36,7 +36,7 @@ namespace EkeGame2
             this.position = position;
             this.amountOfFrames = frames;
         }
-        public void Update(GameTime gameTime, bool goingRight)
+        public void Update(GameTime gameTime, bool goingRight=true)
         {
             active = true;
             frameCounter += (int)gameTime.ElapsedGameTime.TotalMilliseconds;

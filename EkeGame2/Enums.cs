@@ -9,7 +9,7 @@ namespace EkeGame2
 {
     public enum SpawnableEffect_Type
     {
-        TINY_STARS,
+        TINY_STARS,FIRE_SPARK,BUBBLE, SMOKE_PUFF_LEFT, SMOKE_PUFF_RIGHT
     }
     public enum Animation_State
     {
@@ -21,7 +21,7 @@ namespace EkeGame2
     }
     public enum EnemyType
     {
-        Purple, Red, Green, Blue, Orange
+        Purple, Red, Green, Blue, Orange, DarkGray
     }
     public enum ProjectileOwner
     {

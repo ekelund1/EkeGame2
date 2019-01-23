@@ -7,6 +7,11 @@
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Collectible/death.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Collectible/hitbox.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Collectible/idle.png</File>
+    <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/DarkGray/death.png</File>
+    <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/DarkGray/falldamage.png</File>
+    <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/DarkGray/falling.png</File>
+    <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/DarkGray/hitbox.png</File>
+    <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/DarkGray/idle.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/Orange/bywall.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/Orange/death.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Enemy/Orange/falldamage.png</File>
@@ -74,10 +79,23 @@
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Player/running.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Player/throwing.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/Player/wallcling.png</File>
+    <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/SpawnableEffects/BUBBLE.png</File>
+    <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/SpawnableEffects/FIRE_SPARK.png</File>
+    <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/SpawnableEffects/SMOKE_PUFF_LEFT.png</File>
+    <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/SpawnableEffects/SMOKE_PUFF_RIGHT.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/SpawnableEffects/TINY_STARS.png</File>
     <File>C:/Users/resjoneke/source/repos/EkeGame2/EkeGame2/Content/SuperMarioFont.spritefont</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

@@ -43,7 +43,7 @@ namespace EkeGame2
             GoingRight = direction;
             ProjectileState = Projectile_State.CHARGING;
             PositionRectangle.Location = Position.ToPoint();            
-            Wait = 600;
+            Wait = 400;
             WaitCounter = 0;
         }
         public void Update(Level lvl, GameTime gt, Vector2 OwnerPosition)
@@ -70,7 +70,8 @@ namespace EkeGame2
                             Position = Vector2.Zero;
                         }
                         Position += Velocity;
-                        if (WaitCounter >= Wait*3)
+                        lvl.AddSpawnableEffect(SpawnableEffect_Type.FIRE_SPARK, Position, 75,1);
+                        if (WaitCounter >= Wait*2)
                             Active = false;
                         break;
 

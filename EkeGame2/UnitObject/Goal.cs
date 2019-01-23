@@ -14,10 +14,19 @@ namespace EkeGame2
             PositionRectangle.Location = Position.ToPoint();
             LoadAnimation(c,objektName,8);
             Animations[ActiveAnimation].AnimationScale = new Vector2(2, 2);
+            UpdateDelay = 200;
         }
         public override void Update(Level lvl, GameTime gt)
-        {            
-            UpdateAnimations(gt);
+        {
+            if (Active)
+                UpdateCounter += (int)gt.ElapsedGameTime.Milliseconds;
+            if (UpdateCounter > UpdateDelay)
+            {
+                lvl.AddSpawnableEffect(SpawnableEffect_Type.TINY_STARS, Position, 50, false);
+                UpdatePositionRectangle();
+                UpdateAnimations(gt);
+                UpdateCounter = 0;
+            }
         }
 
     }

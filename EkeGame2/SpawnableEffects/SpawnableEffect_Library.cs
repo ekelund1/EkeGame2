@@ -26,7 +26,7 @@ namespace EkeGame2.SpawnableEffects
         }
         public SpawnableEffect GetSpawnableEffect(SpawnableEffect_Type type)
         {
-            return TheSpawnableEffect_Library[type];
+            return TheSpawnableEffect_Library[type].GetCopy();
         }
     }
 }

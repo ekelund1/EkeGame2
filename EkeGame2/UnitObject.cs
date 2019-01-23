@@ -44,12 +44,16 @@ namespace EkeGame2
                 Position += Velocity;
                 UpdatePositionRectangle();            
                 VelocityDecay();
+
                 if (ResetVelocityY)
                 {
                     Velocity.Y = 0;
                     ResetVelocityY = false;
                 }
-
+                if (gt.TotalGameTime.TotalMilliseconds < HealthInvunerabilityTimer && Health > 0)
+                {
+                    lvl.AddSpawnableEffect(SpawnableEffect_Type.BUBBLE, Position, 20);                    
+                }
                 //Update states
                 switch (GameObjectState)
                 {
@@ -62,7 +66,7 @@ namespace EkeGame2
                     case GameObject_State.onGround:
                         if (Velocity.X != 0)
                             ChangeAnimationState(Animation_State.running);
-                        else if (Velocity.X == 0 && (Keyboard.GetState().IsKeyDown(Keys.A) || Keyboard.GetState().IsKeyDown(Keys.D)))
+                        else if (Velocity.X == 0 && ((Keyboard.GetState().IsKeyDown(Keys.A) || Keyboard.GetState().IsKeyDown(Keys.D))))
                             ChangeAnimationState(Animation_State.byWall);
                         else
                             ChangeAnimationState(Animation_State.idle);
@@ -80,6 +84,7 @@ namespace EkeGame2
                             ChangeGameObjectState(GameObject_State.Air);
                             Velocity /= 3;
                         }
+                        lvl.AddSpawnableEffect(SpawnableEffect_Type.TINY_STARS,Position, 90,1);
                         break;
                     case GameObject_State.Death:
                         if (gt.TotalGameTime.TotalMilliseconds >= DeathDelayTimer)
@@ -265,6 +270,15 @@ namespace EkeGame2
                     base.DrawGameObject(s, 0.4f);
                         break;
             }
+        }
+        public void InduceKnockback()
+        {
+            if (GoingRight)
+                Velocity += new Vector2(-15, -5);
+            else
+                Velocity += new Vector2(15, -5);
+            ChangeAnimationState(Animation_State.falldamage);
+            LockAnimation(Animations[Animation_State.falldamage]);            
         }
     }
 }

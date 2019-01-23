@@ -72,6 +72,10 @@ namespace EkeGame2
                     {
                         EnemyStack.Push(new Enemy(EnemyType.Orange, Content, "Enemy/Orange/", 15, new Vector2(x, y), y * 5));
                     }
+                    else if (colors2D[x, y] == Color.DarkGray) //169 169 169
+                    {
+                        EnemyStack.Push(new Enemy(EnemyType.DarkGray, Content, "Enemy/DarkGray/", 15, new Vector2(x, y)));
+                    }
                     else if (colors2D[x, y] == Color.Brown)
                     {
                         PlayerSpawnPosition = new Vector2(x, y);
@@ -143,8 +147,24 @@ namespace EkeGame2
         {
             s.Draw(Foreground, Vector2.Zero);
         }
+        public void DrawLevel_LowestLayer(SpriteBatch lowest)
+        {
+            SpawnableEffectList.DrawLowest(lowest);
+            DrawBackground(lowest);
+            DrawPlayArea(lowest);
+        }
+        public void DrawLevel_MiddleLayer(SpriteBatch middle)
+        {
+            DrawLevelGameObjects(middle);
+        }
+        public void DrawLevel_HighestLayer(SpriteBatch highest)
+        {
+            SpawnableEffectList.DrawHighest(highest);
+        }
+
         public void Update(GameTime gt, ref Player ThePlayer)
         {
+            SpawnableEffectList.Update(gt);
             foreach (Enemy e in EnemyStack)
                 e.Update(this, gt, ThePlayer);
             foreach (Collectible c in CollectibleStack)
@@ -152,7 +172,7 @@ namespace EkeGame2
                 c.Update(this, gt);
                 if (c.SpriteCollision(ThePlayer) && !c.IsCollected)
                 {                    
-                    ThePlayer.ChangeCollectibles(c.TriggerCollect(gt));
+                    ThePlayer.ChangeCollectibles(c.TriggerCollect(gt));                    
                 }
             }
             foreach (Platform p in PlatformStack)
@@ -160,8 +180,13 @@ namespace EkeGame2
                 p.Update(this, gt);
                 p.PlatformUnitCollision(ref ThePlayer);
             }
+
             if (this.LevelEnemyObjectCollision(ThePlayer))
+            {
                 ThePlayer.ChangeHealth(-1, gt);
+                if (ThePlayer.Health > 0)
+                    ThePlayer.InduceKnockback();
+            }
             
 
             TheGoal.Update(this, gt);
@@ -193,7 +218,9 @@ namespace EkeGame2
             foreach (Enemy e in EnemyStack)
             {
                 if (e.Active && player.SpriteCollision(e))
+                {
                     return true;
+                }
             }
             return false;
         }
@@ -238,6 +265,24 @@ namespace EkeGame2
                         Hitbox_Colors[objectPositionRectangle.Location.X + i, objectPositionRectangle.Location.Y + j] = newColor;
                 }
             }
+        }
+        public void AddSpawnableEffect(SpawnableEffect_Type type, Vector2 position, int timer, bool onLowestLayer = true, bool randomPosition = false, float velocityX = 0,float velocityY=0,double extraScale=0)
+        {
+            var effect = TheSpawnableEffect_Library.GetSpawnableEffect(type);
+            effect.SpawnCopyOfEffect(position, timer, onLowestLayer,randomPosition,velocityX,velocityY,extraScale);
+            SpawnableEffectList.TheSpawnableEffectList.Add(effect);
+        }
+        public void AddSpawnableEffect(SpawnableEffect_Type type, Vector2 position, int timer,double extraScale = 0)
+        {
+            var effect = TheSpawnableEffect_Library.GetSpawnableEffect(type);
+            effect.SpawnCopyOfEffect(position, timer, true, false, 0, 0, extraScale);
+            SpawnableEffectList.TheSpawnableEffectList.Add(effect);
+        }
+        public void AddSpawnableEffect(SpawnableEffect_Type type, Vector2 position, int timer)
+        {
+            var effect = TheSpawnableEffect_Library.GetSpawnableEffect(type);
+            effect.SpawnCopyOfEffect(position, timer, true, false, 0, 0, 0);
+            SpawnableEffectList.TheSpawnableEffectList.Add(effect);
         }
     }
 }

@@ -30,7 +30,7 @@ namespace EkeGame2
 
 
         }
-        public void Behaviour(GameTime gt, Player ThePlayer)
+        public void Behaviour(GameTime gt, Player ThePlayer, Level lvl)
         {
             if (Active && GameObjectState!=GameObject_State.Death)
                 counterEnemyCycle += (int)gt.ElapsedGameTime.Milliseconds;
@@ -48,11 +48,56 @@ namespace EkeGame2
                             Velocity.X -= 5;
                         GoingRight = !GoingRight;
                         break;
+
                         //Shooter
                     case EnemyType.Orange:
                         counterEnemyCycle = 0;
                         FacePlayer(ThePlayer);
                         ShootProjectile();
+                        break;
+
+                        //Thwomp
+                    case EnemyType.DarkGray:
+                        FacePlayer(ThePlayer);
+                        if (GameObjectState == GameObject_State.onGround)
+                        {
+                            lvl.AddSpawnableEffect(SpawnableEffect_Type.SMOKE_PUFF_RIGHT, new Vector2(Position.X, Position.Y + Hitbox.Height / 2), 300, true, false, 3, 0);
+                            lvl.AddSpawnableEffect(SpawnableEffect_Type.SMOKE_PUFF_LEFT, new Vector2(Position.X, Position.Y + Hitbox.Height / 2), 300, true, false, -3, 0);
+
+                            ChangeAnimationState(Animation_State.falldamage);
+                            LockAnimation(Animations[ActiveAnimation]);
+                          //  lvl.AddSpawnableEffect(SpawnableEffect_Type.BUBBLE, Position, 20, false);
+                            Velocity.Y = -4;
+                            GameObjectState = GameObject_State.Jumping;
+                            Wait = 1000;
+                        }
+                        else if (GameObjectState == GameObject_State.Flying)
+                        {
+                            Velocity.Y = 0;
+                           // lvl.AddSpawnableEffect(SpawnableEffect_Type.FIRE_SPARK, Position, 20, false);
+
+                            if (Position.X - ThePlayer.Position.X < 50 && Position.X - ThePlayer.Position.X > -50)
+                            {
+                                GameObjectState = GameObject_State.Air;                                
+                            }
+                        }
+                        else if (GameObjectState == GameObject_State.Air)
+                        {
+                            Velocity.Y += 1;
+                        }
+                        else if (GameObjectState == GameObject_State.Jumping)
+                        {
+                            ChangeAnimationState(Animation_State.jumping);
+                           // lvl.AddSpawnableEffect(SpawnableEffect_Type.TINY_STARS, Position, 20, false);
+                            Velocity.Y = -4;
+                            if (SpawnPoint.Y - Position.Y > 3)
+                            {
+                                GameObjectState = GameObject_State.Flying;
+                                
+                            }
+                        }
+                        
+                        
                         break;
 
                         //Yoyo fiende. Pappas idé.
@@ -80,11 +125,12 @@ namespace EkeGame2
         public void Update(Level lvl, GameTime gt, Player ThePlayer)
         {
             if (Active)
-            { 
-                Behaviour(gt,ThePlayer);
+            {
+                Behaviour(gt, ThePlayer,lvl);
                 if (EnemyProjectile.Active)
                     EnemyProjectile.Update(lvl, gt, Position);
                 base.Update(lvl, gt);
+
             }
         }
        

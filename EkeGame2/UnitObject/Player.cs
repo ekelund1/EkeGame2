@@ -67,10 +67,8 @@ namespace EkeGame2
                 {
                     Velocity.X += (0.5f + Velocity.X * 0.05f);
                 }
-               /* else if (Velocity.X < -10)
-                    Velocity.X = -10;
-                else if (Velocity.X > 10)
-                    Velocity.X = 10; */
+ 
+           
             }
         }
         
@@ -107,33 +105,27 @@ namespace EkeGame2
         {
             if (!UsedAirRoll)
             {
-                
-                    ChangeGameObjectState(GameObject_State.AirRoll);
-                    AirRollTimer = (int)gt.TotalGameTime.TotalMilliseconds + 300;
-                    AirRolled_SavedVelocity = Velocity;
-                    ChangeAnimationState(Animation_State.airroll);
-                    UsedAirRoll = true;
-                    Velocity = Vector2.Zero;
-                    if (a)
-                    {
-                        Velocity.X = -20;
-                        GoingRight = false;
-                    }
-                    if (s)
-                        Velocity.Y = 20;
-                    if (d)
-                    {
-                        Velocity.X = 20;
-                        GoingRight = true;
-                    }
-                    if (w)
-                        Velocity.Y = -20;
-                    Wait = 100;
-                
-
-                
-
-                
+                ChangeGameObjectState(GameObject_State.AirRoll);
+                AirRollTimer = (int)gt.TotalGameTime.TotalMilliseconds + 300;
+                AirRolled_SavedVelocity = Velocity;
+                ChangeAnimationState(Animation_State.airroll);
+                UsedAirRoll = true;
+                Velocity = Vector2.Zero;
+                if (a)
+                {
+                    Velocity.X = -20;
+                    GoingRight = false;
+                }
+                if (s)
+                    Velocity.Y = 20;
+                if (d)
+                {
+                    Velocity.X = 20;
+                    GoingRight = true;
+                }
+                if (w)
+                    Velocity.Y = -20;
+                Wait = 100;
             }
         }
     }

@@ -19,7 +19,7 @@ namespace EkeGame2.Graphics
         private Animation CollectibleIcon;
         private SpriteFont CollectibleSpriteFont;
 
-        private double DisplayScale;
+        private float DisplayScale;
 
         private int CollectedAmount;
 
@@ -48,10 +48,10 @@ namespace EkeGame2.Graphics
                 if (CollectedAmount < ThePlayer.CollectedAmount)
                 {
                     CollectedAmount++;
-                    DisplayScale = 2.5;
+                    DisplayScale = 2.5f;
                 }
                 if (DisplayScale > 1)
-                    DisplayScale *= 0.95;
+                    DisplayScale *= 0.95f;
                 else
                     DisplayScale = 1;
             }
