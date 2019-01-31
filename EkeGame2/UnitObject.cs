@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
+using EkeGame2.Audio;
 
 namespace EkeGame2
 {
@@ -52,7 +53,7 @@ namespace EkeGame2
                 }
                 if (gt.TotalGameTime.TotalMilliseconds < HealthInvunerabilityTimer && Health > 0)
                 {
-                    lvl.AddSpawnableEffect(SpawnableEffect_Type.BUBBLE, Position, 20);                    
+                    lvl.AddSpawnableEffect(SpawnableEffect_Type.BUBBLE, Position, 20,1);                    
                 }
                 //Update states
                 switch (GameObjectState)
@@ -101,7 +102,7 @@ namespace EkeGame2
             if (gt.TotalGameTime.TotalMilliseconds > HealthInvunerabilityTimer)
             {
                 Health += value;
-                HealthInvunerabilityTimer = gt.TotalGameTime.TotalMilliseconds + 1000;
+                HealthInvunerabilityTimer = gt.TotalGameTime.TotalMilliseconds + 2000;
             }
         }
         protected void Kill(GameTime gt)
@@ -130,11 +131,12 @@ namespace EkeGame2
                     break;
             }
         }
-        protected void Jump()
+        protected void Jump(GameTime gt)
         {
             Velocity.Y = -20;
             ChangeGameObjectState(GameObject_State.Air);
             ChangeAnimationState(Animation_State.jumpSquat);
+            StaticSoundPlayer.PlaySound(SoundEffects.PLAYER_JUMP,1,(float)Math.Sin(gt.TotalGameTime.TotalMilliseconds));
         }
         protected void Gravity()
         {

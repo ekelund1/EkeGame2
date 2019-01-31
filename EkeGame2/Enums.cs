@@ -21,7 +21,7 @@ namespace EkeGame2
     }
     public enum EnemyType
     {
-        Purple, Red, Green, Blue, Orange, DarkGray
+        Purple, Orange, DarkGray, DarkRed
     }
     public enum ProjectileOwner
     {
@@ -46,5 +46,9 @@ namespace EkeGame2
     public enum Platform_State
     {
         MOVING, DECELERATING, ACCELERATING, PAUSE
+    }
+    public enum SoundEffects
+    {
+        GET_COLLECTIBLE, PLAYER_JUMP
     }
 }

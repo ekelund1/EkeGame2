@@ -45,6 +45,10 @@
   <ItemGroup>
     <Compile Include="AbstractGameObject.cs" />
     <Compile Include="Animation.cs" />
+    <Compile Include="Audio\MySoundEffect.cs" />
+    <Compile Include="Audio\SoundEffect_Dictionary.cs" />
+    <Compile Include="Audio\SoundPlayer.cs" />
+    <Compile Include="Audio\StaticSoundPlayer.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Collectible.cs" />
     <Compile Include="Graphics\CollectibleDisplay.cs" />
@@ -52,17 +56,18 @@
     <Compile Include="SpawnableEffects\SpawnableEffect.cs" />
     <Compile Include="SpawnableEffects\SpawnableEffect_Library.cs" />
     <Compile Include="SpawnableEffects\SpawnableEffect_List.cs" />
-    <Compile Include="UnitObject\Enemy.cs" />
+    <Compile Include="UnitObjects\Enemy.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Game1.cs" />
-    <Compile Include="UnitObject\Goal.cs" />
+    <Compile Include="UnitObjects\Enemy_Library.cs" />
+    <Compile Include="UnitObjects\Goal.cs" />
     <Compile Include="Graphics\GameHud.cs" />
     <Compile Include="Graphics\HealthDisplay.cs" />
     <Compile Include="Level.cs" />
     <Compile Include="Platform.cs" />
-    <Compile Include="UnitObject\Player.cs" />
+    <Compile Include="UnitObjects\Player.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="UnitObject\Projectile.cs" />
+    <Compile Include="UnitObjects\Projectile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitObject.cs" />
   </ItemGroup>

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
 using EkeGame2.Graphics;
+using EkeGame2.Audio;
 using System;
 using System.Collections.Generic;
 
@@ -20,7 +21,9 @@ namespace EkeGame2
         SpriteBatch spriteBatch_LayerMiddle;
         SpriteBatch spriteBatch_LayerHighest;
         SpriteBatch SpriteBatch_HUD;
-        
+
+        SoundPlayer TheSoundPlayer;
+
         Level lvl;
         Player ThePlayer;
         bool drawHitboxes = false;
@@ -54,7 +57,7 @@ namespace EkeGame2
 
             lvl = new Level(Content, CurrentLevel);
             MyCamera = new Camera(GraphicsDevice.Viewport, lvl, ref ThePlayer);
-            ThePlayer = new Player(Content, "Player", 15, lvl.PlayerSpawnPosition);
+            ThePlayer = new Player(Content, "Player/", 15, lvl.PlayerSpawnPosition);
 
             base.Initialize();
         }
@@ -72,12 +75,15 @@ namespace EkeGame2
 
             lvl = new Level(Content, CurrentLevel);
 
-            ThePlayer = new Player(Content, "Player", 15, lvl.PlayerSpawnPosition);
+            ThePlayer = new Player(Content, "Player/", 15, lvl.PlayerSpawnPosition);
 
             MyCamera = new Camera(GraphicsDevice.Viewport, lvl, ref ThePlayer);
 
             ThePlayer.SetSpawnPosition(lvl.PlayerSpawnPosition);
             ThePlayer.Respawn();
+
+            TheSoundPlayer = new SoundPlayer(Content);
+            StaticSoundPlayer.SetSoundPlayer(ref TheSoundPlayer);
 
             TheGameHud = new GameHud(Content);
             // TODO: use this.Content to load your game content here
@@ -120,13 +126,14 @@ namespace EkeGame2
             lvl.Update(gameTime, ref ThePlayer);
             
             //This one should probably check collision inside LevelUpdate. And then instead set a flag for going to the next level.
-            if (lvl.LevelGoalObjectCollision(ThePlayer) ||Keyboard.GetState().IsKeyDown(Keys.L))
+            if (lvl.LevelGoalObjectCollision(ref ThePlayer) ||Keyboard.GetState().IsKeyDown(Keys.L))
             {
                 CurrentLevel++;
                 this.UnloadContent();
                 this.LoadContent();
             }
             
+            TheSoundPlayer.Update();
             TheGameHud.Update(gameTime, ThePlayer, lvl);
             base.Update(gameTime);
         }

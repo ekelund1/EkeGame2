@@ -8,53 +8,52 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
 using EkeGame2.SpawnableEffects;
+using EkeGame2.UnitObjects;
 
 
 namespace EkeGame2
 {
     public class Level
     {
-        protected ContentManager Content;
+       // protected ContentManager Content;
         Texture2D Background;
         Texture2D Foreground;
         public Texture2D Hitbox;
         public Color[,] Hitbox_Colors;
         Texture2D PlayArea;
         private SpawnableEffect_Library TheSpawnableEffect_Library;
+        private Enemy_Library TheEnemy_Library;
 
-        private Stack<Enemy> EnemyStack;
-        private Stack<Platform> PlatformStack;
-        private Stack<Collectible> CollectibleStack;
+        private List<Enemy> EnemyList;
+        private List<Platform> PlatformList;
+        private List<Collectible> CollectibleList;
         public SpawnableEffect_List SpawnableEffectList;
 
         public Vector2 PlayerSpawnPosition;
         private Goal TheGoal;
         Player RefThePlayer;
         
-        public Level(ContentManager content, int levelID)
+        public Level(ContentManager Content, int levelID)
         {
-            Content = content;
-
             Background = Content.Load<Texture2D>("Level"+levelID.ToString()+"/"+levelID.ToString() + "background");
-            //Foreground = Content.Load<Texture2D>("Level" + id.ToString() + "/" + id.ToString() + "foreground");
             Hitbox = Content.Load<Texture2D>("Level" + levelID.ToString() + "/" + levelID.ToString() + "hitbox");
             PlayArea = Content.Load<Texture2D>("Level" + levelID.ToString() + "/" + levelID.ToString() + "playarea");
             
-            LoadLevel(levelID);       
-            
+            LoadLevel(levelID,Content);       
         }
 
-        private void LoadLevel(int levelID)
+        private void LoadLevel(int levelID, ContentManager Content)
         {
             TheSpawnableEffect_Library = new SpawnableEffect_Library(Content);
+            TheEnemy_Library = new Enemy_Library(Content);
 
             Color[] colors1D = new Color[Hitbox.Width * Hitbox.Height];
             Hitbox.GetData(colors1D);
 
             Color[,] colors2D = new Color[Hitbox.Width, Hitbox.Height];
-            EnemyStack = new Stack<Enemy>();
-            PlatformStack = new Stack<Platform>();
-            CollectibleStack = new Stack<Collectible>();
+            EnemyList = new List<Enemy>();
+            PlatformList = new List<Platform>();
+            CollectibleList = new List<Collectible>();
             SpawnableEffectList = new SpawnableEffect_List();
 
             for (int x = 0; x < Hitbox.Width; x++)
@@ -66,29 +65,44 @@ namespace EkeGame2
                     {
                         //foreach purple pixel in hitbox image. 
                         //spawn new enemy at purple pixel position
-                        EnemyStack.Push(new Enemy(EnemyType.Purple, Content, "Enemy/Purple/", 15, new Vector2(x, y), y * 5));
+                        EnemyList.Add(new Enemy(EnemyType.Purple, Content, "Enemy/Purple/", 15, new Vector2(x, y), y * 5));
+
+                        //////////////////
+                        ///Detta fungerade inte riktigt. Eftersom att alla objekten
+                        ///som skapas får samma animationer. Inte en kopia utav animationer
+                        ///utan exakt samma, med pekare till animationerna.
+                        ///Iställer för egna versioner av dem.
+                        ///
+                        //Enemy enemy = TheEnemy_Library.GetEnemy(EnemyType.Purple);
+                        //enemy.SetNewEnemyCopy_Properties(new Vector2(x, y), y * 5);
+                        //EnemyList.Add(enemy);
                     }
                     else if (colors2D[x, y] == Color.Orange)
                     {
-                        EnemyStack.Push(new Enemy(EnemyType.Orange, Content, "Enemy/Orange/", 15, new Vector2(x, y), y * 5));
+                        EnemyList.Add(new Enemy(EnemyType.Orange, Content, "Enemy/Orange/", 15, new Vector2(x, y), y * 5));
                     }
                     else if (colors2D[x, y] == Color.DarkGray) //169 169 169
-                    {
-                        EnemyStack.Push(new Enemy(EnemyType.DarkGray, Content, "Enemy/DarkGray/", 15, new Vector2(x, y)));
+                    {                        
+                        EnemyList.Add(new Enemy(EnemyType.DarkGray, Content, "Enemy/DarkGray/", 15, new Vector2(x, y)));
                     }
-                    else if (colors2D[x, y] == Color.Brown)
+                    else if (colors2D[x, y] == Color.DarkRed) //139 0 0
                     {
-                        PlayerSpawnPosition = new Vector2(x, y);
+                        Enemy enemy = new Enemy(EnemyType.DarkRed, Content, "Enemy/DarkRed/", 15, new Vector2(x, y));
+                        enemy.LoadAnimation(Content, "Enemy/DarkRed/", 8,8,8,8,8,8,8,8,8,8,8,1.5f);
+                        
+                        EnemyList.Add(enemy);
                     }
                     else if (colors2D[x, y] == Color.Yellow) //255 255 0
-                        TheGoal = new Goal(Content, "Goal", 15, new Vector2(x, y));
+                        TheGoal = new Goal(Content, "Goal/", 15, new Vector2(x, y));
                     else if (colors2D[x, y] == Color.Blue) //0 0 255
-                        PlatformStack.Push(new Platform(Platform_Type.MOVING_PLATFORM_UPnDOWN, Content, "Platform", new Vector2(x, y)));
+                        PlatformList.Add(new Platform(Platform_Type.MOVING_PLATFORM_UPnDOWN, Content, "Platform/", new Vector2(x, y)));
                     else if (colors2D[x, y] == Color.CadetBlue) //95 158 160
-                        PlatformStack.Push(new Platform(Platform_Type.MOVING_PLATFORM_CIRCLE, Content, "Platform", new Vector2(x, y)));
+                        PlatformList.Add(new Platform(Platform_Type.MOVING_PLATFORM_CIRCLE, Content, "Platform/", new Vector2(x, y)));
                     else if (colors2D[x, y] == Color.YellowGreen) //154 205 50 Collectible
-                        CollectibleStack.Push(new Collectible(Content, "Collectible", new Vector2(x, y)));
-
+                        CollectibleList.Add(new Collectible(Content, "Collectible/", new Vector2(x, y)));
+                    else if (colors2D[x, y] == Color.Brown)
+                        PlayerSpawnPosition = new Vector2(x, y);
+                    
                 }
             }
             Hitbox_Colors = colors2D;
@@ -125,17 +139,17 @@ namespace EkeGame2
         }
         public void DrawHitbox(SpriteBatch s)
         {
-            foreach (Enemy e in EnemyStack)
+            foreach (Enemy e in EnemyList)
             { 
                 if(e.Active)
                     e.DrawHitbox(s);
             }
-            foreach (Platform p in PlatformStack)
+            foreach (Platform p in PlatformList)
             {
                 if (p.Active)
                     p.DrawHitbox(s);
             }
-            foreach (Collectible c in CollectibleStack)
+            foreach (Collectible c in CollectibleList)
             {
                 if (c.Active)
                     c.DrawHitbox(s);
@@ -165,9 +179,11 @@ namespace EkeGame2
         public void Update(GameTime gt, ref Player ThePlayer)
         {
             SpawnableEffectList.Update(gt);
-            foreach (Enemy e in EnemyStack)
+            foreach (Enemy e in EnemyList)
                 e.Update(this, gt, ThePlayer);
-            foreach (Collectible c in CollectibleStack)
+            EnemyList.RemoveAll(effect => !effect.Active);
+
+            foreach (Collectible c in CollectibleList)
             { 
                 c.Update(this, gt);
                 if (c.SpriteCollision(ThePlayer) && !c.IsCollected)
@@ -175,7 +191,7 @@ namespace EkeGame2
                     ThePlayer.ChangeCollectibles(c.TriggerCollect(gt));                    
                 }
             }
-            foreach (Platform p in PlatformStack)
+            foreach (Platform p in PlatformList)
             { 
                 p.Update(this, gt);
                 p.PlatformUnitCollision(ref ThePlayer);
@@ -188,34 +204,37 @@ namespace EkeGame2
                     ThePlayer.InduceKnockback();
             }
             
-
             TheGoal.Update(this, gt);
             RefThePlayer = ThePlayer;
         }
         
         public void DrawLevelGameObjects(SpriteBatch s)
         {
-            foreach (Enemy e in EnemyStack)
+            foreach (Enemy e in EnemyList)
                 if(e.Active)
                     e.DrawGameObject(s);
-            foreach (Platform p in PlatformStack)
+            foreach (Platform p in PlatformList)
                 if (p.Active)
                     p.DrawGameObject(s);
-            foreach (Collectible c in CollectibleStack)
+            foreach (Collectible c in CollectibleList)
                 if (c.Active)
                     c.DrawGameObject(s);
             TheGoal.DrawGameObject(s);
         }
 
-        public bool LevelGoalObjectCollision(UnitObject player)
+        public bool LevelGoalObjectCollision(ref Player player)
         {
             if (TheGoal.SpriteCollision(player))
+            {
+                TheGoal.TransferCollectible(ref player);
+            }
+            if (TheGoal.CurrentCollectibleAmount >= TheGoal.CollectibleRequirement)
                 return true;
             return false;
         }
         public bool LevelEnemyObjectCollision(UnitObject player)
         {
-            foreach (Enemy e in EnemyStack)
+            foreach (Enemy e in EnemyList)
             {
                 if (e.Active && player.SpriteCollision(e))
                 {
@@ -229,7 +248,7 @@ namespace EkeGame2
         {
             if (proj.Owner == ProjectileOwner.PLAYER)
             {
-                foreach (Enemy e in EnemyStack)
+                foreach (Enemy e in EnemyList)
                 {
                     if (e.Active && e.Health>0 && proj.SpriteCollision(e))
                     {
@@ -241,8 +260,8 @@ namespace EkeGame2
             }
             else if (proj.Owner == ProjectileOwner.ENEMY)
             {
-                //Check collision with player. if collision. Kill player
-                foreach (Enemy e in EnemyStack)
+                //Check collision with player. if collision. hurt player
+                foreach (Enemy e in EnemyList)
                 {
                     if (e.Active && e.EnemyProjectile.Active && e.Health > 0 
                         && e.EnemyProjectile.SpriteCollision(RefThePlayer))
@@ -283,6 +302,12 @@ namespace EkeGame2
             var effect = TheSpawnableEffect_Library.GetSpawnableEffect(type);
             effect.SpawnCopyOfEffect(position, timer, true, false, 0, 0, 0);
             SpawnableEffectList.TheSpawnableEffectList.Add(effect);
+        }
+        public void AddEnemy(EnemyType type, Vector2 position)
+        {
+            Enemy enemy = TheEnemy_Library.GetEnemy(type);
+            enemy.SetNewEnemyCopy_Properties(position);
+            EnemyList.Add(enemy);            
         }
     }
 }

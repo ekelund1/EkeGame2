@@ -61,18 +61,6 @@
 /processorParam:TextureFormat=Color
 /build:Enemy/DarkGray/death.png
 
-#begin Enemy/DarkGray/death.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Enemy/DarkGray/death.png
-
 #begin Enemy/DarkGray/falldamage.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -109,18 +97,6 @@
 /processorParam:TextureFormat=Color
 /build:Enemy/DarkGray/hitbox.png
 
-#begin Enemy/DarkGray/hitbox.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Enemy/DarkGray/hitbox.png
-
 #begin Enemy/DarkGray/idle.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -132,6 +108,42 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Enemy/DarkGray/idle.png
+
+#begin Enemy/DarkRed/hitbox.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Enemy/DarkRed/hitbox.png
+
+#begin Enemy/DarkRed/idle.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Enemy/DarkRed/idle.png
+
+#begin Enemy/DarkRed/running.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Enemy/DarkRed/running.png
 
 #begin Enemy/Orange/bywall.png
 /importer:TextureImporter
@@ -709,18 +721,6 @@
 /processorParam:TextureFormat=Color
 /build:Level1/1hitbox.png
 
-#begin Level1/1hitbox.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Level1/1hitbox.png
-
 #begin Level1/1playarea.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -948,6 +948,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Player/wallcling.png
+
+#begin SoundEffects/get_collectible.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/get_collectible.wav
+
+#begin SoundEffects/player_jump.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/player_jump.wav
 
 #begin SpawnableEffects/BUBBLE.png
 /importer:TextureImporter

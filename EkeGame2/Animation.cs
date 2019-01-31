@@ -89,6 +89,10 @@ namespace EkeGame2
             {
                 return amountOfFrames.X;
             }
+            set
+            {
+                amountOfFrames.X = value; 
+            }
         }
         public float AnimationLenght
         {

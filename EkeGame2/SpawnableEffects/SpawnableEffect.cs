@@ -69,6 +69,7 @@ namespace EkeGame2.SpawnableEffects
             SpawnableEffectAnimation.Active = true;
             ImageScale = extraScale;           
         }
+        //public void Move
         public SpawnableEffect GetCopy()
         {
             return (SpawnableEffect)this.MemberwiseClone();

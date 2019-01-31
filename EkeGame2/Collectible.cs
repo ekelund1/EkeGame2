@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using EkeGame2.Audio;
 
 
 namespace EkeGame2
@@ -59,6 +60,7 @@ namespace EkeGame2
         }
         public int TriggerCollect(GameTime gt)
         {
+            StaticSoundPlayer.PlaySound(SoundEffects.GET_COLLECTIBLE);
             ChangeGameObjectState(GameObject_State.Death);
             DeathDelayTimer = (int)gt.TotalGameTime.TotalMilliseconds + 590;
             ChangeAnimationState(Animation_State.death);

@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
+using EkeGame2.UnitObjects;
 
 
 namespace EkeGame2
@@ -34,7 +35,7 @@ namespace EkeGame2
             }
 
 
-            var animationImage = c.Load<Texture2D>(objectName + "/idle");
+            var animationImage = c.Load<Texture2D>(objectName + "idle");
             Animations[Animation_State.idle] = new Animation(Position, new Vector2(1, 1), Vector2.One, 15);
             Animations[Animation_State.idle].AnimationImage = animationImage;
 

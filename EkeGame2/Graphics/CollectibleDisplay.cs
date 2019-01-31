@@ -49,6 +49,12 @@ namespace EkeGame2.Graphics
                 {
                     CollectedAmount++;
                     DisplayScale = 2.5f;
+                    //TriggerSound(SoundEffect.DING);
+                }
+                else if (CollectedAmount > ThePlayer.CollectedAmount)
+                {
+                    CollectedAmount--;
+                    DisplayScale = 2.5f;
                 }
                 if (DisplayScale > 1)
                     DisplayScale *= 0.95f;
