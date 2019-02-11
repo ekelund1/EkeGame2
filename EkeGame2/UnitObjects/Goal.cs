@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using EkeGame2.SpawnableEffects;
 
 namespace EkeGame2
 {
@@ -33,7 +34,7 @@ namespace EkeGame2
                 UpdateCounter += (int)gt.ElapsedGameTime.Milliseconds;
             if (UpdateCounter > UpdateDelay)
             {
-                lvl.AddSpawnableEffect(SpawnableEffect_Type.TINY_STARS, Position, 50, false);
+                StaticSpawnableEffect.AddSpawnableEffect(SpawnableEffect_Type.TINY_STARS, Position, 50, false);
                 UpdatePositionRectangle();
                 UpdateAnimations(gt);
                 UpdateCounter = 0;

@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
 using EkeGame2.Audio;
+using EkeGame2.SpawnableEffects;
 
 namespace EkeGame2
 {
@@ -53,7 +54,7 @@ namespace EkeGame2
                 }
                 if (gt.TotalGameTime.TotalMilliseconds < HealthInvunerabilityTimer && Health > 0)
                 {
-                    lvl.AddSpawnableEffect(SpawnableEffect_Type.BUBBLE, Position, 20,1);                    
+                    StaticSpawnableEffect.AddSpawnableEffect(SpawnableEffect_Type.BUBBLE, Position, 20,1);                    
                 }
                 //Update states
                 switch (GameObjectState)
@@ -85,7 +86,7 @@ namespace EkeGame2
                             ChangeGameObjectState(GameObject_State.Air);
                             Velocity /= 3;
                         }
-                        lvl.AddSpawnableEffect(SpawnableEffect_Type.TINY_STARS,Position, 90,1);
+                        StaticSpawnableEffect.AddSpawnableEffect(SpawnableEffect_Type.TINY_STARS,Position, 90,1);
                         break;
                     case GameObject_State.Death:
                         if (gt.TotalGameTime.TotalMilliseconds >= DeathDelayTimer)

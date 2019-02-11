@@ -21,13 +21,11 @@ namespace EkeGame2
         public Texture2D Hitbox;
         public Color[,] Hitbox_Colors;
         Texture2D PlayArea;
-        private SpawnableEffect_Library TheSpawnableEffect_Library;
         private Enemy_Library TheEnemy_Library;
 
         private List<Enemy> EnemyList;
         private List<Platform> PlatformList;
         private List<Collectible> CollectibleList;
-        public SpawnableEffect_List SpawnableEffectList;
 
         public Vector2 PlayerSpawnPosition;
         private Goal TheGoal;
@@ -44,7 +42,6 @@ namespace EkeGame2
 
         private void LoadLevel(int levelID, ContentManager Content)
         {
-            TheSpawnableEffect_Library = new SpawnableEffect_Library(Content);
             TheEnemy_Library = new Enemy_Library(Content);
 
             Color[] colors1D = new Color[Hitbox.Width * Hitbox.Height];
@@ -54,7 +51,6 @@ namespace EkeGame2
             EnemyList = new List<Enemy>();
             PlatformList = new List<Platform>();
             CollectibleList = new List<Collectible>();
-            SpawnableEffectList = new SpawnableEffect_List();
 
             for (int x = 0; x < Hitbox.Width; x++)
             {
@@ -163,7 +159,6 @@ namespace EkeGame2
         }
         public void DrawLevel_LowestLayer(SpriteBatch lowest)
         {
-            SpawnableEffectList.DrawLowest(lowest);
             DrawBackground(lowest);
             DrawPlayArea(lowest);
         }
@@ -173,12 +168,10 @@ namespace EkeGame2
         }
         public void DrawLevel_HighestLayer(SpriteBatch highest)
         {
-            SpawnableEffectList.DrawHighest(highest);
         }
 
         public void Update(GameTime gt, ref Player ThePlayer)
         {
-            SpawnableEffectList.Update(gt);
             foreach (Enemy e in EnemyList)
                 e.Update(this, gt, ThePlayer);
             EnemyList.RemoveAll(effect => !effect.Active);
@@ -285,24 +278,7 @@ namespace EkeGame2
                 }
             }
         }
-        public void AddSpawnableEffect(SpawnableEffect_Type type, Vector2 position, int timer, bool onLowestLayer = true, bool randomPosition = false, float velocityX = 0,float velocityY=0,double extraScale=0)
-        {
-            var effect = TheSpawnableEffect_Library.GetSpawnableEffect(type);
-            effect.SpawnCopyOfEffect(position, timer, onLowestLayer,randomPosition,velocityX,velocityY,extraScale);
-            SpawnableEffectList.TheSpawnableEffectList.Add(effect);
-        }
-        public void AddSpawnableEffect(SpawnableEffect_Type type, Vector2 position, int timer,double extraScale = 0)
-        {
-            var effect = TheSpawnableEffect_Library.GetSpawnableEffect(type);
-            effect.SpawnCopyOfEffect(position, timer, true, false, 0, 0, extraScale);
-            SpawnableEffectList.TheSpawnableEffectList.Add(effect);
-        }
-        public void AddSpawnableEffect(SpawnableEffect_Type type, Vector2 position, int timer)
-        {
-            var effect = TheSpawnableEffect_Library.GetSpawnableEffect(type);
-            effect.SpawnCopyOfEffect(position, timer, true, false, 0, 0, 0);
-            SpawnableEffectList.TheSpawnableEffectList.Add(effect);
-        }
+
         public void AddEnemy(EnemyType type, Vector2 position)
         {
             Enemy enemy = TheEnemy_Library.GetEnemy(type);
