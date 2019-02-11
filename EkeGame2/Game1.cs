@@ -6,8 +6,7 @@ using EkeGame2.Graphics;
 using EkeGame2.Audio;
 using System;
 using System.Collections.Generic;
-
-
+using EkeGame2.SpawnableEffects;
 
 namespace EkeGame2
 {
@@ -23,6 +22,7 @@ namespace EkeGame2
         SpriteBatch SpriteBatch_HUD;
 
         SoundPlayer TheSoundPlayer;
+        SpawnableEffect_List TheSpawnableEffect_List;
 
         Level lvl;
         Player ThePlayer;
@@ -85,6 +85,9 @@ namespace EkeGame2
             TheSoundPlayer = new SoundPlayer(Content);
             StaticSoundPlayer.SetSoundPlayer(ref TheSoundPlayer);
 
+            TheSpawnableEffect_List = new SpawnableEffect_List(Content);
+            StaticSpawnableEffect.SetSpawnableEffect_List(ref TheSpawnableEffect_List);
+
             TheGameHud = new GameHud(Content);
             // TODO: use this.Content to load your game content here
         }
@@ -134,6 +137,7 @@ namespace EkeGame2
             }
             
             TheSoundPlayer.Update();
+            TheSpawnableEffect_List.Update(gameTime);
             TheGameHud.Update(gameTime, ThePlayer, lvl);
             base.Update(gameTime);
         }
@@ -158,6 +162,7 @@ namespace EkeGame2
             {
                 spriteBatch_LayerLowest.Begin(SpriteSortMode.Texture,null,null,null,null,null,MyCamera.Transform);
                 lvl.DrawLevel_LowestLayer(spriteBatch_LayerLowest);
+                TheSpawnableEffect_List.DrawLowest(spriteBatch_LayerLowest);
                 spriteBatch_LayerLowest.End();
 
                 spriteBatch_LayerMiddle.Begin(SpriteSortMode.Texture, null, null, null, null, null, MyCamera.Transform);
@@ -167,6 +172,7 @@ namespace EkeGame2
 
                 spriteBatch_LayerHighest.Begin(SpriteSortMode.Texture, null, null, null, null, null, MyCamera.Transform);
                 lvl.DrawLevel_HighestLayer(spriteBatch_LayerHighest);
+                TheSpawnableEffect_List.DrawHighest(spriteBatch_LayerHighest);
                 spriteBatch_LayerHighest.End();
 
 

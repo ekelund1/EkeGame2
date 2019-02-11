@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
-
+using EkeGame2.SpawnableEffects;
 
 namespace EkeGame2.UnitObjects
 {
@@ -64,8 +64,8 @@ namespace EkeGame2.UnitObjects
                         FacePlayer(ThePlayer);
                         if (GameObjectState == GameObject_State.onGround)
                         {
-                            lvl.AddSpawnableEffect(SpawnableEffect_Type.SMOKE_PUFF_RIGHT, new Vector2(Position.X, Position.Y + Hitbox.Height / 2), 300, true, false, 3, 0);
-                            lvl.AddSpawnableEffect(SpawnableEffect_Type.SMOKE_PUFF_LEFT, new Vector2(Position.X, Position.Y + Hitbox.Height / 2), 300, true, false, -3, 0);
+                            StaticSpawnableEffect.AddSpawnableEffect(SpawnableEffect_Type.SMOKE_PUFF_RIGHT, new Vector2(Position.X, Position.Y + Hitbox.Height / 2), 300, true, false, 3, 0);
+                            StaticSpawnableEffect.AddSpawnableEffect(SpawnableEffect_Type.SMOKE_PUFF_LEFT, new Vector2(Position.X, Position.Y + Hitbox.Height / 2), 300, true, false, -3, 0);
 
                             ChangeAnimationState(Animation_State.falldamage);
                             LockAnimation(Animations[ActiveAnimation]);

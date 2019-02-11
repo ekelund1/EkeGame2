@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
+using EkeGame2.SpawnableEffects;
 
 namespace EkeGame2
 {
@@ -70,7 +71,7 @@ namespace EkeGame2
                             Position = Vector2.Zero;
                         }
                         Position += Velocity;
-                        lvl.AddSpawnableEffect(SpawnableEffect_Type.FIRE_SPARK, Position, 75,1);
+                        StaticSpawnableEffect.AddSpawnableEffect(SpawnableEffect_Type.FIRE_SPARK, Position, 75,1);
                         if (WaitCounter >= Wait*2)
                             Active = false;
                         break;
